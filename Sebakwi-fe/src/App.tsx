@@ -1,7 +1,7 @@
 import React from 'react';
 import DashBoradPage from './pages/dashboard/dashboard';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import JihunPage from './pages/jihun/jihun';
+import Jihun from './pages/jihun/jihun';
 import JiwonPage from './pages/jiwon/jiwon';
 import ExamplePage from './pages/example/example';
 
@@ -32,9 +32,9 @@ function App() {
         <Routes>
           <Route path="/" element={<DashBoradPage />} />
           <Route path="/dashboard" element={<DashBoradPage />} />
-          <Route path="/jihun" element={<JihunPage />} />
+          <Route path="/jihun" element={<Jihun />} />
           <Route path="/jiwon" element={<JiwonPage />} />
-          <Route path="/example" element={<ExamplePage />} />
+          <Route path="/example" element={<ExamplePage name="여기에 입력해" />} />
         </Routes>
       </div>
     </BrowserRouter>
