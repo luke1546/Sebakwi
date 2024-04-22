@@ -3,6 +3,7 @@ import DashBoradPage from './pages/dashboard/dashboard';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import JihunPage from './pages/jihun/jihun';
 import JiwonPage from './pages/jiwon/jiwon';
+import ExamplePage from './pages/example/example';
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
             <li>
               <Link to="/jiwon">jiwon</Link>
             </li>
+            <li>
+              <Link to="/example">Example</Link>
+            </li>
           </ul>
         </nav>
 
@@ -30,6 +34,7 @@ function App() {
           <Route path="/dashboard" element={<DashBoradPage />} />
           <Route path="/jihun" element={<JihunPage />} />
           <Route path="/jiwon" element={<JiwonPage />} />
+          <Route path="/example" element={<ExamplePage />} />
         </Routes>
       </div>
     </BrowserRouter>

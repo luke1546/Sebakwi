@@ -1,4 +1,4 @@
-import * as styled from './dashboardStyle';
+import * as styled from './dashboard_style';
 
 export default function DashBoradPage() {
   return (
@@ -7,3 +7,5 @@ export default function DashBoradPage() {
     </styled.DashboardContainer>
   );
 }
+
+
