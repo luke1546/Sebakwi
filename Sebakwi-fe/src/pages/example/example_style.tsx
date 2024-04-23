@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { PALETTE } from '../../styles/colors';
-import Noto_Sans_KR from 'styles/fonts';
+import { Noto_Sans_KR, PALETTE } from 'styles';
 
 export const MainWrapper = styled.div`
   display: flex;
@@ -9,7 +8,7 @@ export const MainWrapper = styled.div`
   justify-content: center;
   height: 100vh;
   > h1 {
-    font-family: ${Noto_Sans_KR.extraLight};
+    font-family: ${Noto_Sans_KR.thin.variable};
     color: ${PALETTE.LIGHT_BLACK};
   }
 `;

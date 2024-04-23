@@ -1,9 +1,8 @@
-import styled from "styled-components";
-import Noto_Sans_KR from "styles/fonts/index";
+import styled from 'styled-components';
+import Noto_Sans_KR from 'styles/fonts/index';
 
-export const h1 = styled.h1`
-    color: red;
-    font-family: ${Noto_Sans_KR.bold};
-    font-size: 40px;
-    font-weight: bold;
+export const Title = styled.p`
+  color: red;
+  font-size: 2rem;
+  font-weight: ${Noto_Sans_KR.thin.weight};
 `;
