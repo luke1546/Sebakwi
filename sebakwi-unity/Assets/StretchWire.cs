@@ -41,14 +41,13 @@ public class StretchWire : MonoBehaviour
 
             if (dropFlag && transform.localScale.y > originalLength) //다시 줄이기
             {
-                // Debug.Log("gd");
                 // 스케일 조정
                 float newYScale = transform.localScale.y - stretchSpeed * Time.deltaTime;
                 transform.localScale = new Vector3(transform.localScale.x, newYScale, transform.localScale.z);
 
                 // 위치 조정
                 float deltaY = (maxStretch - newYScale) / 2;
-                transform.localPosition = new Vector3(originalPosition.x, maxPosition.y + (10.9f * deltaY), originalPosition.z);
+                transform.localPosition = new Vector3(originalPosition.x, maxPosition.y + (10.9f * deltaY) + 0.4f, originalPosition.z);
             }
 
             if (transform.localScale.y <= originalLength && dropFlag)
