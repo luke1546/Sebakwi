@@ -1,10 +1,10 @@
-import DashBoradPage from './dashboard/dashboard';
-import CheckUpWheelsPage from './checkupwheels/checkupwheels';
-import StatisticsPage from './statistics/statistics';
-import ExamplePage from './example/example';
-import JihunPage from './jihun/jihun';
-import JiwonPage from './jiwon/jiwon';
-import HoseongPage from './hoseong/hoseong';
+import DashBoradPage from './dashboard/DashBoard';
+import CheckUpWheelsPage from './CheckUpWheels/CheckUpWheels';
+import StatisticsPage from './statistics/Statistics';
+import ExamplePage from './example/Example';
+import JihunPage from './jihun/Jihun';
+import JiwonPage from './jiwon/Jiwon';
+import HoseongPage from './hoseong/Hoseong';
 
 export {
   DashBoradPage,

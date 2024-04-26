@@ -1,4 +1,4 @@
-import * as styled from './dashboard_style';
+import * as styled from './DashBoard_style';
 
 export default function DashBoradPage() {
   return (

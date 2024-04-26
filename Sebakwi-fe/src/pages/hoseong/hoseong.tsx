@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Comp from 'components';
-import * as Styled from './hoseong_stlye';
+import * as Styled from './Hoseong_stlye';
 
 export default function HoseongPage() {
   return (

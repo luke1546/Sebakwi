@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { PALETTE } from '../../styles/colors';
+import { PALETTE } from 'styles';
 
 export const DashboardContainer = styled.div`
   display: flex;

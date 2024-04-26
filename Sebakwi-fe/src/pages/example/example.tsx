@@ -1,4 +1,4 @@
-import * as Styled from './example_style';
+import * as Styled from './Example_style';
 
 interface ExamplePageProps {
   name?: string; // ? 붙이면 넣어도 되고 안넣어도 되고 (선택적)

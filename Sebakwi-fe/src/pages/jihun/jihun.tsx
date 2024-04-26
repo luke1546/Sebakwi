@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Comp from 'components';
-import * as Styled from './jihun_style';
+import * as Styled from './Jihun_style';
 
 export default function JihunPage() {
   return (
