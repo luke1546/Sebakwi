@@ -1,15 +1,41 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { PALETTE } from '../../styles/colors';
+import { Noto_Sans_KR } from 'styles';
 
-export const MainheaderContainer = styled.div`
-  width: 100vw;
+interface StyledLinkProps {
+  isActive: boolean;
+}
+
+export const MainheaderContainer = styled.header`
+  width: calc(100vw - 70px);
   height: 72px;
-  padding: 0px 48px;
-  background-color: white;
+  padding: 0px 35px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid ${PALETTE.LIGHT_BLACK};
+  justify-content: start;
+  border-bottom: 2px solid ${PALETTE.MAIN_BLUE};
   position: relative;
   z-index: 99;
+`;
+
+export const LogoWrapper = styled.div`
+  padding-top: 5px;
+  margin-right: 40px;
+`;
+
+export const StyledLink = styled(Link)<StyledLinkProps>`
+  color: ${({ isActive }) => (isActive ? PALETTE.MAIN_BLUE : PALETTE.MAIN_BLACK)};
+  margin-right: 20px;
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: ${Noto_Sans_KR.bold.weight};
+
+  &:hover {
+    color: ${PALETTE.LIGHT_BLUE};
+  }
+
+  &:active {
+    color: ${PALETTE.MAIN_BLACK};
+  }
 `;
