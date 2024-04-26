@@ -4,5 +4,14 @@ import StatisticsPage from './statistics/statistics';
 import ExamplePage from './example/example';
 import JihunPage from './jihun/jihun';
 import JiwonPage from './jiwon/jiwon';
+import HoseongPage from './hoseong/hoseong';
 
-export { DashBoradPage, CheckUpWheelsPage, StatisticsPage, ExamplePage, JihunPage, JiwonPage };
+export {
+  DashBoradPage,
+  CheckUpWheelsPage,
+  StatisticsPage,
+  ExamplePage,
+  JihunPage,
+  JiwonPage,
+  HoseongPage,
+};

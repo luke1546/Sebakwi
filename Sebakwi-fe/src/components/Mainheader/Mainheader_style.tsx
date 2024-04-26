@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { PALETTE } from '../../styles/colors';
-import { Noto_Sans_KR } from 'styles';
+import { Noto_Sans_KR, PALETTE } from 'styles';
 
 interface StyledLinkProps {
   isActive: boolean;
