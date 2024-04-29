@@ -7,3 +7,4 @@ export const Title = styled.p`
   font-family: ${Noto_Sans_KR.regular.variable};
   font-weight: ${Noto_Sans_KR.regular.weight};
 `;
+//

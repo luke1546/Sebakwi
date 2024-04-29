@@ -12,3 +12,4 @@ export const MainWrapper = styled.div`
     color: ${PALETTE.LIGHT_BLACK};
   }
 `;
+//
