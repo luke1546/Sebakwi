@@ -9,13 +9,13 @@ import {
   HoseongPage,
   ExamplePage,
 } from 'pages';
-import { Mainheader } from 'components';
+import { MainHeader } from 'components';
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Mainheader />
+        <MainHeader />
         <Routes>
           <Route path="/" element={<DashBoradPage />} />
           <Route path="/checkupwheels" element={<CheckUpWheelsPage />} />

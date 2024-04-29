@@ -38,4 +38,3 @@ export const StyledLink = styled(Link)<StyledLinkProps>`
     color: ${PALETTE.MAIN_BLACK};
   }
 `;
-//

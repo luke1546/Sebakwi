@@ -1,3 +1,3 @@
-import Mainheader from './MainHeader/MainHeader';
+import MainHeader from './MainHeader/MainHeader';
 
-export { Mainheader };
+export { MainHeader };

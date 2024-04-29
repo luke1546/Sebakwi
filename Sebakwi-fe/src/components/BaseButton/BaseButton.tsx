@@ -1,6 +1,4 @@
-interface BaseButtonProps {}
 
-export default function BaseButton(props: BaseButtonProps) {
+export default function BaseButton() {
   return <></>;
 }
-//
