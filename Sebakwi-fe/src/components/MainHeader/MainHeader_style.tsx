@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router-dom';
 import { Noto_Sans_KR, PALETTE } from 'styles';
 
-interface StyledLinkProps {
+interface StyledLinkProps extends LinkProps {
   isActive: boolean;
 }
 
@@ -23,8 +23,8 @@ export const LogoWrapper = styled.div`
   margin-right: 40px;
 `;
 
-export const StyledLink = styled(Link)<StyledLinkProps>`
-  color: ${({ isActive }) => (isActive ? PALETTE.MAIN_BLUE : PALETTE.MAIN_BLACK)};
+export const StyledLink = styled(({ isActive, ...rest }: StyledLinkProps) => <Link {...rest} />)`
+  color: ${({ isActive }) => isActive ? PALETTE.MAIN_BLUE : PALETTE.MAIN_BLACK};
   margin-right: 20px;
   text-decoration: none;
   font-size: 1.25rem;
