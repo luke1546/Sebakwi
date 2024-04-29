@@ -1,9 +1,10 @@
 package com.ssafy.sebakwi.util.dto;
 
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.util.List;
 
 @Builder
 @Getter
