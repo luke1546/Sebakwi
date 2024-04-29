@@ -6,6 +6,7 @@ export default function JihunPage() {
   return (
     <>
       <Styled.Title>지훈이 페이지</Styled.Title>
+      <Comp.BaseButton type='button'>오지훈</Comp.BaseButton>
     </>
   );
 }

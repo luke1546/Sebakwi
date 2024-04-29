@@ -1,4 +1,4 @@
-export interface BaseButtton {
+export interface BaseButtonProps {
   children: React.ReactNode;
   type: 'submit' | 'button' | 'reset';
   onClick?: (...args: any[]) => void;
