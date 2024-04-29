@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { PALETTE } from 'styles';
 
 export const DashboardContainer = styled.div`
+  height: calc(100vh - 74px);
   display: flex;
-  color: ${PALETTE.LIGHT_BLACK};
+  background-color: ${PALETTE.LIGHT_BLUE};
 `;
