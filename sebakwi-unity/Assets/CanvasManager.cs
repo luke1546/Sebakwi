@@ -43,7 +43,6 @@ public class CanvasManager : MonoBehaviour
             redBox.gameObject.SetActive(true); // 대화 상자 활성화
         }
         float randomValue = Random.Range(0.5f, 0.99f);
-        judgment.text = msg + randomValue.ToString("F2");
         judgment.gameObject.SetActive(true);
     }
 
