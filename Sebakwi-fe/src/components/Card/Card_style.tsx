@@ -7,7 +7,7 @@ type CardContentProps = {
 };
 
 export const CardContainer = styled.div`
-  margin: 20px;
+  /* margin: 20px; */
 `;
 
 export const CardTitle = styled.div`
