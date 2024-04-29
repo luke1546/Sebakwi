@@ -1,10 +1,12 @@
-import * as Styled from './CheckUpWheels_style'
+import * as Styled from './CheckUpWheels_style';
+import FilterSection from './FilterSection/FilterSection';
+import TableSection from './TableSection/TableSection';
 
 export default function CheckUpWheelsPage() {
   return (
-    <>
-      <h1>체크업 </h1>
-
-    </>
+    <Styled.Wrapper>
+      <FilterSection />
+      <TableSection />
+    </Styled.Wrapper>
   );
 }

@@ -30,7 +30,6 @@ export default function Mainheader() {
       <Styled.StyledLink to="/hoseong" isActive={location.pathname === '/hoseong'}>
         hoseong
       </Styled.StyledLink>
-
       <Styled.StyledLink to="/example" isActive={location.pathname === '/example'}>
         Example
       </Styled.StyledLink>

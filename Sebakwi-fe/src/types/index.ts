@@ -1,3 +1,4 @@
-import { BaseButtonProps } from 'types/components/BaseButton/BaseButton';
+import { BaseButtonProps } from 'types/components/BaseButton';
+import { CheckBoxProps } from 'types/components/CheckBox';
 
-export type { BaseButtonProps };
+export type { BaseButtonProps, CheckBoxProps };
