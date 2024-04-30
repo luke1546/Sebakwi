@@ -1,4 +1,6 @@
+import React, { useState } from 'react';
 import * as Styled from './TableSection_style';
+import Modal from '../../Hoseong/Modal';
 
 export default function TableSection() {
   const positionLabels: { [key: number]: string } = {
@@ -8,35 +10,47 @@ export default function TableSection() {
     3: 'RR', // Right Rear
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
-    <table>
-      <Styled.AttributesRow>
-        <Styled.AttributesTitle>No.1</Styled.AttributesTitle>
-        <Styled.AttributesTitle>검진 ID</Styled.AttributesTitle>
-        <Styled.AttributesTitle>위치</Styled.AttributesTitle>
-        <Styled.AttributesTitle>OHT 호기</Styled.AttributesTitle>
-        <Styled.AttributesTitle>검진 일시</Styled.AttributesTitle>
-        <Styled.AttributesTitle>검사 결과</Styled.AttributesTitle>
-        <Styled.AttributesTitle>교체일자</Styled.AttributesTitle>
-        <Styled.AttributesTitle>상세</Styled.AttributesTitle>
-      </Styled.AttributesRow>
+    <>
+      <table>
+        <Styled.AttributesRow>
+          <Styled.AttributesTitle>No.1</Styled.AttributesTitle>
+          <Styled.AttributesTitle>검진 ID</Styled.AttributesTitle>
+          <Styled.AttributesTitle>위치</Styled.AttributesTitle>
+          <Styled.AttributesTitle>OHT 호기</Styled.AttributesTitle>
+          <Styled.AttributesTitle>검진 일시</Styled.AttributesTitle>
+          <Styled.AttributesTitle>검사 결과</Styled.AttributesTitle>
+          <Styled.AttributesTitle>교체일자</Styled.AttributesTitle>
+          <Styled.AttributesTitle>상세</Styled.AttributesTitle>
+        </Styled.AttributesRow>
 
-      <tbody>
-        {data.map((item, index) => (
-          <tr key={index}>
-            <Styled.AttributesValue>{index + 1}</Styled.AttributesValue>
-            <Styled.AttributesValue>{item.wheelNumber}</Styled.AttributesValue>
-            <Styled.AttributesValue>{positionLabels[item.position]}</Styled.AttributesValue>
-            <Styled.AttributesValue>{item.ohtNumber}</Styled.AttributesValue>
-            <Styled.AttributesValue>{item.checkedDate}</Styled.AttributesValue>
-            <Styled.AttributesValue>{item.status}</Styled.AttributesValue>
-            <Styled.AttributesValue>{item.createdDate}</Styled.AttributesValue>
-            <Styled.AttributesValue></Styled.AttributesValue>{' '}
-            {/* 상세 정보를 나중에 추가할 수 있습니다 */}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+        <tbody>
+          {data.map((item, index) => (
+            <tr key={index}>
+              <Styled.AttributesValue>{index + 1}</Styled.AttributesValue>
+              <Styled.AttributesValue>{item.wheelNumber}</Styled.AttributesValue>
+              <Styled.AttributesValue>{positionLabels[item.position]}</Styled.AttributesValue>
+              <Styled.AttributesValue>{item.ohtNumber}</Styled.AttributesValue>
+              <Styled.AttributesValue>{item.checkedDate}</Styled.AttributesValue>
+              <Styled.AttributesValue>{item.status}</Styled.AttributesValue>
+              <Styled.AttributesValue>{item.createdDate}</Styled.AttributesValue>
+              <Styled.AttributesValue>
+                <button onClick={openModal}>상세</button>
+              </Styled.AttributesValue>{' '}
+              {/* 상세 정보를 나중에 추가할 수 있습니다 */}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <>{isModalOpen && <Modal onClose={closeModal} />}</>
+    </>
   );
 }
 
