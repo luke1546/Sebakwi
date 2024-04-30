@@ -8,14 +8,6 @@ const Wheel = ({ no, position, label }: { no: number, position: [number, number,
     const meshRef = React.useRef<THREE.Mesh>(null);
     const holeSize = 0.04;
     const positions: THREE.Vector3[] = [];
-    // positions.push(new THREE.Vector3(0, 0.3, 0));
-    // positions.push(new THREE.Vector3(0, -0.3, 0));
-    // positions.push(new THREE.Vector3(0.3, 0, 0));
-    // positions.push(new THREE.Vector3(-0.3, 0, 0));
-    // positions.push(new THREE.Vector3(0.22, 0.22, 0));
-    // positions.push(new THREE.Vector3(0.22, -0.22, 0));
-    // positions.push(new THREE.Vector3(-0.22, 0.22, 0));
-    // positions.push(new THREE.Vector3(-0.22, -0.22, 0));
 
     positions.push(new THREE.Vector3(0, 0, 0.3));
     positions.push(new THREE.Vector3(0, 0, -0.3));
