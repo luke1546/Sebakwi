@@ -2,16 +2,17 @@ package com.ssafy.sebakwi.product.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Wheel {
 
     @Id @GeneratedValue
@@ -34,13 +35,15 @@ public class Wheel {
     @Column(length = 20)
     private int position;
 
-    @Builder
-    public Wheel(Oht oht, String serialNumber, WheelStatus currentStatus, LocalDateTime createdDate, int position) {
-        this.oht = oht;
-        this.serialNumber = serialNumber;
-        this.currentStatus = currentStatus;
-        this.createdDate = createdDate;
-        this.position = position;
-    }
+//    @OneToMany(mappedBy = "wheel", cascade = CascadeType.ALL)
+//    private List<CheckupList> checkupLists = new ArrayList<>();
 
+//    @Builder
+//    public Wheel(Oht oht, String serialNumber, WheelStatus currentStatus, LocalDateTime createdDate, int position) {
+//        this.oht = oht;
+//        this.serialNumber = serialNumber;
+//        this.currentStatus = currentStatus;
+//        this.createdDate = createdDate;
+//        this.position = position;
+//    }
 }

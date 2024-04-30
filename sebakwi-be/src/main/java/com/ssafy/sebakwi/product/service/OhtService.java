@@ -1,9 +1,6 @@
 package com.ssafy.sebakwi.product.service;
 
-import com.ssafy.sebakwi.product.controller.WheelController;
-import com.ssafy.sebakwi.product.domain.Wheel;
-import com.ssafy.sebakwi.product.domain.WheelRepository;
-import com.ssafy.sebakwi.product.domain.WheelStatus;
+import com.ssafy.sebakwi.product.domain.OhtRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
-public class WheelService {
+public class OhtService {
 
-    private final WheelRepository wheelRepository;
+    private final OhtRepository ohtRepository;
 
 }

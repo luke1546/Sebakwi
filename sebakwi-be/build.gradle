@@ -30,6 +30,9 @@ dependencies {
 	implementation 'org.springframework.integration:spring-integration-http'
 	implementation 'org.springframework.integration:spring-integration-jpa'
 	implementation 'org.springframework.integration:spring-integration-redis'
+
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5-jakarta'
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'

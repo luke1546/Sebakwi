@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -29,31 +30,34 @@ public class InitDB {
 
     private final OhtRepository ohtRepository;
     public void dbInit() {
+        Optional<Oht> oo = ohtRepository.findById(1L);
+        if (oo.isPresent()) {
+            return;
+        }
+
         for (int i = 0; i < 300; i++) {
             Oht oht = createOht();
             ohtRepository.save(oht);
         }
     }
-
+    int num = 1;
     private Oht createOht() {
-        int num = 1;
-        String serialNumber = String.format("VM%05d", num);
-        num++;
-        List<Integer> repairList = Arrays.asList(1, 2, 3, 4, 5);
+
+        String sNumber = String.format("VM%05d", num);
+        List<Integer> repairList = Arrays.asList(296, 297, 298, 299, 300);
         boolean rep = false;
         if (repairList.contains(num)) {
             rep = true;
         }
+        num++;
 
         Oht oht = Oht.builder()
-                .serialNumber(serialNumber)
-                .repair(rep)
+                .serialNumber(sNumber)
+                .maintenance(rep)
                 .build();
 
         return oht;
     }
-
-
 
     }
 }
