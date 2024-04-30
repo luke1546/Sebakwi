@@ -3,7 +3,6 @@ import { Noto_Sans_KR, PALETTE } from 'styles';
 
 export const CheckBoxWrapper = styled.div`
   display: flex;
-  flex-wrap: nowrap;
   align-items: center;
   margin-right: 3rem;
 `;
@@ -27,8 +26,8 @@ export const CheckBoxInput = styled.input`
 `;
 
 export const CheckBoxLabel = styled.label`
+  white-space: nowrap;
   font-size: 1.1rem;
   font-family: ${Noto_Sans_KR.bold.variable};
   font-weight: ${Noto_Sans_KR.bold.weight};
-
 `;
