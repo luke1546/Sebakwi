@@ -12,8 +12,8 @@ export const DashboardContainer = styled.div`
 export const CardContainer = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  padding-top: 25px;
+  /* justify-content: space-between; */
+  padding-top: 23px;
 `;
 
 export const SideCard = styled.div`
