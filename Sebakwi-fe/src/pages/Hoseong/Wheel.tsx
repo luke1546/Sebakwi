@@ -4,18 +4,11 @@ import { OrbitControls, Text } from '@react-three/drei';
 import * as THREE from 'three';
 import * as Styled from "./Wheel_style";
 
+
 const Wheel = ({ no, position, label }: { no: number, position: [number, number, number]; label: string }) => {
     const meshRef = React.useRef<THREE.Mesh>(null);
     const holeSize = 0.04;
     const positions: THREE.Vector3[] = [];
-    // positions.push(new THREE.Vector3(0, 0.3, 0));
-    // positions.push(new THREE.Vector3(0, -0.3, 0));
-    // positions.push(new THREE.Vector3(0.3, 0, 0));
-    // positions.push(new THREE.Vector3(-0.3, 0, 0));
-    // positions.push(new THREE.Vector3(0.22, 0.22, 0));
-    // positions.push(new THREE.Vector3(0.22, -0.22, 0));
-    // positions.push(new THREE.Vector3(-0.22, 0.22, 0));
-    // positions.push(new THREE.Vector3(-0.22, -0.22, 0));
 
     positions.push(new THREE.Vector3(0, 0, 0.3));
     positions.push(new THREE.Vector3(0, 0, -0.3));
@@ -102,10 +95,11 @@ const WheelSet = () => {
     );
 };
 
+
 const OHTWheel: React.FC = () => {
     return (
         <Styled.WheelWrapper>
-            <WheelSet />
+            <WheelSet></WheelSet>
         </Styled.WheelWrapper>
     );
 };
