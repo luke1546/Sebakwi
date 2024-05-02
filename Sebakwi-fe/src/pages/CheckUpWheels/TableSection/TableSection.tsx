@@ -15,7 +15,15 @@ export default function TableSection() {
   const pageSize = 13;
   const totalPages = Math.ceil(posts.length / pageSize);
   const [pageGroup, setPageGroup] = useState(0);
-  const groupSize = 5;  // 한 번에 보여줄 페이지 수
+  const groupSize = 5; // 한 번에 보여줄 페이지 수
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   // 현재 페이지 데이터 가져오기
   const currentData = () => {
@@ -29,11 +37,11 @@ export default function TableSection() {
   };
 
   const nextPageGroup = () => {
-    setPageGroup(prev => prev + 1);
+    setPageGroup((prev) => prev + 1);
   };
 
   const prevPageGroup = () => {
-    setPageGroup(prev => prev - 1);
+    setPageGroup((prev) => prev - 1);
   };
 
   return (
@@ -60,18 +68,19 @@ export default function TableSection() {
               <Styled.AttributesValue>{positionLabels[item.position]}</Styled.AttributesValue>
               <Styled.AttributesValue>{item.ohtNumber}</Styled.AttributesValue>
               <Styled.AttributesValue>{item.checkedDate}</Styled.AttributesValue>
-              <Styled.AttributesValue>{item.status === "NORMAL" ? "정상" : "비정상"}</Styled.AttributesValue>
+              <Styled.AttributesValue>
+                {item.status === 'NORMAL' ? '정상' : '비정상'}
+              </Styled.AttributesValue>
               <Styled.AttributesValue>{item.createdDate}</Styled.AttributesValue>
-              <Styled.AttributesValue></Styled.AttributesValue>{' '}
-              {/* 상세 정보를 나중에 추가할 수 있습니다 */}
+              <Styled.AttributesValue>
+                <button onClick={openModal}>상세</button>
+              </Styled.AttributesValue>
             </tr>
           ))}
         </tbody>
       </table>
       <div style={{ marginTop: '20px' }}>
-        {pageGroup > 0 && (
-          <button onClick={prevPageGroup}>&laquo;</button>
-        )}
+        {pageGroup > 0 && <button onClick={prevPageGroup}>&laquo;</button>}
         {Array.from({ length: Math.min(groupSize, totalPages - pageGroup * groupSize) }, (_, i) => (
           <button key={i} onClick={() => goToPage(pageGroup * groupSize + i + 1)}>
             {pageGroup * groupSize + i + 1}
@@ -81,6 +90,7 @@ export default function TableSection() {
           <button onClick={nextPageGroup}>&raquo;</button>
         )}
       </div>
+      {isModalOpen && <Modal onClose={closeModal} />}
     </>
   );
 }
@@ -209,7 +219,7 @@ const generateData = () => {
   return Array.from({ length: 140 }, (_, index) => ({
     checkupListId: index + 1,
     wheelNumber: `SM00${232 + index}`,
-    position: (index % 4), // 예를 들어 1부터 5까지 반복
+    position: index % 4, // 예를 들어 1부터 5까지 반복
     ohtNumber: `VM00${4 + index}`,
     checkedDate: `2024-05-${Math.floor(index / 2) + 1} 10:53:38`, // 날짜도 약간 변동을 주어서 생성
     status: index % 2 === 0 ? 'NORMAL' : 'ABNORMAL',
