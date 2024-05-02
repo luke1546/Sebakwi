@@ -1,3 +1,5 @@
-import Mainheader from './Mainheader/Mainheader';
+import MainHeader from './MainHeader/MainHeader';
+import BaseButton from './BaseButton/BaseButton';
+import CheckBox from './CheckBox/ChexkBox';
 
-export { Mainheader };
+export { MainHeader, BaseButton, CheckBox };

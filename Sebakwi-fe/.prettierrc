@@ -4,6 +4,6 @@
   "trailingComma": "all",
   "useTabs": false,
   "tabWidth": 2,
-  "printWidth": 120,
+  "printWidth": 100,
   "arrowParens": "always"
 }
