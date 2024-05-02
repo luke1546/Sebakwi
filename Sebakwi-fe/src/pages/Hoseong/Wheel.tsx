@@ -4,6 +4,7 @@ import { OrbitControls, Text } from '@react-three/drei';
 import * as THREE from 'three';
 import * as Styled from "./Wheel_style";
 
+
 const Wheel = ({ no, position, label }: { no: number, position: [number, number, number]; label: string }) => {
     const meshRef = React.useRef<THREE.Mesh>(null);
     const holeSize = 0.04;
@@ -94,10 +95,11 @@ const WheelSet = () => {
     );
 };
 
+
 const OHTWheel: React.FC = () => {
     return (
         <Styled.WheelWrapper>
-            <WheelSet />
+            <WheelSet></WheelSet>
         </Styled.WheelWrapper>
     );
 };
