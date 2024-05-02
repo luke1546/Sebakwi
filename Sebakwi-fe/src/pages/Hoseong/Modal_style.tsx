@@ -7,91 +7,91 @@ export const Modal = styled.div`
   /* width: 75%;
   height: 60%; */
   width: 1200px;
-  height : 450px;
+  height: 450px;
 `;
 
 export const ModalWrapper = styled.div`
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background-color: rgba(0, 0, 0, 0.5);
-display: flex;
-justify-content: center;
-align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Title = styled.div`
-display: grid;
-grid-template-columns: 20fr 1fr;
-background-color: ${PALETTE.MAIN_BLUE};
-padding: 15px 15px;
-color: white;
-align-items: center;
-`
+  display: grid;
+  grid-template-columns: 20fr 1fr;
+  background-color: ${PALETTE.MAIN_BLUE};
+  padding: 15px 15px;
+  color: white;
+  align-items: center;
+`;
 
 export const TitleInfo = styled.div`
-    display:grid;
-    grid-template-columns: auto auto auto auto auto auto auto;
-    max-width: 700px;
-`
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto;
+  max-width: 700px;
+`;
 
 export const Result = styled.span`
-color : red;
-`
+  color: red;
+`;
 
 export const Container = styled.div`
-display: grid;
-grid-template-rows: 1fr 12fr;
-`
+  display: grid;
+  grid-template-rows: 1fr 12fr;
+`;
 
 export const Content = styled.div`
-display: grid;
-grid-template-columns: 2fr 3fr 3fr;
-`
+  display: grid;
+  grid-template-columns: 2fr 3fr 3fr;
+`;
 export const SubContent = styled.div`
-display: grid;
-grid-template-rows: 1fr 15fr;
-padding : 30px;
-`
+  display: grid;
+  grid-template-rows: 1fr 15fr;
+  padding: 30px;
+`;
 
 export const SubTitle = styled.div`
-background-color: ${PALETTE.LIGHT_BLUE};
-text-align: center;
-color: ${PALETTE.MAIN_BLUE};
-font-family: ${Noto_Sans_KR.extraBold.variable};
-padding: 8px;
-`
+  background-color: ${PALETTE.LIGHT_BLUE};
+  text-align: center;
+  color: ${PALETTE.MAIN_BLUE};
+  font-family: ${Noto_Sans_KR.extraBold.variable};
+  padding: 8px;
+`;
 
 export const Image = styled.img`
-width: 100%;
-height: 250px;
-`
+  width: 100%;
+  height: 250px;
+`;
 
 export const ResultTable = styled.div`
-table {
-  border-collapse: collapse;
-}
-td, th {
-  border: none; /* 테두리 없음 */
-  width: 200px;
-  height: 60px;
-  text-align: center;
-  /* padding: 15px 50px; */
-  
-}
-td {
-  border-bottom: 1px solid lightgray; /* 하단 경계선 */
-  border-right: 1px solid lightgray;
-}
-tr:last-child>td{
+  table {
+    border-collapse: collapse;
+  }
+  td,
+  th {
+    border: none; /* 테두리 없음 */
+    width: 200px;
+    height: 60px;
+    text-align: center;
+    /* padding: 15px 50px; */
+  }
+  td {
+    border-bottom: 1px solid lightgray; /* 하단 경계선 */
+    border-right: 1px solid lightgray;
+  }
+  tr:last-child > td {
     border-bottom: none;
-}
-td:last-child{
+  }
+  td:last-child {
     border-right: none;
-}
-`
+  }
+`;
 
 export const CheckboxWrapper = styled.label`
   display: inline-block;
@@ -119,12 +119,13 @@ export const CheckboxCheckmark = styled.span`
 `;
 
 export const ESCButton = styled.button`
-    border: none;
-    background-color: ${PALETTE.MAIN_BLUE};
-    color: white;
-    &:hover{cursor: pointer;
-    }
-`
+  border: none;
+  background-color: ${PALETTE.MAIN_BLUE};
+  color: white;
+  &:hover {
+    cursor: pointer;
+  }
+`;
 
 // export const Wheel = styled.div`
 //  width: 100px; /* 바퀴의 직경 */

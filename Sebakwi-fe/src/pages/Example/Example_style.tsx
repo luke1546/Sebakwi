@@ -6,7 +6,7 @@ export const MainWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
   > h1 {
     font-family: ${Noto_Sans_KR.thin.variable};
     color: ${PALETTE.LIGHT_BLACK};
