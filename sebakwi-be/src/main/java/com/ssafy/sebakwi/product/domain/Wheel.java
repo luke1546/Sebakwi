@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class Wheel {
     private WheelStatus currentStatus;
 
     @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 
     @Column(length = 20)
     private int position;
@@ -38,12 +39,4 @@ public class Wheel {
 //    @OneToMany(mappedBy = "wheel", cascade = CascadeType.ALL)
 //    private List<CheckupList> checkupLists = new ArrayList<>();
 
-//    @Builder
-//    public Wheel(Oht oht, String serialNumber, WheelStatus currentStatus, LocalDateTime createdDate, int position) {
-//        this.oht = oht;
-//        this.serialNumber = serialNumber;
-//        this.currentStatus = currentStatus;
-//        this.createdDate = createdDate;
-//        this.position = position;
-//    }
 }

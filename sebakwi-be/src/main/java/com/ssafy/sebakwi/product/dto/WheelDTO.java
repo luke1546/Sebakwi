@@ -5,6 +5,7 @@ import com.ssafy.sebakwi.product.domain.Wheel;
 import com.ssafy.sebakwi.product.domain.WheelStatus;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,7 +18,7 @@ public class WheelDTO {
     private OhtDTO oht;
     private String serialNumber;
     private WheelStatus currentStatus;
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
     private int position;
 
 

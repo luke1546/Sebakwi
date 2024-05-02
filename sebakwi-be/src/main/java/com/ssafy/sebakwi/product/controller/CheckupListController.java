@@ -16,13 +16,13 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/checkup-list")
+@RequestMapping("/api/checkup_list")
 public class CheckupListController {
 
     private final CheckupListRepository checkupListRepository;
     private final CheckupListService checkupListService;
 
-    @GetMapping("/filter")
+    @GetMapping
     public CheckupListPageResponse<CheckupListArrayResponse> checkupListArray(@Validated @RequestBody CheckupListArrayRequest request) throws BadRequestException {
 
         return checkupListService.findCheckupListArray(request);
@@ -69,6 +69,11 @@ public class CheckupListController {
                     .position(checkupListDTO.getWheel().getPosition())
                     .ohtNumber(checkupListDTO.getWheel().getOht().getSerialNumber())
                     .checkedDate(checkupListDTO.getCheckedDate())
+                    .wheelImage(checkupListDTO.getWheelImage())
+                    .diameter(checkupListDTO.getDiameter())
+                    .crack(checkupListDTO.isCrack())
+                    .stamp(checkupListDTO.isStamp())
+                    .peeling(checkupListDTO.isPeeling())
                     .status(checkupListDTO.getStatus())
                     .createdDate(checkupListDTO.getWheel().getCreatedDate())
                     .build();

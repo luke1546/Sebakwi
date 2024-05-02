@@ -15,6 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,59 +33,133 @@ public class CheckupListService {
             request.noEndDateTime();
         }
 
+        // 시작시간, 끝시간 LocalDate 타입으로 변환
+        LocalDateTime startDateTime = LocalDateTime.now();
+        LocalDateTime endDateTime = request.getEndDateTime().atTime(LocalTime.MAX);
+
+        if (request.getStartDateTime() != null) {
+            startDateTime = request.getStartDateTime().atStartOfDay();
+        }
+
         // pageable 객체 생성
         int size = 20;
         Pageable pageable = PageRequest.of(request.getPage(), size);
 
-        if (request.isOnlyAbnormal()) {
+//        if (request.isCheckedDate()){
+            if (request.isOnlyAbnormal()) {
 
-            if (request.getStartDateTime() == null) {
+                if (request.getStartDateTime() == null) {
+                    Page<CheckupList> page = checkupListRepository.findStatusCheckupListArray(
+                            request.isCheckedDate(), endDateTime,
+                            WheelStatus.ABNORMAL, pageable, request.isSortByCheck(),
+                            request.isDesc(), request.getPosition(), request.getOhtSerialNumber());
+                    if (page.isEmpty()) {
+                        throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
+                    }
+                    int totalPages = page.getTotalPages();
+                    List<CheckupList> checkupLists = page.getContent();
+                    List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
+                    return new CheckupListPageResponse<>(totalPages, responseList);
 
-                Page<CheckupList> page = checkupListRepository.findStatusCheckupListArray(request.getEndDateTime(), WheelStatus.ABNORMAL, pageable);
-                if (page.isEmpty()) {
-                    throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
+                } else {
+
+                    Page<CheckupList> page = checkupListRepository.findStartDateTimeStatusCheckupListArray(
+                            request.isCheckedDate(), startDateTime,
+                            endDateTime, WheelStatus.ABNORMAL,
+                            pageable, request.isSortByCheck(),
+                            request.isDesc(), request.getPosition(), request.getOhtSerialNumber());
+                    if (page.isEmpty()) {
+                        throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
+                    }
+                    int totalPages = page.getTotalPages();
+                    List<CheckupList> checkupLists = page.getContent();
+                    List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
+                    return new CheckupListPageResponse<>(totalPages, responseList);
+
                 }
-                int totalPages = page.getTotalPages();
-                List<CheckupList> checkupLists = page.getContent();
-                List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
-                return new CheckupListPageResponse<>(totalPages, responseList);
-
             } else {
+                if (request.getStartDateTime() == null) {
 
-                Page<CheckupList> page = checkupListRepository.findStartDateTimeStatusCheckupListArray(request.getStartDateTime(), request.getEndDateTime(), WheelStatus.ABNORMAL, pageable);
-                if (page.isEmpty()) {
-                    throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
+                    Page<CheckupList> page = checkupListRepository.findCheckupListArray(
+                            request.isCheckedDate(), endDateTime,
+                            pageable, request.isSortByCheck(), request.isDesc(),
+                            request.getPosition(), request.getOhtSerialNumber());
+                    if (page.isEmpty()) {
+                        throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
+                    }
+                    int totalPages = page.getTotalPages();
+                    List<CheckupList> checkupLists = page.getContent();
+                    List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
+                    return new CheckupListPageResponse<>(totalPages, responseList);
+
+                } else {
+
+                    Page<CheckupList> page = checkupListRepository.findStartDateTimeCheckupListArray(
+                            request.isCheckedDate(), startDateTime,
+                            endDateTime, pageable, request.isSortByCheck(),
+                            request.isDesc(), request.getPosition(), request.getOhtSerialNumber());
+                    if (page.isEmpty()) {
+                        throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
+                    }
+                    int totalPages = page.getTotalPages();
+                    List<CheckupList> checkupLists = page.getContent();
+                    List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
+                    return new CheckupListPageResponse<>(totalPages, responseList);
                 }
-                int totalPages = page.getTotalPages();
-                List<CheckupList> checkupLists = page.getContent();
-                List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
-                return new CheckupListPageResponse<>(totalPages, responseList);
-
             }
-        } else {
-            if (request.getStartDateTime() == null) {
-
-                Page<CheckupList> page = checkupListRepository.findCheckupListArray(request.getEndDateTime(), pageable);
-                if (page.isEmpty()) {
-                    throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
-                }
-                int totalPages = page.getTotalPages();
-                List<CheckupList> checkupLists = page.getContent();
-                List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
-                return new CheckupListPageResponse<>(totalPages, responseList);
-
-            } else {
-
-                Page<CheckupList> page = checkupListRepository.findStartDateTimeCheckupListArray(request.getStartDateTime(), request.getEndDateTime(), pageable);
-                if (page.isEmpty()) {
-                    throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
-                }
-                int totalPages = page.getTotalPages();
-                List<CheckupList> checkupLists = page.getContent();
-                List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
-                return new CheckupListPageResponse<>(totalPages, responseList);
-            }
-        }
+//        } else {
+//
+//            // 교체일시
+//            if (request.isOnlyAbnormal()) {
+//
+//                if (request.getStartDateTime() == null) {
+//
+//                    Page<CheckupList> page = checkupListRepository.findCreatedStatusCheckupListArray(request.getEndDateTime(), WheelStatus.ABNORMAL, pageable, request.isSortByCheck(), request.isDesc());
+//                    if (page.isEmpty()) {
+//                        throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
+//                    }
+//                    int totalPages = page.getTotalPages();
+//                    List<CheckupList> checkupLists = page.getContent();
+//                    List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
+//                    return new CheckupListPageResponse<>(totalPages, responseList);
+//
+//                } else {
+//
+//                    Page<CheckupList> page = checkupListRepository.findCreatedStartDateTimeStatusCheckupListArray(request.getStartDateTime(), request.getEndDateTime(), WheelStatus.ABNORMAL, pageable, request.isSortByCheck(), request.isDesc());
+//                    if (page.isEmpty()) {
+//                        throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
+//                    }
+//                    int totalPages = page.getTotalPages();
+//                    List<CheckupList> checkupLists = page.getContent();
+//                    List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
+//                    return new CheckupListPageResponse<>(totalPages, responseList);
+//
+//                }
+//            } else {
+//                if (request.getStartDateTime() == null) {
+//
+//                    Page<CheckupList> page = checkupListRepository.findCreatedCheckupListArray(request.getEndDateTime(), pageable, request.isSortByCheck(), request.isDesc());
+//                    if (page.isEmpty()) {
+//                        throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
+//                    }
+//                    int totalPages = page.getTotalPages();
+//                    List<CheckupList> checkupLists = page.getContent();
+//                    List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
+//                    return new CheckupListPageResponse<>(totalPages, responseList);
+//
+//                } else {
+//
+//                    Page<CheckupList> page = checkupListRepository.findCreatedStartDateTimeCheckupListArray(request.getStartDateTime(), request.getEndDateTime(), pageable, request.isSortByCheck(), request.isDesc());
+//                    if (page.isEmpty()) {
+//                        throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
+//                    }
+//                    int totalPages = page.getTotalPages();
+//                    List<CheckupList> checkupLists = page.getContent();
+//                    List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
+//                    return new CheckupListPageResponse<>(totalPages, responseList);
+//                }
+//            }
+//        }
 
     }
 

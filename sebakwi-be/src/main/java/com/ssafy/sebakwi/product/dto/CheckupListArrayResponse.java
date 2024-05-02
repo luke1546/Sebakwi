@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -24,18 +25,19 @@ public class CheckupListArrayResponse {
     @Enumerated(EnumType.STRING)
     private WheelStatus status;
 
-    private String createdDate;
+    private LocalDate createdDate;
 
     @Builder
     public CheckupListArrayResponse(int checkupListId, String wheelNumber, int position,
                                     String ohtNumber, LocalDateTime checkedDate, WheelStatus status,
-                                    LocalDateTime createdDate) {
+                                    LocalDate createdDate) {
         this.wheelNumber = wheelNumber;
         this.position = position;
         this.ohtNumber = ohtNumber;
         this.checkedDate = formatCheckedDate(checkedDate);
         this.status = status;
-        this.createdDate = formatCreatedDate(createdDate);
+//        this.createdDate = formatCreatedDate(createdDate);
+        this.createdDate = createdDate;
         this.checkupListId = checkupListId;
     }
 
@@ -43,8 +45,8 @@ public class CheckupListArrayResponse {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return dateTime.format(formatter);
     }
-    private String formatCreatedDate(LocalDateTime dateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return dateTime.format(formatter);
-    }
+//    private String formatCreatedDate(LocalDateTime dateTime) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        return dateTime.format(formatter);
+//    }
 }

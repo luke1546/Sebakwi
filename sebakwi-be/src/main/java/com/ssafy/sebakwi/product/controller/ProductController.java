@@ -41,13 +41,13 @@ public class ProductController {
      * @param Id 조회할 Product의 ID
      * @return 조회된 Product 객체
      */
-    @GetMapping
-    public Product searchEx(@RequestParam(name = "Id") Long Id) {
-        Product product =  repository.findById(Id)
-                .orElseThrow(() -> new CustomException(CustomExceptionStatus.PRODUCT_INVALID));
-
-        log.info("Product={}", product);
-
-        return product;
-    }
+//    @GetMapping
+//    public Product searchEx(@RequestParam(name = "Id") Long Id) {
+//        Product product =  repository.findById(Id)
+//                .orElseThrow(() -> new CustomException(CustomExceptionStatus.PRODUCT_INVALID));
+//
+//        log.info("Product={}", product);
+//
+//        return product;
+//    }
 }
