@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as Comp from 'components';
+import * as Comp from 'styled-components';
 import * as Styled from './Hoseong_stlye';
 import Modal from './Modal';
 import OHTWheel from './Wheel';

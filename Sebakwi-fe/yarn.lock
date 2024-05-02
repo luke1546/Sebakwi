@@ -1765,9 +1765,9 @@
     zustand "^3.7.1"
 
 "@react-three/fiber@>=6.0", "@react-three/fiber@>=8.0", "@react-three/fiber@latest":
-  version "8.16.2"
-  resolved "https://registry.npmjs.org/@react-three/fiber/-/fiber-8.16.2.tgz"
-  integrity sha512-3Z5FW8mxzomBbrw2iF0lNOAlNBr2OK6HR0NM416PzcTs0UcSoPj/nD4eqmrV5Kut6kvCc/TJua5LyeoPE7vSmw==
+  version "8.16.3"
+  resolved "https://registry.npmjs.org/@react-three/fiber/-/fiber-8.16.3.tgz"
+  integrity sha512-jg37AH0xmJEGbCk7qgO3EwB99UTNVekYYU/1+D5xNPFAn+fPqkUUaHalriaY+S3HLtBy33HYVOenbD9ZKLyC/Q==
   dependencies:
     "@babel/runtime" "^7.17.8"
     "@types/react-reconciler" "^0.26.7"
@@ -8350,13 +8350,13 @@ react-dev-utils@^12.0.1:
     strip-ansi "^6.0.1"
     text-table "^0.2.0"
 
-react-dom@^18.0.0, react-dom@^18.2.0, "react-dom@>= 16.8.0", react-dom@>=16.13, react-dom@>=16.8, react-dom@>=17.0, react-dom@>=18.0:
-  version "18.2.0"
-  resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
-  integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
+react-dom@^18.0.0, react-dom@^18.3.1, "react-dom@>= 16.8.0", react-dom@>=16.13, react-dom@>=16.8, react-dom@>=17.0, react-dom@>=18.0:
+  version "18.3.1"
+  resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.3.1.tgz"
+  integrity sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==
   dependencies:
     loose-envify "^1.1.0"
-    scheduler "^0.23.0"
+    scheduler "^0.23.2"
 
 react-error-overlay@^6.0.11:
   version "6.0.11"
@@ -8475,10 +8475,10 @@ react-use-measure@^2.1.1:
   dependencies:
     debounce "^1.2.1"
 
-"react@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@^18.0.0, react@^18.2.0, "react@>= 16", "react@>= 16.8.0", react@>=16.13, react@>=16.8, react@>=17.0, react@>=18.0:
-  version "18.2.0"
-  resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
-  integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
+"react@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@^18.0.0, react@^18.3.1, "react@>= 16", "react@>= 16.8.0", react@>=16.13, react@>=16.8, react@>=17.0, react@>=18.0:
+  version "18.3.1"
+  resolved "https://registry.npmjs.org/react/-/react-18.3.1.tgz"
+  integrity sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==
   dependencies:
     loose-envify "^1.1.0"
 
@@ -8803,10 +8803,10 @@ scheduler@^0.21.0:
   dependencies:
     loose-envify "^1.1.0"
 
-scheduler@^0.23.0:
-  version "0.23.0"
-  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.23.0.tgz"
-  integrity sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==
+scheduler@^0.23.2:
+  version "0.23.2"
+  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.23.2.tgz"
+  integrity sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==
   dependencies:
     loose-envify "^1.1.0"
 
