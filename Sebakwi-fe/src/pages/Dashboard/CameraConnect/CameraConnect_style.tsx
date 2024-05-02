@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { PALETTE } from 'styles';
+import styled, { css } from 'styled-components';
+import { Noto_Sans_KR, PALETTE } from 'styles';
 
 export const Container = styled.div`
   display: grid;
@@ -40,6 +40,38 @@ export const Photo = styled(CameraComponent)`
   margin-top: 100px;
 `;
 
+// api 연결 후 styled-component 조건부 스타일링
+// export const CameraWraaper = styled(CameraComponent)`
+//   ${(props) =>
+//     props.id === 'FoupStocker' &&
+//     css`
+//       grid-column: 1 / 2;
+//       grid-row: 1 / 2;
+//       margin-bottom: 10px;
+//     `}
+//   ${(props) =>
+//     props.id === 'Etching' &&
+//     css`
+//       grid-column: 7 / 8;
+//       grid-row: 1 / 2;
+//       margin-bottom: 10px;
+//     `}
+//     ${(props) =>
+//     props.id === 'Cleaning' &&
+//     css`
+//       grid-column: 1 / 2;
+//       grid-row: 2 / 3;
+//       margin-top: 100px;
+//     `}
+//     ${(props) =>
+//     props.id === 'Photo' &&
+//     css`
+//       grid-column: 7 / 8;
+//       grid-row: 2 / 3;
+//       margin-top: 100px;
+//     `}
+// `;
+
 export const ConnectLine = styled.div`
   grid-column: 3 / 7;
   grid-row: 1 / 4;
@@ -47,12 +79,31 @@ export const ConnectLine = styled.div`
   margin-right: 10px;
 `;
 
-export const ColorInfo = styled.div`
+// OFF, ON INFO
+export const Info = styled.div`
   grid-column: 8 / 9;
   grid-row: 3 / 4;
-  /* width: 30px;
-  height: 50px;
-  position: absolute; // 상대적 위치 조정
-  right: 0;
-  margin-right: 20px; // 오른쪽에서 20px 떨어진 곳 */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-left: 50px;
+`;
+
+export const ColorInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const InfoCircle = styled.div<{ color: string }>`
+  border-radius: 50px;
+  background-color: ${(props) => props.color};
+  width: 12px;
+  height: 12px;
+`;
+
+export const InfoText = styled.span`
+  color: ${PALETTE.MAIN_BLACK};
+  font-family: ${Noto_Sans_KR.medium.weight};
+  font-size: 0.6rem;
 `;
