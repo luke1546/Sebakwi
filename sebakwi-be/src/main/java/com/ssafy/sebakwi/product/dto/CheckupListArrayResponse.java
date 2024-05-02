@@ -1,18 +1,21 @@
-package com.ssafy.sebakwi.util.dto;
+package com.ssafy.sebakwi.product.dto;
 
 import com.ssafy.sebakwi.product.domain.WheelStatus;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Data
+public class CheckupListArrayResponse {
 
-public class CheckupListDetailModalResponse {
-
+    private int checkupListId;
     private String wheelNumber;
     private int position;
     private String ohtNumber;
@@ -24,15 +27,16 @@ public class CheckupListDetailModalResponse {
     private String createdDate;
 
     @Builder
-    public CheckupListDetailModalResponse(String wheelNumber, int position, String ohtNumber,
-                                          LocalDateTime checkedDate, WheelStatus status,
-                                          LocalDateTime createdDate) {
+    public CheckupListArrayResponse(int checkupListId, String wheelNumber, int position,
+                                    String ohtNumber, LocalDateTime checkedDate, WheelStatus status,
+                                    LocalDateTime createdDate) {
         this.wheelNumber = wheelNumber;
         this.position = position;
         this.ohtNumber = ohtNumber;
         this.checkedDate = formatCheckedDate(checkedDate);
         this.status = status;
         this.createdDate = formatCreatedDate(createdDate);
+        this.checkupListId = checkupListId;
     }
 
     private String formatCheckedDate(LocalDateTime dateTime) {

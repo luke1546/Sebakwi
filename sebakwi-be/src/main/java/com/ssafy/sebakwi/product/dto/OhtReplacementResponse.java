@@ -1,4 +1,4 @@
-package com.ssafy.sebakwi.util.dto;
+package com.ssafy.sebakwi.product.dto;
 
 import lombok.Data;
 

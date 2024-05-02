@@ -2,37 +2,35 @@ package com.ssafy.sebakwi.product.controller;
 
 import com.ssafy.sebakwi.product.domain.CheckupList;
 import com.ssafy.sebakwi.product.domain.CheckupListRepository;
-import com.ssafy.sebakwi.product.dto.CheckupListDTO;
-import com.ssafy.sebakwi.product.dto.CheckupListModalDto;
-import com.ssafy.sebakwi.product.dto.OhtDTO;
-import com.ssafy.sebakwi.product.dto.WheelDTO;
-import com.ssafy.sebakwi.util.dto.CheckupListDetailModalResponse;
+import com.ssafy.sebakwi.product.dto.*;
+import com.ssafy.sebakwi.product.service.CheckupListService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.coyote.BadRequestException;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/checkup-list")
 public class CheckupListController {
 
     private final CheckupListRepository checkupListRepository;
+    private final CheckupListService checkupListService;
 
-    @GetMapping("/api/checkup-list")
-    public List<CheckupList> chekcupListArray() {
+    @GetMapping("/filter")
+    public CheckupListPageResponse<CheckupListArrayResponse> checkupListArray(@Validated @RequestBody CheckupListArrayRequest request) throws BadRequestException {
 
-        List<CheckupList> findAll = checkupListRepository.findAll();
-        return findAll;
+        return checkupListService.findCheckupListArray(request);
+
     }
 
 
-    @GetMapping("/api/checkup-list/{checkupListId}")
+    @GetMapping("/{checkupListId}")
     public CheckupListDetailModalResponse checkupListDetailModal(@PathVariable("checkupListId") int checkupListId) {
 
         Optional<CheckupList> fCheckupList = checkupListRepository.findById(checkupListId);

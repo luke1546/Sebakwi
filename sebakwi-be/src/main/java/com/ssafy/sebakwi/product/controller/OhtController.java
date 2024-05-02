@@ -2,7 +2,7 @@ package com.ssafy.sebakwi.product.controller;
 
 
 import com.ssafy.sebakwi.product.domain.OhtRepository;
-import com.ssafy.sebakwi.util.dto.OhtReplacementResponse;
+import com.ssafy.sebakwi.product.dto.OhtReplacementResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
