@@ -37,9 +37,19 @@ export const TitleInfo = styled.div`
   max-width: 700px;
 `;
 
-export const Result = styled.span`
-  color: red;
-`;
+export const Result = styled.span<{ status?: string }>`
+color: ${({ status }) => {
+    switch (status) {
+      case 'ABNORMAL':
+        return 'red';
+      case 'NORMAL':
+        return '${PALETTE.MAIN_BLUE}';
+      default:
+        return 'gray';
+    }
+  }};
+
+`
 
 export const Container = styled.div`
   display: grid;
@@ -119,49 +129,9 @@ export const CheckboxCheckmark = styled.span`
 `;
 
 export const ESCButton = styled.button`
-  border: none;
-  background-color: ${PALETTE.MAIN_BLUE};
-  color: white;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-// export const Wheel = styled.div`
-//  width: 100px; /* 바퀴의 직경 */
-//   height: 100px; /* 바퀴의 직경 */
-//   background-color: #ccc; /* 바퀴 림 색상 */
-//   border-radius: 50%; /* 원형으로 만들기 */
-//   border: 10px solid black; /* 타이어를 표현하기 위한 테두리 */
-
-//   position: relative; /* 내부 요소를 위해 상대적인 위치로 설정 */
-
-//   /* 가상 요소를 사용하여 바퀴 스포크를 표현 */
-//   &::before, &::after {
-//     content: '';
-//     position: absolute;
-//     top: 50%;
-//     left: 50%;
-//     width: 60px; /* 스포크 길이 */
-//     height: 6px; /* 스포크 두께 */
-//     background-color: gray; /* 스포크 색상 */
-//     transform-origin: center center;
-//   }
-
-//   &::before {
-//     transform: translate(-50%, -50%) rotate(0deg); /* 수평 스포크 */
-//   }
-
-//   &::after {
-//     transform: translate(-50%, -50%) rotate(90deg); /* 수직 스포크 */
-//   }
-
-//   /* 스포크를 추가하여 바퀴에 더 많은 디테일을 부여 */
-//   &::nth-child(1) {
-//     transform: translate(-50%, -50%) rotate(45deg);
-//   }
-
-//   &::nth-child(2) {
-//     transform: translate(-50%, -50%) rotate(135deg);
-//   }
-// `;
+    border: none;
+    background-color: ${PALETTE.MAIN_BLUE};
+    color: white;
+    &:hover{cursor: pointer;
+    }
+`
