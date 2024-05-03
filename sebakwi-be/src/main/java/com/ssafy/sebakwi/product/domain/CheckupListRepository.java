@@ -96,6 +96,7 @@ public interface CheckupListRepository extends JpaRepository<CheckupList, Intege
                                                         @Param("position") int position,
                                                         @Param("ohtSerialNumber") String ohtSerialNumber);
 
+
     // 교체일자
 //    @Query("SELECT c FROM CheckupList c JOIN c.wheel w ON c.wheel.id = w.id  WHERE c.status = :status AND w.createdDate <= :endDateTime ORDER BY " +
 //            "CASE WHEN :isSortByCheck = true AND :isDesc = true THEN c.checkedDate END DESC, " +

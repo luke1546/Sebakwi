@@ -3,9 +3,7 @@ package com.ssafy.sebakwi.product.service;
 import com.ssafy.sebakwi.product.domain.CheckupList;
 import com.ssafy.sebakwi.product.domain.CheckupListRepository;
 import com.ssafy.sebakwi.product.domain.WheelStatus;
-import com.ssafy.sebakwi.product.dto.CheckupListArrayRequest;
-import com.ssafy.sebakwi.product.dto.CheckupListArrayResponse;
-import com.ssafy.sebakwi.product.dto.CheckupListPageResponse;
+import com.ssafy.sebakwi.product.dto.*;
 import com.ssafy.sebakwi.util.exception.CustomException;
 import com.ssafy.sebakwi.util.exception.CustomExceptionStatus;
 import lombok.RequiredArgsConstructor;
@@ -183,4 +181,5 @@ public class CheckupListService {
                     .build();
         }
     }
+
 }
