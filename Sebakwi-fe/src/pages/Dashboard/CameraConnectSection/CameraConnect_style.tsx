@@ -104,6 +104,6 @@ export const InfoCircle = styled.div<{ color: string }>`
 
 export const InfoText = styled.span`
   color: ${PALETTE.MAIN_BLACK};
-  font-family: ${Noto_Sans_KR.medium.weight};
+  font-weight: ${Noto_Sans_KR.medium.weight};
   font-size: 0.6rem;
 `;
