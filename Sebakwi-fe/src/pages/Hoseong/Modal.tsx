@@ -1,13 +1,14 @@
 // components/Modal.tsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Styled from "./Modal_style";
 import OHTWheel from './Wheel';
+import axios from 'axios';
 
 const Modal = ({ onClose }: { onClose: () => void }) => {
 
     type TableData = {
-        item: string;
-        value: string | boolean;
+        item: string | undefined;
+        value: string | number | boolean | undefined;
     }
 
     useEffect(() => {
@@ -28,13 +29,44 @@ const Modal = ({ onClose }: { onClose: () => void }) => {
         };
     }, []);
 
+    interface CheckupData {
+        checkedDate: string;
+        crack: boolean;
+        createdDate: string;
+        diameter: number;
+        ohtNumber: string;
+        peeling: boolean;
+        position: number;
+        stamp: boolean;
+        status: string;
+        wheelImage: string;
+        wheelNumber: string;
+    }
+    const [data, setData] = useState<CheckupData | null>(null);
+    ;
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get<CheckupData>('http://localhost:8080/api/checkup_list/1');
+                setData(response.data);  // 응답 데이터를 state에 저장\
+                console.log(response.data);
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            }
+        };
+
+        fetchUser();
+    }, []);
+
+
+
 
     const tableData: TableData[] = [
-        { item: '마모도', value: '0.5 mm' },
-        { item: '찍힘', value: false }, // 체크박스는 boolean 타입으로
-        { item: '크랙', value: false },
-        { item: '박리', value: false },
-        { item: '교체 일자', value: '2022.04-18' }
+        { item: '마모도', value: data?.diameter },
+        { item: '찍힘', value: data?.stamp }, // 체크박스는 boolean 타입으로
+        { item: '크랙', value: data?.crack },
+        { item: '박리', value: data?.peeling },
+        { item: '교체 일자', value: data?.createdDate }
     ];
 
     function renderTable(data: TableData[]) {
@@ -64,20 +96,20 @@ const Modal = ({ onClose }: { onClose: () => void }) => {
                 <Styled.Container>
                     <Styled.Title>
                         <Styled.TitleInfo>
-                            <div>검진 ID : SM0013</div>
+                            <div>검진 ID : {data?.wheelNumber}</div>
                             <div> | </div>
-                            <div>검진 일자 : 2024-04-18 11:51:00</div>
+                            <div>검진 일자 : {data?.checkedDate}</div>
                             <div> | </div>
-                            <div>위치 : FL </div>
+                            <div>위치 : {data?.position == 1 ? "FL" : data?.position == 2 ? "FR" : data?.position == 3 ? "BL" : data?.position == 4 ? "BR" : ""} </div>
                             <div>|</div>
-                            <div>검진 결과 :<Styled.Result> 비정상</Styled.Result></div>
+                            <div>검진 결과 :<Styled.Result status={data?.status}> {data?.status == "ABNORMAL" ? "비정상" : "정상"} </Styled.Result></div>
                         </Styled.TitleInfo>
                         <Styled.ESCButton onClick={onClose}>X</Styled.ESCButton>
                     </Styled.Title>
                     <Styled.Content>
                         <Styled.SubContent>
                             <Styled.SubTitle><div>휠 위치</div></Styled.SubTitle>
-                            <OHTWheel></OHTWheel>
+                            <OHTWheel position={data?.position} ></OHTWheel>
 
                         </Styled.SubContent>
                         <Styled.SubContent>
