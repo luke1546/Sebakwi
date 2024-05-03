@@ -41,12 +41,6 @@ export default function FilterSection() {
               <img src="/images/calender.png" alt="123" width={14} height={16} />
             </Styled.DatePickerContainer>
 
-            <Styled.TimePickerContainer>
-              <Styled.TimePickerInputWrapper>
-                <p>18:15:20</p>
-              </Styled.TimePickerInputWrapper>
-              <img src="/images/clock.png" alt="123" width={14} height={14} />
-            </Styled.TimePickerContainer>
             <Styled.RangeWrapper>
               <p>~</p>
             </Styled.RangeWrapper>
@@ -56,13 +50,6 @@ export default function FilterSection() {
               </Styled.DatePickerInputWrapper>
               <img src="/images/calender.png" alt="123" width={14} height={16} />
             </Styled.DatePickerContainer>
-
-            <Styled.TimePickerContainer>
-              <Styled.TimePickerInputWrapper>
-                <p>18:15:20</p>
-              </Styled.TimePickerInputWrapper>
-              <img src="/images/clock.png" alt="123" width={14} height={14} />
-            </Styled.TimePickerContainer>
           </Styled.DateTimePickerWrapper>
           <Styled.CheckBoxWrapper>
             <CheckBox
@@ -77,7 +64,7 @@ export default function FilterSection() {
             <Styled.ResetButtonText>초기화</Styled.ResetButtonText>
           </Styled.ResetButton>
           <Styled.SearchButton type="button">
-            <Styled.SearchButtonText>검색</Styled.SearchButtonText>
+            <Styled.SearchButtonText>조회</Styled.SearchButtonText>
           </Styled.SearchButton>
         </Styled.RightContentWrapper>
       </Styled.SearchWrapper>

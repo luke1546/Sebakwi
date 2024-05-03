@@ -24,14 +24,14 @@ export const LogoWrapper = styled.div`
 `;
 
 export const StyledLink = styled(({ isActive, ...rest }: StyledLinkProps) => <Link {...rest} />)`
-  color: ${({ isActive }) => isActive ? PALETTE.MAIN_BLUE : PALETTE.MAIN_BLACK};
+  color: ${({ isActive }) => (isActive ? PALETTE.MAIN_BLUE : PALETTE.MAIN_BLACK)};
   margin-right: 20px;
   text-decoration: none;
   font-size: 1.25rem;
   font-weight: ${Noto_Sans_KR.bold.weight};
 
   &:hover {
-    color: ${PALETTE.LIGHT_BLUE};
+    color: ${PALETTE.MAIN_BLUE};
   }
 
   &:active {

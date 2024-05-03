@@ -102,8 +102,8 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const ResetButton = styled(BaseButton)`
-  width: 115px;
-  height: 27.6px;
+  width: 134px;
+  height: 26px;
   border: 1px solid ${PALETTE.MAIN_BLUE};
   background-color: white;
   margin-right: 15px;
@@ -111,23 +111,23 @@ export const ResetButton = styled(BaseButton)`
 
 export const ResetButtonText = styled.p`
   margin: 0px;
-  font-size: 16px;
-  font-family: ${Noto_Sans_KR.semiBold.variable};
-  font-weight: ${Noto_Sans_KR.semiBold.weight};
+  font-size: 15px;
+  font-family: ${Noto_Sans_KR.bold.variable};
+  font-weight: ${Noto_Sans_KR.bold.weight};
   color: ${PALETTE.MAIN_BLUE};
 `;
 
 export const SearchButton = styled(BaseButton)`
-  width: 115px;
-  height: 27.6px;
+  width: 134px;
+  height: 26px;
   color: ${PALETTE.MAIN_BLUE};
 `;
 
 export const SearchButtonText = styled.p`
   margin: 0px;
-  font-size: 16px;
-  font-family: ${Noto_Sans_KR.semiBold.variable};
-  font-weight: ${Noto_Sans_KR.semiBold.weight};
+  font-size: 15px;
+  font-family: ${Noto_Sans_KR.bold.variable};
+  font-weight: ${Noto_Sans_KR.bold.weight};
   color: white;
 `;
 

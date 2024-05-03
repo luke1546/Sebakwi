@@ -48,7 +48,7 @@ export default function TableSection() {
     <>
       <table>
         <Styled.AttributesRow>
-          <Styled.AttributesTitle>No.1</Styled.AttributesTitle>
+          <Styled.AttributesTitle></Styled.AttributesTitle>
           <Styled.AttributesTitle>검진 ID</Styled.AttributesTitle>
           <Styled.AttributesTitle>위치</Styled.AttributesTitle>
           <Styled.AttributesTitle>OHT 호기</Styled.AttributesTitle>
