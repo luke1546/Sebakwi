@@ -6,7 +6,6 @@ import * as Styled from "./Wheel_style";
 
 
 const Wheel = ({ no, position, defeat }: { no: number, position: [number, number, number]; defeat: number | undefined }) => {
-    const meshRef = React.useRef<THREE.Mesh>(null);
     const holeSize = 0.04;
     const positions: THREE.Vector3[] = [];
 

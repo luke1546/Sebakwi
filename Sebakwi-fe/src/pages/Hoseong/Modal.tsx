@@ -49,7 +49,6 @@ const Modal = ({ onClose }: { onClose: () => void }) => {
             try {
                 const response = await axios.get<CheckupData>('http://localhost:8080/api/checkup_list/1');
                 setData(response.data);  // 응답 데이터를 state에 저장\
-                console.log(response.data);
             } catch (error) {
                 console.error("Error fetching data: ", error);
             }
@@ -100,9 +99,9 @@ const Modal = ({ onClose }: { onClose: () => void }) => {
                             <div> | </div>
                             <div>검진 일자 : {data?.checkedDate}</div>
                             <div> | </div>
-                            <div>위치 : {data?.position == 1 ? "FL" : data?.position == 2 ? "FR" : data?.position == 3 ? "BL" : data?.position == 4 ? "BR" : ""} </div>
+                            <div>위치 : {data?.position === 1 ? "FL" : data?.position === 2 ? "FR" : data?.position === 3 ? "BL" : data?.position === 4 ? "BR" : ""} </div>
                             <div>|</div>
-                            <div>검진 결과 :<Styled.Result status={data?.status}> {data?.status == "ABNORMAL" ? "비정상" : "정상"} </Styled.Result></div>
+                            <div>검진 결과 :<Styled.Result status={data?.status}> {data?.status === "ABNORMAL" ? "비정상" : "정상"} </Styled.Result></div>
                         </Styled.TitleInfo>
                         <Styled.ESCButton onClick={onClose}>X</Styled.ESCButton>
                     </Styled.Title>
