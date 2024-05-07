@@ -39,6 +39,11 @@ public class WheelController {
     @GetMapping("/wheels")
     public List<Wheel> wheels() {return wheelRepository.findAll();}
 
+    @GetMapping("/wheels/replacement")
+    public List<WheelReplacementResponse> wheelReplacement() {
+        return wheelService.wheelReplacementInfo();
+    }
+
     /**
      * 메인페이지
      */
@@ -46,6 +51,19 @@ public class WheelController {
     public WheelMonthlyStatusResponse<WheelMonthlyStatus> mainMonthlyWheelStatus() {
         return wheelService.monthlyWheelStatusInfo();
     }
+
+    @GetMapping("/wheels/chart")
+    public WheelChartResponse getChartInfo() {
+        return wheelService.wheelChartInfo();
+    }
+
+    @GetMapping("/wheels/chart/initialize")
+    public String initializeWheelChart() {
+        wheelService.initializeWheelChartInfo();
+        return "initialize the chart";
+    }
+
+
 
 
     /**

@@ -1,10 +1,9 @@
 package com.ssafy.sebakwi.product.service;
 
+import com.ssafy.sebakwi.product.domain.Wheel;
 import com.ssafy.sebakwi.product.domain.WheelRepository;
-import com.ssafy.sebakwi.product.dto.CheckupListDTO;
-import com.ssafy.sebakwi.product.dto.WheelMonthlyStatus;
-import com.ssafy.sebakwi.product.dto.WheelMonthlyStatusCount;
-import com.ssafy.sebakwi.product.dto.WheelMonthlyStatusResponse;
+import com.ssafy.sebakwi.product.dto.*;
+import com.ssafy.sebakwi.util.exception.DuplicateDataException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -91,20 +92,29 @@ public class WheelService {
 
     public void updateMonthlyStatus(CheckupListDTO checkupListDTO) {
 
+        // 기존에 비정상 체크된 바퀴인데, 비정상 원인이 다를 경우 tmp에 저장
+        List<WheelMonthlyStatus> tmp = new ArrayList<>();
+
         if (defaultMonthlyStatus == null) {
 
             defaultMonthlyStatus = monthlyWheelStatusInfo();
+            tmpTooltips.add(defaultMonthlyStatus.getWheelList().get(0));
 
         } else {
 
             int crack = 0;
             int stamp = 0;
             int peeling = 0;
+            boolean abnormal = false;
 
             defaultMonthlyStatus.updateWheelList(defaultMonthlyStatus.getWheelList().stream().filter(o -> {
                         if (Objects.equals(o.getWheelNumber(), checkupListDTO.getWheel().getSerialNumber())) {
-                        log.info("o.getWheelNumber()={}", o.getWheelNumber());
-                        log.info("checkupListDTO.getWheel().getSerialNumber()={}", checkupListDTO.getWheel().getSerialNumber());
+
+                            if (Objects.equals(o.isCrack(), checkupListDTO.isCrack()) && Objects.equals(o.isStamp(), checkupListDTO.isStamp() && Objects.equals(o.isPeeling(), checkupListDTO.isPeeling()))) {
+                                throw new DuplicateDataException("This Wheel is already checked");
+                            }
+
+                            // 기존에 있던거 카운트 뺌
                             if (o.isCrack()) {
                                 defaultMonthlyStatus.getCount().updateCrack(-1);
                             }
@@ -114,36 +124,138 @@ public class WheelService {
                             if (o.isPeeling()) {
                                 defaultMonthlyStatus.getCount().updatePeeling(-1);
                             }
+
+                            // 새로 바뀐거 적용
+                            WheelMonthlyStatus newMonthlyStatus = updateNewCheckupListDto(checkupListDTO);
+                            tmp.add(newMonthlyStatus);
+
+                            // chart에 담을 데이터 추가
+                            // 특정 시간 내에서 두 번 상태변화가 일어나면 한 바퀴가 두 번 추가되는 것을 방지하기 위해 여기서 처리
+                            tmpTooltips.stream().filter(t -> {
+                                if (Objects.equals(t.getWheelNumber(), newMonthlyStatus.getWheelNumber())) {
+                                    return false;
+                                }
+                                tmpY--;
+                                return true;
+                            });
+
+                            tmpTooltips.add(newMonthlyStatus);
                             return false;
                         }
                         return true;
                     })
                     .collect(Collectors.toList()));
 
-            if (checkupListDTO.isCrack()) {
-                defaultMonthlyStatus.getCount().updateCrack(1);
-            }
-            if (checkupListDTO.isStamp()) {
-                defaultMonthlyStatus.getCount().updateStamp(1);
-            }
-            if (checkupListDTO.isPeeling()) {
-                defaultMonthlyStatus.getCount().updatePeeling(1);
-            }
+            if (!tmp.isEmpty()) {
+                tmp.forEach(o -> {
+                    defaultMonthlyStatus.getWheelList().add(o);
 
-            WheelMonthlyStatus newMonthlyStatus = WheelMonthlyStatus.builder()
-                    .wheelNumber(checkupListDTO.getWheel().getSerialNumber())
-                    .ohtNumber(checkupListDTO.getWheel().getOht().getSerialNumber())
-                    .position(checkupListDTO.getWheel().getPosition())
-                    .crack(checkupListDTO.isCrack())
-                    .stamp(checkupListDTO.isStamp())
-                    .peeling(checkupListDTO.isPeeling())
-                    .build();
+                    // chart에 담을 데이터 추가
+                    // 특정 시간 내에서 두번 상태변화가 일어나면 한 바퀴가 두 번 카운트되는데 어떻게 할지(배제할거면 여기다)
+//                    tmpTooltips.add(o);
 
-            defaultMonthlyStatus.getWheelList().add(newMonthlyStatus) ;
+                });
+            } else {
+
+                // 새로 바뀐거 적용
+                WheelMonthlyStatus newMonthlyStatus = updateNewCheckupListDto(checkupListDTO);
+                defaultMonthlyStatus.getWheelList().add(newMonthlyStatus);
+
+                // cahrt에 추가
+                tmpTooltips.add(newMonthlyStatus);
+            }
         }
+        tmpY++;
 
         mainService.sendMonthly(1L, defaultMonthlyStatus);
 
     }
 
+    private WheelMonthlyStatus updateNewCheckupListDto(CheckupListDTO checkupListDTO) {
+
+        if (checkupListDTO.isCrack()) {
+            defaultMonthlyStatus.getCount().updateCrack(1);
+        }
+        if (checkupListDTO.isStamp()) {
+            defaultMonthlyStatus.getCount().updateStamp(1);
+        }
+        if (checkupListDTO.isPeeling()) {
+            defaultMonthlyStatus.getCount().updatePeeling(1);
+        }
+
+        WheelMonthlyStatus newMonthlyStatus = WheelMonthlyStatus.builder()
+                .wheelNumber(checkupListDTO.getWheel().getSerialNumber())
+                .ohtNumber(checkupListDTO.getWheel().getOht().getSerialNumber())
+                .position(checkupListDTO.getWheel().getPosition())
+                .crack(checkupListDTO.isCrack())
+                .stamp(checkupListDTO.isStamp())
+                .peeling(checkupListDTO.isPeeling())
+                .build();
+        return newMonthlyStatus;
+    }
+
+
+    public List<WheelReplacementResponse> wheelReplacementInfo() {
+
+        LocalDate today = LocalDate.now();
+        LocalDate twoYearsAgo = today.minusYears(2);
+
+        List<Wheel> wheelReplacement = wheelRepository.findWheelReplacement(twoYearsAgo);
+
+        return wheelReplacement.stream().map(o -> WheelReplacementResponse.builder()
+                        .wheelNumber(o.getSerialNumber())
+                        .createdDate(o.getCreatedDate())
+                        .build())
+                .collect(Collectors.toList());
+
+    }
+
+    /**
+     * chart에서 쓸 데이터
+     */
+
+    // 특정 시간 내에 업데이트된 값을 저장하는 변수
+    int tmpY= 0;
+    List<WheelMonthlyStatus> tmpTooltips = new ArrayList<>();
+
+
+    // 차트 데이터를 담을 변수
+    private List<String> xData = new ArrayList<>();
+    private List<Integer> yData = new ArrayList<>();;
+    private List<List<WheelMonthlyStatus>> toolTips = new ArrayList<>();;
+
+    public WheelChartResponse wheelChartInfo() {
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedNow = now.format(formatter);
+
+        // 한 차트에 라벨 20개
+        if (xData.size() >= 20) {
+            xData.remove(0);
+            yData.remove(0);
+            toolTips.remove(0);
+        }
+        xData.add(formattedNow);
+        yData.add(tmpY);
+        toolTips.add(new ArrayList<>(tmpTooltips));
+
+        WheelChartResponse response = WheelChartResponse.builder()
+                .xData(xData)
+                .yData(yData)
+                .toolTips(toolTips)
+                .build();
+
+        // tmp값들 초기화
+        tmpY= 0;
+        tmpTooltips = new ArrayList<>();
+
+        return response;
+    }
+
+    public void initializeWheelChartInfo() {
+        List<String> xData = new ArrayList<>();
+        List<Integer> yData = new ArrayList<>();;
+        List<List<WheelMonthlyStatus>> toolTips = new ArrayList<>();;
+    }
 }

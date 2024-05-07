@@ -47,7 +47,6 @@ public class MainService {
         if (emitter != null) {
             try {
                 String jsonData = objectMapper.writeValueAsString(data);
-                log.info("jsonData={}", jsonData);
                 emitter.send(SseEmitter.event().id(String.valueOf(id)).name("sse").data(jsonData));
             } catch (IOException e) {
                 emitterRepository.deleteById(id);
