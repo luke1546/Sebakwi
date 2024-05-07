@@ -57,12 +57,12 @@ const Wheel = ({ no, position, defeat }: { no: number, position: [number, number
             </group>
             <Text
                 position={[0, 1.75, 0]} // 텍스트 위치 조정
-                fontSize={1}
+                fontSize={0.8}
                 color="black"
                 anchorX="center"
                 anchorY="middle"
             >
-                {no}
+                {no === 1 ? "FL" : no === 2 ? "FR" : no === 3 ? "BL" : no === 4 ? "BR" : ""}
             </Text>
 
         </group>
@@ -96,10 +96,11 @@ const WheelSet: React.FC<{ position: number | undefined }> = ({ position }) => {
 };
 
 
-const OHTWheel: React.FC<{ position: number | undefined }> = ({ position }) => {
+const OHTWheel: React.FC<{ position: number | undefined, OHTId: string | undefined }> = ({ position, OHTId }) => {
     return (
         <Styled.WheelWrapper>
             <WheelSet position={position}></WheelSet>
+            <div>OHTId : {OHTId}</div>
         </Styled.WheelWrapper>
     );
 };
