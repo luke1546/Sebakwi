@@ -1,8 +1,10 @@
 package com.ssafy.sebakwi.product.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.sebakwi.product.domain.EmitterRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -21,6 +23,9 @@ public class MainService {
 
     private final EmitterRepository emitterRepository;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     public SseEmitter subscribe(Long userId) {
         SseEmitter emitter = createEmitter(userId);
 
@@ -36,11 +41,14 @@ public class MainService {
     /**
      * data - 전송할 데이터
      */
+
     private void sendToClient(Long id, Object data) {
         SseEmitter emitter = emitterRepository.get(id);
         if (emitter != null) {
             try {
-                emitter.send(SseEmitter.event().id(String.valueOf(id)).name("sse").data(data));
+                String jsonData = objectMapper.writeValueAsString(data);
+                log.info("jsonData={}", jsonData);
+                emitter.send(SseEmitter.event().id(String.valueOf(id)).name("sse").data(jsonData));
             } catch (IOException e) {
                 emitterRepository.deleteById(id);
                 emitter.completeWithError(e);

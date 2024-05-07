@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -31,6 +32,11 @@ public class WheelService {
     WheelMonthlyStatusResponse<WheelMonthlyStatus> defaultMonthlyStatus;
 
     public WheelMonthlyStatusResponse<WheelMonthlyStatus> monthlyWheelStatusInfo() {
+
+        if (defaultMonthlyStatus != null) {
+//        log.info("defaultMonthlyStatus.getCount().getTotal()={}", defaultMonthlyStatus.getCount().getTotal());
+
+        }
 
         // 이번달 구하기
         LocalDate now = LocalDate.now();
@@ -78,7 +84,7 @@ public class WheelService {
                 .wheelList(collects)
                 .build();
 
-        defaultMonthlyStatus = response;
+//        defaultMonthlyStatus = response;
 
         return response;
     }
@@ -86,50 +92,55 @@ public class WheelService {
     public void updateMonthlyStatus(CheckupListDTO checkupListDTO) {
 
         if (defaultMonthlyStatus == null) {
+
             defaultMonthlyStatus = monthlyWheelStatusInfo();
-        }
 
-        int crack = 0;
-        int stamp = 0;
-        int peeling = 0;
+        } else {
 
-        defaultMonthlyStatus.updateWheelList(defaultMonthlyStatus.getWheelList().stream().filter(o -> {
-            if (o.getWheelNumber() == checkupListDTO.getWheel().getSerialNumber()) {
-                if (o.isCrack()) {
-                    defaultMonthlyStatus.getCount().updateCrack(-1);
-                }
-                if (o.isStamp()) {
-                    defaultMonthlyStatus.getCount().updateStamp(-1);
-                }
-                if (o.isPeeling()) {
-                    defaultMonthlyStatus.getCount().updatePeeling(-1);
-                }
-                return false;
+            int crack = 0;
+            int stamp = 0;
+            int peeling = 0;
+
+            defaultMonthlyStatus.updateWheelList(defaultMonthlyStatus.getWheelList().stream().filter(o -> {
+                        if (Objects.equals(o.getWheelNumber(), checkupListDTO.getWheel().getSerialNumber())) {
+                        log.info("o.getWheelNumber()={}", o.getWheelNumber());
+                        log.info("checkupListDTO.getWheel().getSerialNumber()={}", checkupListDTO.getWheel().getSerialNumber());
+                            if (o.isCrack()) {
+                                defaultMonthlyStatus.getCount().updateCrack(-1);
+                            }
+                            if (o.isStamp()) {
+                                defaultMonthlyStatus.getCount().updateStamp(-1);
+                            }
+                            if (o.isPeeling()) {
+                                defaultMonthlyStatus.getCount().updatePeeling(-1);
+                            }
+                            return false;
+                        }
+                        return true;
+                    })
+                    .collect(Collectors.toList()));
+
+            if (checkupListDTO.isCrack()) {
+                defaultMonthlyStatus.getCount().updateCrack(1);
             }
-            return true;
-        })
-                .collect(Collectors.toList()));
+            if (checkupListDTO.isStamp()) {
+                defaultMonthlyStatus.getCount().updateStamp(1);
+            }
+            if (checkupListDTO.isPeeling()) {
+                defaultMonthlyStatus.getCount().updatePeeling(1);
+            }
 
-        if (checkupListDTO.isCrack()) {
-            defaultMonthlyStatus.getCount().updateCrack(1);
-        }
-        if (checkupListDTO.isStamp()) {
-            defaultMonthlyStatus.getCount().updateStamp(1);
-        }
-        if (checkupListDTO.isPeeling()) {
-            defaultMonthlyStatus.getCount().updatePeeling(1);
-        }
+            WheelMonthlyStatus newMonthlyStatus = WheelMonthlyStatus.builder()
+                    .wheelNumber(checkupListDTO.getWheel().getSerialNumber())
+                    .ohtNumber(checkupListDTO.getWheel().getOht().getSerialNumber())
+                    .position(checkupListDTO.getWheel().getPosition())
+                    .crack(checkupListDTO.isCrack())
+                    .stamp(checkupListDTO.isStamp())
+                    .peeling(checkupListDTO.isPeeling())
+                    .build();
 
-        WheelMonthlyStatus newMonthlyStatus = WheelMonthlyStatus.builder()
-                .wheelNumber(checkupListDTO.getWheelImage())
-                .ohtNumber(checkupListDTO.getWheel().getOht().getSerialNumber())
-                .position(checkupListDTO.getWheel().getPosition())
-                .crack(checkupListDTO.isCrack())
-                .stamp(checkupListDTO.isStamp())
-                .peeling(checkupListDTO.isPeeling())
-                .build();
-
-        defaultMonthlyStatus.getWheelList().add(newMonthlyStatus) ;
+            defaultMonthlyStatus.getWheelList().add(newMonthlyStatus) ;
+        }
 
         mainService.sendMonthly(1L, defaultMonthlyStatus);
 
