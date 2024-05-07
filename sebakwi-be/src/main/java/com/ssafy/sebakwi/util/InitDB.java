@@ -70,7 +70,7 @@ public class InitDB {
         Long ohtNum = Math.floorDiv(wNum, 4) + 1;
         Optional<Oht> ohtOptional = ohtRepository.findById(ohtNum);
         Oht oht = ohtOptional.orElse(null);
-        String swNumber = String.format("VM%05d", wNum);
+        String swNumber = String.format("SM%05d", wNum);
 
         int wheelNum;
         if (wNum.intValue() % 4 == 0) {
