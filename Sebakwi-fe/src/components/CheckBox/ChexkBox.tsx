@@ -7,11 +7,10 @@ export default function CheckBox(props: CheckBoxProps) {
     <Styled.CheckBoxWrapper>
       <Styled.CheckBoxInput
         type="checkbox"
-        id={name}
-        checked={checked}
-        onChange={() => onChange()}
+        checked={checked === 1 ? true : false}
+        onChange={onChange}
       ></Styled.CheckBoxInput>
-      <Styled.CheckBoxLabel htmlFor={name}>{name}</Styled.CheckBoxLabel>
+      <Styled.CheckBoxLabel>{name}</Styled.CheckBoxLabel>
     </Styled.CheckBoxWrapper>
   );
 }

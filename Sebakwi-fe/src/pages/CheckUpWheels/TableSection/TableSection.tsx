@@ -1,21 +1,26 @@
 import { useState } from 'react';
 import * as Styled from './TableSection_style';
+import * as Comp from 'components';
 import Modal from '../../Hoseong/Modal';
+import { Filters } from '../CheckUpWheels';
 
-export default function TableSection() {
+interface TableSectionProps {
+  filter: Filters;
+}
+
+export default function TableSection(props : TableSectionProps) {
+  const { filter } = props;
   const positionLabels: { [key: number]: string } = {
-    0: 'LF', // Left Front
-    1: 'RF', // Right Front
-    2: 'LR', // Left Rear
-    3: 'RR', // Right Rear
+    1: 'LF', // Left Front
+    2: 'RF', // Right Front
+    3: 'LR', // Left Rear
+    4: 'RR', // Right Rear
   };
 
   const posts = generateData();
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 13;
   const totalPages = Math.ceil(posts.length / pageSize);
-  const [pageGroup, setPageGroup] = useState(0);
-  const groupSize = 5; // 한 번에 보여줄 페이지 수
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
@@ -32,35 +37,24 @@ export default function TableSection() {
     return posts.slice(begin, end);
   };
 
-  const goToPage = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const nextPageGroup = () => {
-    setPageGroup((prev) => prev + 1);
-  };
-
-  const prevPageGroup = () => {
-    setPageGroup((prev) => prev - 1);
-  };
-
   return (
-    <>
-      <table>
-        <Styled.AttributesRow>
-          <Styled.AttributesTitle></Styled.AttributesTitle>
-          <Styled.AttributesTitle>검진 ID</Styled.AttributesTitle>
-          <Styled.AttributesTitle>위치</Styled.AttributesTitle>
-          <Styled.AttributesTitle>OHT 호기</Styled.AttributesTitle>
-          <Styled.AttributesTitle>검진 일시</Styled.AttributesTitle>
-          <Styled.AttributesTitle>검사 결과</Styled.AttributesTitle>
-          <Styled.AttributesTitle>교체일자</Styled.AttributesTitle>
-          <Styled.AttributesTitle>상세</Styled.AttributesTitle>
-        </Styled.AttributesRow>
+    <Styled.Wrapper>
+      <Styled.Table>
+        <thead>
+          <Styled.AttributesRow>
+            <Styled.AttributesTitle width={35}>No.</Styled.AttributesTitle>
+            <Styled.AttributesTitle width={70}>검진 ID</Styled.AttributesTitle>
+            <Styled.AttributesTitle width={35}>휠 위치</Styled.AttributesTitle>
+            <Styled.AttributesTitle width={90}>OHT 호기</Styled.AttributesTitle>
+            <Styled.AttributesTitle width={90}>대시보드</Styled.AttributesTitle>
+            <Styled.AttributesTitle width={50}>검사 결과</Styled.AttributesTitle>
+            <Styled.AttributesTitle width={80}>교체일자</Styled.AttributesTitle>
+          </Styled.AttributesRow>
+        </thead>
 
         <tbody>
           {currentData().map((item, index) => (
-            <tr key={index}>
+            <Styled.TableTuple key={index} onClick={openModal}>
               <Styled.AttributesValue>
                 {(currentPage - 1) * pageSize + index + 1}
               </Styled.AttributesValue>
@@ -72,154 +66,21 @@ export default function TableSection() {
                 {item.status === 'NORMAL' ? '정상' : '비정상'}
               </Styled.AttributesValue>
               <Styled.AttributesValue>{item.createdDate}</Styled.AttributesValue>
-              <Styled.AttributesValue>
-                <button onClick={openModal}>상세</button>
-              </Styled.AttributesValue>
-            </tr>
+            </Styled.TableTuple>
           ))}
         </tbody>
-      </table>
-      <div style={{ marginTop: '20px' }}>
-        {pageGroup > 0 && <button onClick={prevPageGroup}>&laquo;</button>}
-        {Array.from({ length: Math.min(groupSize, totalPages - pageGroup * groupSize) }, (_, i) => (
-          <button key={i} onClick={() => goToPage(pageGroup * groupSize + i + 1)}>
-            {pageGroup * groupSize + i + 1}
-          </button>
-        ))}
-        {(pageGroup + 1) * groupSize < totalPages && (
-          <button onClick={nextPageGroup}>&raquo;</button>
-        )}
-      </div>
+      </Styled.Table>
+      <Comp.Pagination totalPages={totalPages} onPageChange={setCurrentPage} />
       {isModalOpen && <Modal onClose={closeModal} />}
-    </>
+    </Styled.Wrapper>
   );
 }
-
-// const data = [
-//   {
-//     checkupListId: 8,
-//     wheelNumber: 'SM0013',
-//     position: 3,
-//     ohtNumber: 'VM0005',
-//     checkedDate: '2024-04-17 11:35:23',
-//     status: 'ABNORMAL',
-//     createdDate: '2023-03-28',
-//   },
-//   {
-//     checkupListId: 7,
-//     wheelNumber: 'SM0016',
-//     position: 2,
-//     ohtNumber: 'VM0005',
-//     checkedDate: '2024-04-17 11:36:09',
-//     status: 'NORMAL',
-//     createdDate: '2024-03-28',
-//   },
-//   {
-//     checkupListId: 7,
-//     wheelNumber: 'SM0016',
-//     position: 2,
-//     ohtNumber: 'VM0005',
-//     checkedDate: '2024-04-17 11:36:09',
-//     status: 'NORMAL',
-//     createdDate: '2024-03-28',
-//   },
-//   {
-//     checkupListId: 7,
-//     wheelNumber: 'SM0016',
-//     position: 2,
-//     ohtNumber: 'VM0005',
-//     checkedDate: '2024-04-17 11:36:09',
-//     status: 'NORMAL',
-//     createdDate: '2024-03-28',
-//   },
-//   {
-//     checkupListId: 7,
-//     wheelNumber: 'SM0016',
-//     position: 2,
-//     ohtNumber: 'VM0005',
-//     checkedDate: '2024-04-17 11:36:09',
-//     status: 'NORMAL',
-//     createdDate: '2024-03-28',
-//   },
-//   {
-//     checkupListId: 7,
-//     wheelNumber: 'SM0016',
-//     position: 2,
-//     ohtNumber: 'VM0005',
-//     checkedDate: '2024-04-17 11:36:09',
-//     status: 'NORMAL',
-//     createdDate: '2024-03-28',
-//   },
-//   {
-//     checkupListId: 7,
-//     wheelNumber: 'SM0016',
-//     position: 2,
-//     ohtNumber: 'VM0005',
-//     checkedDate: '2024-04-17 11:36:09',
-//     status: 'NORMAL',
-//     createdDate: '2024-03-28',
-//   },
-//   {
-//     checkupListId: 7,
-//     wheelNumber: 'SM0016',
-//     position: 2,
-//     ohtNumber: 'VM0005',
-//     checkedDate: '2024-04-17 11:36:09',
-//     status: 'NORMAL',
-//     createdDate: '2024-03-28',
-//   },
-//   {
-//     checkupListId: 7,
-//     wheelNumber: 'SM0016',
-//     position: 2,
-//     ohtNumber: 'VM0005',
-//     checkedDate: '2024-04-17 11:36:09',
-//     status: 'NORMAL',
-//     createdDate: '2024-03-28',
-//   },
-//   {
-//     checkupListId: 7,
-//     wheelNumber: 'SM0016',
-//     position: 2,
-//     ohtNumber: 'VM0005',
-//     checkedDate: '2024-04-17 11:36:09',
-//     status: 'NORMAL',
-//     createdDate: '2024-03-28',
-//   },
-//   {
-//     checkupListId: 7,
-//     wheelNumber: 'SM0016',
-//     position: 2,
-//     ohtNumber: 'VM0005',
-//     checkedDate: '2024-04-17 11:36:09',
-//     status: 'ABNORMAL',
-//     createdDate: '2024-03-28',
-//   },
-//   {
-//     checkupListId: 7,
-//     wheelNumber: 'SM0016',
-//     position: 2,
-//     ohtNumber: 'VM0005',
-//     checkedDate: '2024-04-17 11:36:09',
-//     status: 'NORMAL',
-//     createdDate: '2024-03-28',
-//   },
-//   {
-//     checkupListId: 7,
-//     wheelNumber: 'SM0016',
-//     position: 2,
-//     ohtNumber: 'VM0005',
-//     checkedDate: '2024-04-17 11:36:09',
-//     status: 'ABNORMAL',
-//     createdDate: '2024-03-28',
-//   },
-// ];
 
 const generateData = () => {
   return Array.from({ length: 140 }, (_, index) => ({
     checkupListId: index + 1,
     wheelNumber: `SM00${232 + index}`,
-    position: index % 4, // 예를 들어 1부터 5까지 반복
+    position: (index % 4) + 1, // 예를 들어 1부터 5까지 반복
     ohtNumber: `VM00${4 + index}`,
     checkedDate: `2024-05-${Math.floor(index / 2) + 1} 10:53:38`, // 날짜도 약간 변동을 주어서 생성
     status: index % 2 === 0 ? 'NORMAL' : 'ABNORMAL',

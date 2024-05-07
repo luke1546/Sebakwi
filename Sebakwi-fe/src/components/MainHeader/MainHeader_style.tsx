@@ -7,7 +7,6 @@ interface StyledLinkProps extends LinkProps {
 }
 
 export const MainheaderContainer = styled.header`
-  width: calc(100vw - 70px);
   height: 72px;
   padding: 0px 35px;
   display: flex;

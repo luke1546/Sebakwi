@@ -1,7 +1,8 @@
 import * as styled from './DashBoard_style';
 import Card from '../../components/Card/Card';
-import Camera from 'components/Camera/Camera';
-import CameraConnect from './CameraConnect/CameraConnect';
+import CameraConnect from './CameraConnectSection/CameraConnect';
+import AbnormalStatus from './AbnormalStatusSection/AbnormalStatus';
+import ReplaceSection from './ReplaceSection/ReplaceSection';
 
 export default function DashBoradPage() {
   return (
@@ -11,13 +12,13 @@ export default function DashBoradPage() {
           <CameraConnect></CameraConnect>
         </Card>
         <Card title="금월 이상 현황" width="400px" height="275px">
-          <div>This is the content of Card 2.dfadf</div>
+          <AbnormalStatus></AbnormalStatus>
         </Card>
         <styled.SideCard>
-          <Card title="교체 대상 휠 목록" width="300px" height="100px">
-            <div>This is the content of Card 2.dfadf</div>
+          <Card title="교체 주기 도래 휠" width="310px" height="120px" padding="10px">
+            <ReplaceSection></ReplaceSection>
           </Card>
-          <Card title="OHT 현황" width="300px" height="80px">
+          <Card title="OHT 현황" width="310px" height="90px" padding="10px">
             <div>This is the content of Card 2.dfadf</div>
           </Card>
         </styled.SideCard>
