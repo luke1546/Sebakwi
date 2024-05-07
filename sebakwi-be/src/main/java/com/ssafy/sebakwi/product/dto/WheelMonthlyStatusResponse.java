@@ -2,6 +2,7 @@ package com.ssafy.sebakwi.product.dto;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -11,9 +12,12 @@ import java.util.List;
 public class WheelMonthlyStatusResponse<T> {
 
     private WheelMonthlyStatusCount count;
-    private List<T> wheelList;
 
-    public WheelMonthlyStatusResponse(int totalPages, List<T> checkupListArray) {
+    @Builder.Default
+    private List<T> wheelList = null;
 
+    public void updateWheelList(List<T> wheelList) {
+        this.wheelList = wheelList != null ? wheelList : new ArrayList<>();
     }
+
 }

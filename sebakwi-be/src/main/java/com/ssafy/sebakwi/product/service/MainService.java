@@ -24,7 +24,7 @@ public class MainService {
     public SseEmitter subscribe(Long userId) {
         SseEmitter emitter = createEmitter(userId);
 
-        sendToClient(userId, "안녕하세요. 연결 됐습니다.");
+        sendToClient(userId, "안녕하세요 연결 됐습니다");
         return emitter;
     }
 

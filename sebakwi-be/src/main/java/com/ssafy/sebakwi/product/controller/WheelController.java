@@ -2,6 +2,8 @@ package com.ssafy.sebakwi.product.controller;
 
 import com.ssafy.sebakwi.product.domain.*;
 import com.ssafy.sebakwi.product.dto.*;
+import com.ssafy.sebakwi.product.service.MainService;
+import com.ssafy.sebakwi.product.service.WheelService;
 import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -26,6 +28,8 @@ public class WheelController {
     private final OhtRepository ohtRepository;
     private final WheelRepository wheelRepository;
     private final CheckupListRepository checkupListRepository;
+    private final WheelService wheelService;
+    private final MainService mainService;
 
     @GetMapping("/ohts")
     public List<Oht> ohts() {
@@ -35,10 +39,18 @@ public class WheelController {
     @GetMapping("/wheels")
     public List<Wheel> wheels() {return wheelRepository.findAll();}
 
-//    @GetMapping("/wheels/monthly")
-//    public WheelMonthlyStatusResponse<WheelMonthlyStatus> mainMonthlyWheelStatus() {
-//        return
-//    }
+    /**
+     * 메인페이지
+     */
+    @GetMapping("/wheels/monthly")
+    public WheelMonthlyStatusResponse<WheelMonthlyStatus> mainMonthlyWheelStatus() {
+        return wheelService.monthlyWheelStatusInfo();
+    }
+
+
+    /**
+     * 젯슨나노
+     */
 
     @PostMapping("/wheels")
     public CreateWheelResponse saveWheel(@RequestBody @Valid CreateWheelRequest request) {
@@ -50,23 +62,23 @@ public class WheelController {
         Wheel checkedWheel = wheelRepository.findByWheelSerialNumber(request.getWheelSerialNumber());
         Oht checkedOht = ohtRepository.findByOhtSerialNumber(request.getOhtSerialNumber());
 
-        if (checkedWheel == null) {
-            OhtDTO ohtDTO = OhtDTO.builder()
-                    .id(checkedOht.getId())
-                    .serialNumber(checkedOht.getSerialNumber())
-                    .maintenance(checkedOht.isMaintenance())
-                    .build();
-
-            WheelDTO wheelDTO = WheelDTO.builder()
-                    .oht(ohtDTO)
-                    .serialNumber(request.getWheelSerialNumber())
-                    .currentStatus(wheelStatus)
-                    .createdDate(LocalDate.now())
-                    .position(request.getPosition())
-                    .build();
-
-            checkedWheel = wheelRepository.save(wheelDTO.toEntity());
-        }
+//        if (checkedWheel == null) {
+//            OhtDTO ohtDTO = OhtDTO.builder()
+//                    .id(checkedOht.getId())
+//                    .serialNumber(checkedOht.getSerialNumber())
+//                    .maintenance(checkedOht.isMaintenance())
+//                    .build();
+//
+//            WheelDTO wheelDTO = WheelDTO.builder()
+//                    .oht(ohtDTO)
+//                    .serialNumber(request.getWheelSerialNumber())
+////                    .currentStatus(wheelStatus)
+//                    .createdDate(LocalDate.now())
+//                    .position(request.getPosition())
+//                    .build();
+//
+//            checkedWheel = wheelRepository.save(wheelDTO.toEntity());
+//        }
 
         LocalDateTime time = LocalDateTime.now();
         DateTimeFormatter createdTime = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -83,6 +95,11 @@ public class WheelController {
                 .build();
 
         checkupListRepository.save(checkupListDTO.toEntity());
+
+        if (wheelStatus == WheelStatus.ABNORMAL) {
+
+            wheelService.updateMonthlyStatus(checkupListDTO);
+        }
 
         return new CreateWheelResponse(request.getWheelSerialNumber());
     }

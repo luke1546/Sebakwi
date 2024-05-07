@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/main")
+@RequestMapping("/api/wheels")
 public class MainController {
 
     private final MainService mainService;

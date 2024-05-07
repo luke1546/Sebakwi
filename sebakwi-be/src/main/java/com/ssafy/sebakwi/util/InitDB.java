@@ -1,12 +1,12 @@
 package com.ssafy.sebakwi.util;
 
-import com.ssafy.sebakwi.product.domain.Oht;
-import com.ssafy.sebakwi.product.domain.OhtRepository;
+import com.ssafy.sebakwi.product.domain.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,15 +29,21 @@ public class InitDB {
     static class InitService {
 
     private final OhtRepository ohtRepository;
+    private final WheelRepository wheelRepository;
     public void dbInit() {
-        Optional<Oht> oo = ohtRepository.findById(1L);
-        if (oo.isPresent()) {
-            return;
-        }
+//        Optional<Oht> oo = ohtRepository.findById(1L);
+//        if (oo.isPresent()) {
+//            return;
+//        }
 
-        for (int i = 0; i < 300; i++) {
+        for (int i = 0; i < 30; i++) {
             Oht oht = createOht();
             ohtRepository.save(oht);
+        }
+
+        for (int i = 0; i < 120; i++) {
+            Wheel wheel = createWheel();
+            wheelRepository.save(wheel);
         }
     }
     int num = 1;
@@ -57,6 +63,33 @@ public class InitDB {
                 .build();
 
         return oht;
+    }
+
+    Long wNum = 1L;
+    private Wheel createWheel() {
+        Long ohtNum = Math.floorDiv(wNum, 4) + 1;
+        Optional<Oht> ohtOptional = ohtRepository.findById(ohtNum);
+        Oht oht = ohtOptional.orElse(null);
+        String swNumber = String.format("VM%05d", wNum);
+
+        int wheelNum;
+        if (wNum.intValue() % 4 == 0) {
+            wheelNum = 4;
+        } else {
+            wheelNum = wNum.intValue() % 4;
+        }
+
+        wNum++;
+
+        Wheel wheel = Wheel.builder()
+                .oht(oht)
+                .serialNumber(swNumber)
+//                .currentStatus(WheelStatus.NORMAL)
+                .createdDate(LocalDate.now())
+                .position(wheelNum)
+                .build();
+
+        return wheel;
     }
 
     }

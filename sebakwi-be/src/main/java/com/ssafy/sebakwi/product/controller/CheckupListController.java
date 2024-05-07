@@ -48,7 +48,7 @@ public class CheckupListController {
             WheelDTO wheelDTO = WheelDTO.builder()
                     .oht(ohtDTO)
                     .serialNumber(findCheckupList.getWheel().getSerialNumber())
-                    .currentStatus(findCheckupList.getWheel().getCurrentStatus())
+//                    .currentStatus(findCheckupList.getWheel().getCurrentStatus())
                     .createdDate(findCheckupList.getWheel().getCreatedDate())
                     .position(findCheckupList.getWheel().getPosition())
                     .build();
