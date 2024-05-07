@@ -4,7 +4,7 @@ import * as Styled from "./Modal_style";
 import OHTWheel from './Wheel';
 import axios from 'axios';
 
-const Modal = ({ onClose }: { onClose: () => void }) => {
+const Modal = ({ onClose, id }: { onClose: () => void, id: number | undefined }) => {
 
     type TableData = {
         item: string | undefined;
@@ -47,7 +47,8 @@ const Modal = ({ onClose }: { onClose: () => void }) => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get<CheckupData>('http://localhost:8080/api/checkup_list/1');
+                const baseUrl = process.env.REACT_APP_BASE_URL;
+                const response = await axios.get<CheckupData>(`${baseUrl}/checkup_list/${id}`);
                 setData(response.data);  // 응답 데이터를 state에 저장\
             } catch (error) {
                 console.error("Error fetching data: ", error);
@@ -107,7 +108,7 @@ const Modal = ({ onClose }: { onClose: () => void }) => {
                 </Styled.Title>
                 <Styled.Content>
                     <Styled.SubContent>
-                        <Styled.SubTitle><div>휠 위치(OHT : {data?.ohtNumber})</div></Styled.SubTitle>
+                        <Styled.SubTitle><div>휠 위치</div></Styled.SubTitle>
                         <OHTWheel position={data?.position} OHTId={data?.ohtNumber} ></OHTWheel>
                     </Styled.SubContent>
                     <Styled.SubContent>

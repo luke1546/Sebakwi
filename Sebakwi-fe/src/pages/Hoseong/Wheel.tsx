@@ -1,5 +1,5 @@
 import React from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, ThreeEvent } from '@react-three/fiber';
 import { OrbitControls, Text } from '@react-three/drei';
 import * as THREE from 'three';
 import * as Styled from "./Wheel_style";
@@ -25,9 +25,24 @@ const Wheel = ({ no, position, defeat }: { no: number, position: [number, number
         }
     });
 
+    // 클릭 이벤트 핸들러
+    const handleWheelClick = (event: ThreeEvent<MouseEvent>) => {
+        console.log(`Wheel ${no} clicked!`);
+        // 추가 동작 구현
+    };
+
+    const handlePointerOver = () => {
+        document.body.style.cursor = 'pointer';
+    };
+
+    const handlePointerOut = () => {
+        document.body.style.cursor = 'default';
+    };
+
     return (
         <group position={position}>
-            <group ref={groupRef} >
+
+            <group ref={groupRef} onClick={handleWheelClick} onPointerOver={handlePointerOver} onPointerOut={handlePointerOut}>
                 {/* 바깥쪽 고무 부분 */}
                 <mesh rotation={[Math.PI / 2, 0, Math.PI / 2]}>
                     <cylinderGeometry args={[1, 1, 0.4, 32]} /> {/* 두께 조정 */}
@@ -71,7 +86,7 @@ const Wheel = ({ no, position, defeat }: { no: number, position: [number, number
 };
 
 
-const WheelSet: React.FC<{ position: number | undefined }> = ({ position }) => {
+const WheelSet: React.FC<{ position: number | undefined, OHTId: string | undefined }> = ({ position, OHTId }) => {
     return (
         <Canvas
             camera={{
@@ -87,6 +102,15 @@ const WheelSet: React.FC<{ position: number | undefined }> = ({ position }) => {
                 minPolarAngle={0}
             />
             <directionalLight position={[5, 5, 5]} intensity={1} />
+            <Text
+                position={[0, 3.5, 0]} // 텍스트 위치 조정
+                fontSize={0.4}
+                color="black"
+                anchorX="center"
+                anchorY="middle"
+            >
+                {"OHTID :" + OHTId}
+            </Text>
             <Wheel no={1} position={[-2, 0, -2]} defeat={position} />
             <Wheel no={2} position={[2, 0, -2]} defeat={position} />
             <Wheel no={3} position={[-2, 0, 2]} defeat={position} /> {/* 결함이 있는 바퀴 */}
@@ -99,8 +123,7 @@ const WheelSet: React.FC<{ position: number | undefined }> = ({ position }) => {
 const OHTWheel: React.FC<{ position: number | undefined, OHTId: string | undefined }> = ({ position, OHTId }) => {
     return (
         <Styled.WheelWrapper>
-            <WheelSet position={position}></WheelSet>
-            <div>OHTId : {OHTId}</div>
+            <WheelSet position={position} OHTId={OHTId} ></WheelSet>
         </Styled.WheelWrapper>
     );
 };

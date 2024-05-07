@@ -90,7 +90,7 @@ export default function TableSection() {
           <button onClick={nextPageGroup}>&raquo;</button>
         )}
       </div>
-      {isModalOpen && <Modal onClose={closeModal} />}
+      {isModalOpen && <Modal onClose={closeModal} id={1} />}
     </>
   );
 }
