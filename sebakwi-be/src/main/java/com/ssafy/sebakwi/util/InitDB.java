@@ -31,10 +31,10 @@ public class InitDB {
     private final OhtRepository ohtRepository;
     private final WheelRepository wheelRepository;
     public void dbInit() {
-//        Optional<Oht> oo = ohtRepository.findById(1L);
-//        if (oo.isPresent()) {
-//            return;
-//        }
+        Optional<Oht> oo = ohtRepository.findById(1L);
+        if (oo.isPresent()) {
+            return;
+        }
 
         for (int i = 0; i < 30; i++) {
             Oht oht = createOht();
