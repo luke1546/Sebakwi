@@ -43,7 +43,7 @@ const Modal = ({ onClose, id }: { onClose: () => void, id: number | undefined })
         wheelNumber: string;
     }
     const [data, setData] = useState<CheckupData | null>(null);
-    ;
+
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -58,7 +58,11 @@ const Modal = ({ onClose, id }: { onClose: () => void, id: number | undefined })
         fetchUser();
     }, []);
 
-
+    // 콜백 함수: 자식 컴포넌트에서 데이터를 받음
+    const handleDataFromChild = (data: CheckupData) => {
+        console.log("Received data from child:", data);
+        setData(data);
+    };
 
 
     const tableData: TableData[] = [
@@ -109,7 +113,7 @@ const Modal = ({ onClose, id }: { onClose: () => void, id: number | undefined })
                 <Styled.Content>
                     <Styled.SubContent>
                         <Styled.SubTitle><div>휠 위치</div></Styled.SubTitle>
-                        <OHTWheel position={data?.position} OHTId={data?.ohtNumber} ></OHTWheel>
+                        <OHTWheel position={data?.position} OHTId={data?.ohtNumber} sendDataToParent={handleDataFromChild} ></OHTWheel>
                     </Styled.SubContent>
                     <Styled.SubContent>
                         <Styled.SubTitle><div>휠 상세 이미지</div></Styled.SubTitle>

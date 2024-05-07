@@ -28,7 +28,7 @@ const Wheel = ({ no, position, defeat }: { no: number, position: [number, number
     // 클릭 이벤트 핸들러
     const handleWheelClick = (event: ThreeEvent<MouseEvent>) => {
         console.log(`Wheel ${no} clicked!`);
-        // 추가 동작 구현
+
     };
 
     const handlePointerOver = () => {
@@ -120,7 +120,7 @@ const WheelSet: React.FC<{ position: number | undefined, OHTId: string | undefin
 };
 
 
-const OHTWheel: React.FC<{ position: number | undefined, OHTId: string | undefined }> = ({ position, OHTId }) => {
+const OHTWheel: React.FC<{ position: number | undefined, OHTId: string | undefined, sendDataToParent: Function }> = ({ position, OHTId }) => {
     return (
         <Styled.WheelWrapper>
             <WheelSet position={position} OHTId={OHTId} ></WheelSet>
