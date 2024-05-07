@@ -5,5 +5,6 @@ import DropDownFilter from './DropDownFilter/DropDownFilter';
 import Card from './Card/Card';
 import Pagination from './Pagenation/Pagenation';
 import FilterInput from './FilterInput/FilterInput';
+import DatePicker from './DatePicker/DatePicker';
 
-export { MainHeader, BaseButton, CheckBox, DropDownFilter, Card, Pagination, FilterInput };
+export { MainHeader, BaseButton, CheckBox, DropDownFilter, Card, Pagination, FilterInput, DatePicker };

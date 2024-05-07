@@ -3,6 +3,7 @@ import { Noto_Sans_KR, PALETTE } from 'styles';
 
 export const FilterInputWrapper = styled.div`
   display: flex;
+  align-items: center;
   margin-right: 40px;
   white-space: nowrap;
 `;

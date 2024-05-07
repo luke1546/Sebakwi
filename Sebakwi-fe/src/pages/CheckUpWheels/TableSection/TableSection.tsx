@@ -2,14 +2,22 @@ import { useState } from 'react';
 import * as Styled from './TableSection_style';
 import * as Comp from 'components';
 import Modal from '../../Hoseong/Modal';
-import { Filters } from '../CheckUpWheels';
 
 interface TableSectionProps {
-  filter: Filters;
+  filter: {
+    isCheckedDate: boolean;
+    startDateTime: string;
+    endDateTime: string;
+    onlyAbnormal: boolean;
+    position: number;
+    ohtSerialNumber: string;
+    desc: boolean;
+  };
 }
 
 export default function TableSection(props : TableSectionProps) {
   const { filter } = props;
+
   const positionLabels: { [key: number]: string } = {
     1: 'LF', // Left Front
     2: 'RF', // Right Front
@@ -18,8 +26,8 @@ export default function TableSection(props : TableSectionProps) {
   };
 
   const posts = generateData();
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 13;
+  const [currentPage, setCurrentPage] = useState(1); // -1 페이지를 가져오게 해야함
+  const pageSize = 20;
   const totalPages = Math.ceil(posts.length / pageSize);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
