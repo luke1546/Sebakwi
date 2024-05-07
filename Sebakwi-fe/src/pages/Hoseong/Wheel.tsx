@@ -5,8 +5,7 @@ import * as THREE from 'three';
 import * as Styled from "./Wheel_style";
 
 
-const Wheel = ({ no, position, label }: { no: number, position: [number, number, number]; label: string }) => {
-    const meshRef = React.useRef<THREE.Mesh>(null);
+const Wheel = ({ no, position, defeat }: { no: number, position: [number, number, number]; defeat: number | undefined }) => {
     const holeSize = 0.04;
     const positions: THREE.Vector3[] = [];
 
@@ -32,13 +31,13 @@ const Wheel = ({ no, position, label }: { no: number, position: [number, number,
                 {/* 바깥쪽 고무 부분 */}
                 <mesh rotation={[Math.PI / 2, 0, Math.PI / 2]}>
                     <cylinderGeometry args={[1, 1, 0.4, 32]} /> {/* 두께 조정 */}
-                    <meshStandardMaterial color={no === 3 ? "#de2e2e" : "#ffffff"} /> {/* 어두운 색 고무 */}
+                    <meshStandardMaterial color={no === defeat ? "#de2e2e" : "#ffffff"} /> {/* 어두운 색 고무 */}
                 </mesh>
 
                 {/* 안쪽 휠 부분 */}
                 <mesh rotation={[Math.PI / 2, 0, Math.PI / 2]}>
                     <cylinderGeometry args={[0.7, 0.7, 0.41, 32]} /> {/* 두께 조정 */}
-                    <meshStandardMaterial color={no === 3 ? "#ad3333" : "#cccccc"} /> {/* 밝은 색 휠 */}
+                    <meshStandardMaterial color={no === defeat ? "#ad3333" : "#cccccc"} /> {/* 밝은 색 휠 */}
                 </mesh>
 
                 <mesh rotation={[Math.PI / 2, 0, Math.PI / 2]}>
@@ -63,7 +62,7 @@ const Wheel = ({ no, position, label }: { no: number, position: [number, number,
                 anchorX="center"
                 anchorY="middle"
             >
-                {label}
+                {no}
             </Text>
 
         </group>
@@ -71,7 +70,8 @@ const Wheel = ({ no, position, label }: { no: number, position: [number, number,
     );
 };
 
-const WheelSet = () => {
+
+const WheelSet: React.FC<{ position: number | undefined }> = ({ position }) => {
     return (
         <Canvas
             camera={{
@@ -87,19 +87,19 @@ const WheelSet = () => {
                 minPolarAngle={0}
             />
             <directionalLight position={[5, 5, 5]} intensity={1} />
-            <Wheel no={1} position={[-2, 0, -2]} label="1" />
-            <Wheel no={2} position={[2, 0, -2]} label="2" />
-            <Wheel no={3} position={[-2, 0, 2]} label="3" /> {/* 결함이 있는 바퀴 */}
-            <Wheel no={4} position={[2, 0, 2]} label="4" />
+            <Wheel no={1} position={[-2, 0, -2]} defeat={position} />
+            <Wheel no={2} position={[2, 0, -2]} defeat={position} />
+            <Wheel no={3} position={[-2, 0, 2]} defeat={position} /> {/* 결함이 있는 바퀴 */}
+            <Wheel no={4} position={[2, 0, 2]} defeat={position} />
         </Canvas>
     );
 };
 
 
-const OHTWheel: React.FC = () => {
+const OHTWheel: React.FC<{ position: number | undefined }> = ({ position }) => {
     return (
         <Styled.WheelWrapper>
-            <WheelSet></WheelSet>
+            <WheelSet position={position}></WheelSet>
         </Styled.WheelWrapper>
     );
 };

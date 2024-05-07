@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import * as Comp from 'components';
+import { useState } from 'react';
 import * as Styled from './Hoseong_stlye';
 import Modal from './Modal';
-import OHTWheel from './Wheel';
 
 export default function HoseongPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);

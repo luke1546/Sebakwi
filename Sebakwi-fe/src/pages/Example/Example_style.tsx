@@ -9,6 +9,7 @@ export const MainWrapper = styled.div`
   height: 100%;
   > h1 {
     font-family: ${Noto_Sans_KR.thin.variable};
+    font-weight: ${Noto_Sans_KR.thin.weight};
     color: ${PALETTE.LIGHT_BLACK};
   }
 `;
