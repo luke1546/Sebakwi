@@ -31,6 +31,9 @@ dependencies {
 	implementation 'org.springframework.integration:spring-integration-jpa'
 	implementation 'org.springframework.integration:spring-integration-redis'
 	implementation 'org.springframework.integration:spring-integration-mqtt:5.5.0' // 적절한 버전 사용
+
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5-jakarta'
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
