@@ -77,7 +77,7 @@ const Modal = ({ onClose, id }: { onClose: () => void, id: number | undefined })
 
 
     useEffect(() => {
-        const fetchUser = async () => {
+        const fetchData = async () => {
             try {
                 const baseUrl = process.env.REACT_APP_BASE_URL;
                 const response = await axios.get<CheckupData>(`${baseUrl}/checkup_list/${id}`);
@@ -87,7 +87,7 @@ const Modal = ({ onClose, id }: { onClose: () => void, id: number | undefined })
             }
         };
 
-        fetchUser();
+        fetchData();
     }, []);
 
     // 콜백 함수: 자식 컴포넌트에서 데이터를 받음
