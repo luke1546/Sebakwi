@@ -2,6 +2,9 @@ package com.ssafy.sebakwi.product.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.sebakwi.product.domain.EmitterRepository;
+import com.ssafy.sebakwi.product.domain.WheelRepository;
+import com.ssafy.sebakwi.product.dto.WheelMonthlyStatus;
+import com.ssafy.sebakwi.product.dto.WheelMonthlyStatusResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +29,10 @@ public class MainService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public SseEmitter subscribe(Long userId) {
-        SseEmitter emitter = createEmitter(userId);
+    public void subscribe(Long userId) {
 
+        SseEmitter emitter = createEmitter(userId);
         sendToClient(userId, "안녕하세요 연결 됐습니다");
-        return emitter;
     }
 
     public void sendMonthly(Long userId, Object event) {

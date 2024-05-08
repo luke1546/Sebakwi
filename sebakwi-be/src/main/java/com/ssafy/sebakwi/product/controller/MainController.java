@@ -1,6 +1,7 @@
 package com.ssafy.sebakwi.product.controller;
 
 import com.ssafy.sebakwi.product.service.MainService;
+import com.ssafy.sebakwi.product.service.WheelService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,15 +18,11 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 public class MainController {
 
     private final MainService mainService;
+    private final WheelService wheelService;
 
     @GetMapping(value = "/monthly/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter subscribe(@PathVariable Long id) {
-        return mainService.subscribe(id);
+    public void subscribe(@PathVariable Long id) {
+        mainService.subscribe(id);
     }
-
-//    @PostMapping("/monthly/{id}")
-//    public void sendMonthly(@PathVariable Long id) {
-//        mainService.sendMonthly(id, "data");
-//    }
 
 }

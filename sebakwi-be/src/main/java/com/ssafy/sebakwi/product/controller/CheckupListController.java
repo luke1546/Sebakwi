@@ -48,7 +48,7 @@ public class CheckupListController {
     public CheckupListDetailModalResponse checkupListDetailModal(@PathVariable("checkupListId") int checkupListId) {
 
         Optional<CheckupList> fCheckupList = checkupListRepository.findById(checkupListId);
-        log.info("fCheckupList={}",fCheckupList);
+
         if (fCheckupList.isPresent()) {
 
             CheckupList findCheckupList = fCheckupList.get();
@@ -78,7 +78,7 @@ public class CheckupListController {
                     .peeling(findCheckupList.isPeeling())
                     .build();
 
-            CheckupListDetailModalResponse ModalResponse = CheckupListDetailModalResponse.builder()
+            CheckupListDetailModalWheel modalResponse = CheckupListDetailModalWheel.builder()
                     .wheelNumber(checkupListDTO.getWheel().getSerialNumber())
                     .position(checkupListDTO.getWheel().getPosition())
                     .ohtNumber(checkupListDTO.getWheel().getOht().getSerialNumber())
@@ -92,9 +92,20 @@ public class CheckupListController {
                     .createdDate(checkupListDTO.getWheel().getCreatedDate())
                     .build();
 
-            return ModalResponse;
+            CheckupListDetailModalWheelNumberList wheelNumberList = checkupListService.constructWheelNumberList(checkupListDTO.getWheel().getOht().getSerialNumber());
+
+            return CheckupListDetailModalResponse.builder()
+                    .checkupListDetailModalWheel(modalResponse)
+                    .checkupListDetailModalWheelNumberList(wheelNumberList)
+                    .build();
         } else {
             throw new RuntimeException();
         }
     }
+
+    @GetMapping("wheels/{wheelNumber}")
+    public CheckupListDetailModalWheel checkupListDetailWheel(@PathVariable String wheelNumber) {
+        return checkupListService.checkupListDetailWheelInfo(wheelNumber);
+    }
+
 }

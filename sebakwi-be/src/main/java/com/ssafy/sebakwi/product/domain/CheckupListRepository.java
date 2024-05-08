@@ -96,39 +96,4 @@ public interface CheckupListRepository extends JpaRepository<CheckupList, Intege
                                                         @Param("position") int position,
                                                         @Param("ohtSerialNumber") String ohtSerialNumber);
 
-
-    // 교체일자
-//    @Query("SELECT c FROM CheckupList c JOIN c.wheel w ON c.wheel.id = w.id  WHERE c.status = :status AND w.createdDate <= :endDateTime ORDER BY " +
-//            "CASE WHEN :isSortByCheck = true AND :isDesc = true THEN c.checkedDate END DESC, " +
-//            "CASE WHEN :isSortByCheck = true OR :isDesc != true THEN c.checkedDate END ASC, " +
-//            "CASE WHEN :isSortByCheck != true OR :isDesc = true THEN c.wheel.createdDate END DESC, " +
-//            "CASE WHEN :isSortByCheck != true OR :isDesc != true THEN c.wheel.createdDate END ASC ")
-//    Page<CheckupList> findCreatedStatusCheckupListArray(LocalDateTime endDateTime, Enum status, Pageable pageable, boolean isSortByCheck, boolean isDesc);
-//
-//    @Query("SELECT c FROM CheckupList c JOIN c.wheel w ON c.wheel.id = w.id WHERE c.status = :status AND w.createdDate >= :startDateTime AND w.createdDate <= :endDateTime ORDER BY " +
-//            "CASE WHEN :isSortByCheck = true AND :isDesc = true THEN c.checkedDate END DESC, " +
-//            "CASE WHEN :isSortByCheck = true OR :isDesc != true THEN c.checkedDate END ASC, " +
-//            "CASE WHEN :isSortByCheck != true OR :isDesc = true THEN c.wheel.createdDate END DESC, " +
-//            "CASE WHEN :isSortByCheck != true OR :isDesc != true THEN c.wheel.createdDate END ASC ")
-//    Page<CheckupList> findCreatedStartDateTimeStatusCheckupListArray(LocalDateTime startDateTime,
-//                                                                  LocalDateTime endDateTime,
-//                                                                  Enum status, Pageable pageable,
-//                                                                     boolean isSortByCheck, boolean isDesc);
-//
-//    @Query("SELECT c FROM CheckupList c JOIN c.wheel w ON c.wheel.id = w.id WHERE w.createdDate <= :endDateTime ORDER BY " +
-//            "CASE WHEN :isSortByCheck = true AND :isDesc = true THEN c.checkedDate END DESC, " +
-//            "CASE WHEN :isSortByCheck = true OR :isDesc != true THEN c.checkedDate END ASC, " +
-//            "CASE WHEN :isSortByCheck != true OR :isDesc = true THEN c.wheel.createdDate END DESC, " +
-//            "CASE WHEN :isSortByCheck != true OR :isDesc != true THEN c.wheel.createdDate END ASC ")
-//    Page<CheckupList> findCreatedCheckupListArray(LocalDateTime endDateTime, Pageable pageable, boolean isSortByCheck, boolean isDesc);
-//
-//    @Query("SELECT c FROM CheckupList c JOIN c.wheel w ON c.wheel.id = w.id WHERE w.createdDate >= :startDateTime AND w.createdDate <= :endDateTime ORDER BY " +
-//            "CASE WHEN :isSortByCheck = true AND :isDesc = true THEN c.checkedDate END DESC, " +
-//            "CASE WHEN :isSortByCheck = true OR :isDesc != true THEN c.checkedDate END ASC, " +
-//            "CASE WHEN :isSortByCheck != true OR :isDesc = true THEN c.wheel.createdDate END DESC, " +
-//            "CASE WHEN :isSortByCheck != true OR :isDesc != true THEN c.wheel.createdDate END ASC ")
-//    Page<CheckupList> findCreatedStartDateTimeCheckupListArray(LocalDateTime startDateTime,
-//                                                            LocalDateTime endDateTime,
-//                                                            Pageable pageable,
-//                                                               boolean isSortByCheck, boolean isDesc);
 }
