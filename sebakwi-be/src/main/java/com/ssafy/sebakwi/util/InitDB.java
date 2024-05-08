@@ -73,7 +73,7 @@ public class InitDB {
 
     Long wNum = 1L;
     private Wheel createWheel() {
-        Long ohtNum = Math.floorDiv(wNum, 4) + 1;
+        Long ohtNum = Math.floorDiv(wNum, 4) + 1 + (wNum % 4 == 0 ? -1 : 0) ;
         Optional<Oht> ohtOptional = ohtRepository.findById(ohtNum);
         Oht oht = ohtOptional.orElse(null);
         if (oht == null) {
