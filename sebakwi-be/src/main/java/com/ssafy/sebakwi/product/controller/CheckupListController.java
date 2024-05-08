@@ -10,6 +10,7 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,20 @@ public class CheckupListController {
     private final CheckupListService checkupListService;
 
     @GetMapping
-    public CheckupListPageResponse<CheckupListArrayResponse> checkupListArray(@Validated @RequestBody CheckupListArrayRequest request) throws BadRequestException {
+    public CheckupListPageResponse<CheckupListArrayResponse> checkupListArray(
+            @RequestParam(value = "isCheckedDate", defaultValue = "false") boolean isCheckedDate,
+            @RequestParam(value = "startDateTime", required = false) String startDateTimeStr,
+            @RequestParam(value = "endDateTime", required = false) String endDateTimeStr,
+            @RequestParam(value = "onlyAbnormal", defaultValue = "false") boolean onlyAbnormal,
+            @RequestParam(value = "position", defaultValue = "0") int position,
+            @RequestParam(value = "ohtSerialNumber", required = false) String ohtSerialNumber,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "sortByCheck", defaultValue = "false") boolean sortByCheck,
+            @RequestParam(value = "desc", defaultValue = "false") boolean desc
+
+    ) throws BadRequestException {
+
+        CheckupListArrayRequest request = checkupListService.getCheckupListArrayRequest(isCheckedDate, startDateTimeStr, endDateTimeStr, onlyAbnormal, position, ohtSerialNumber, page, sortByCheck, desc);
 
         return checkupListService.findCheckupListArray(request);
 
