@@ -9,6 +9,7 @@ interface AttributesTitleProps {
 
 export const Wrapper = styled.div`
   display: flex;
+  min-height: 50vh;
   flex-direction: column;
   justify-content: space-between;
   gap: 30px;
@@ -58,4 +59,9 @@ export const AttributesValue = styled.td`
   &:last-child {
     border-right: none;
   }
+`;
+
+export const NoDataTd = styled.td`
+  text-align: center;
+  padding-top: 150px;
 `;

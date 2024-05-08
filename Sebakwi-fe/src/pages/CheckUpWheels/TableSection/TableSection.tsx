@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Styled from './TableSection_style';
 import * as Comp from 'components';
 import Modal from '../../Hoseong/Modal';
+import axios from 'axios';
 
 interface TableSectionProps {
   filter: {
@@ -15,8 +16,20 @@ interface TableSectionProps {
   };
 }
 
-export default function TableSection(props : TableSectionProps) {
+interface CheckupListItem {
+  checkupListId: number;
+  wheelNumber: string;
+  position: number;
+  ohtNumber: string;
+  checkedDate: string;
+  status: string;
+  createdDate: string;
+}
+
+export default function TableSection(props: TableSectionProps) {
   const { filter } = props;
+
+  const [data, setData] = useState<CheckupListItem[]>([]);
 
   const positionLabels: { [key: number]: string } = {
     1: 'LF', // Left Front
@@ -28,7 +41,7 @@ export default function TableSection(props : TableSectionProps) {
   const posts = generateData();
   const [currentPage, setCurrentPage] = useState(1); // -1 페이지를 가져오게 해야함
   const pageSize = 20;
-  const totalPages = Math.ceil(posts.length / pageSize);
+  const [totalPages, setTotalPages] = useState(0);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
@@ -45,6 +58,35 @@ export default function TableSection(props : TableSectionProps) {
     return posts.slice(begin, end);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://k10s108.p.ssafy.io/api/checkup_list', {
+          params: {
+            isCheckedDate: filter.isCheckedDate,
+            startDateTime: filter.startDateTime,
+            endDateTime: filter.endDateTime,
+            onlyAbnormal: filter.onlyAbnormal,
+            position: filter.position,
+            page: currentPage - 1,
+            sortByCheck: true,
+            ohtSerialNumber: filter.ohtSerialNumber,
+            desc: filter.desc,
+          },
+        });
+        setData(response.data.checkupListArray);
+        setTotalPages(response.data.totalPages);
+        console.log('Data fetched:', response.data.checkupListArray);
+        console.log('Total pages:', response.data.totalPages);
+      } catch (error) {
+        setData([]);
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [filter, currentPage]); // filter,currentPage가 변경될 때마다 요청을 다시 보냄
+
   return (
     <Styled.Wrapper>
       <Styled.Table>
@@ -53,7 +95,7 @@ export default function TableSection(props : TableSectionProps) {
             <Styled.AttributesTitle width={35}>No.</Styled.AttributesTitle>
             <Styled.AttributesTitle width={70}>검진 ID</Styled.AttributesTitle>
             <Styled.AttributesTitle width={35}>휠 위치</Styled.AttributesTitle>
-            <Styled.AttributesTitle width={90}>OHT 호기</Styled.AttributesTitle>
+            <Styled.AttributesTitle width={70}>OHT 호기</Styled.AttributesTitle>
             <Styled.AttributesTitle width={90}>대시보드</Styled.AttributesTitle>
             <Styled.AttributesTitle width={50}>검사 결과</Styled.AttributesTitle>
             <Styled.AttributesTitle width={80}>교체일자</Styled.AttributesTitle>
@@ -61,7 +103,8 @@ export default function TableSection(props : TableSectionProps) {
         </thead>
 
         <tbody>
-          {currentData().map((item, index) => (
+        {data.length > 0 ? (
+          data.map((item, index) => (
             <Styled.TableTuple key={index} onClick={openModal}>
               <Styled.AttributesValue>
                 {(currentPage - 1) * pageSize + index + 1}
@@ -75,10 +118,15 @@ export default function TableSection(props : TableSectionProps) {
               </Styled.AttributesValue>
               <Styled.AttributesValue>{item.createdDate}</Styled.AttributesValue>
             </Styled.TableTuple>
-          ))}
+          ))
+        ) : (
+          <tr>
+            <Styled.NoDataTd colSpan={7}>데이터가 없습니다.</Styled.NoDataTd>
+          </tr>
+        )}
         </tbody>
       </Styled.Table>
-      <Comp.Pagination totalPages={totalPages} onPageChange={setCurrentPage} />
+      {data.length > 0 && <Comp.Pagination totalPages={totalPages} onPageChange={setCurrentPage} />}
       {isModalOpen && <Modal onClose={closeModal} />}
     </Styled.Wrapper>
   );

@@ -2,11 +2,12 @@ import styled from 'styled-components';
 import { PALETTE } from 'styles';
 
 export const Wrapper = styled.div`
-  height: calc(100% - 72px);
+  height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 40px 50px 40px 50px;
+  justify-content: start;
+  padding: 40px 60px 40px 50px;
   background-color: ${PALETTE.LIGHT_BLUE};
 `;
 
