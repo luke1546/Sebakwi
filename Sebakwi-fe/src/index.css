@@ -12,3 +12,13 @@ code {
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 500;
 }
+
+select {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 500;
+}
+
+option {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 500;
+}

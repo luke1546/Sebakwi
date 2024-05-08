@@ -4,6 +4,7 @@ import { Noto_Sans_KR, PALETTE } from 'styles';
 type CardContentProps = {
   width: string;
   height: string;
+  padding: string;
 };
 
 export const CardContainer = styled.div`
@@ -24,5 +25,6 @@ export const CardContent = styled.div<CardContentProps>`
   background-color: white;
   border-radius: 5px;
   box-shadow: 2px 2px 2px #e9ecf0;
-  padding: 20px;
+  padding: ${(props) => props.padding};
+  /* padding: 20px; */
 `;

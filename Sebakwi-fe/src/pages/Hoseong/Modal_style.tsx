@@ -4,10 +4,12 @@ import { Noto_Sans_KR, PALETTE } from 'styles';
 export const Modal = styled.div`
   background-color: white;
   border-radius: 5px;
-  /* width: 75%;
-  height: 60%; */
-  width: 1200px;
-  height: 450px;
+  width: 75%;
+  height: 60%;
+  min-height: 250px;
+  /* max-height: 6000px; */
+  /* width: 1200px;
+  height: 450px; */
 `;
 
 export const ModalWrapper = styled.div`
@@ -26,41 +28,48 @@ export const Title = styled.div`
   display: grid;
   grid-template-columns: 20fr 1fr;
   background-color: ${PALETTE.MAIN_BLUE};
-  padding: 15px 15px;
+  padding: 20px 20px;
   color: white;
-  align-items: center;
 `;
 
 export const TitleInfo = styled.div`
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto auto;
-  max-width: 700px;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto;
+  max-width: 840px;
 `;
 
-export const Result = styled.span`
-  color: red;
-`;
+export const Result = styled.span<{ status?: string }>`
+color: ${({ status }) => {
+    switch (status) {
+      case 'ABNORMAL':
+        return 'red';
+      case 'NORMAL':
+        return '${PALETTE.MAIN_BLUE}';
+      default:
+        return 'gray';
+    }
+  }};
 
-export const Container = styled.div`
-  display: grid;
-  grid-template-rows: 1fr 12fr;
-`;
+`
 
 export const Content = styled.div`
   display: grid;
   grid-template-columns: 2fr 3fr 3fr;
+  height: 85%;
+  box-sizing: border-box;
+  padding: 30px 0;
 `;
 export const SubContent = styled.div`
   display: grid;
-  grid-template-rows: 1fr 15fr;
-  padding: 30px;
+  grid-template-rows: 12% calc(88% - 60px);
+  padding: 0 30px;
 `;
 
 export const SubTitle = styled.div`
   background-color: ${PALETTE.LIGHT_BLUE};
   text-align: center;
   color: ${PALETTE.MAIN_BLUE};
-  font-family: ${Noto_Sans_KR.extraBold.variable};
+  font-weight: bold;
   padding: 8px;
 `;
 
@@ -72,12 +81,13 @@ export const Image = styled.img`
 export const ResultTable = styled.div`
   table {
     border-collapse: collapse;
+    height: 100%;
   }
   td,
   th {
     border: none; /* 테두리 없음 */
     width: 200px;
-    height: 60px;
+    height: 25%;
     text-align: center;
     /* padding: 15px 50px; */
   }
@@ -102,10 +112,23 @@ export const CheckboxWrapper = styled.label`
   user-select: none;
 `;
 
-export const CheckboxInput = styled.input`
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
+
+export const CheckBoxInput = styled.input`
+  appearance: none;
+  border: 2px solid ${PALETTE.MAIN_BLACK};
+  border-radius: 0.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+
+  &:checked {
+    border-color: transparent;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+    background-size: 120% 120%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-color: ${PALETTE.MAIN_BLUE};
+  }
 `;
 
 export const CheckboxCheckmark = styled.span`
@@ -119,49 +142,9 @@ export const CheckboxCheckmark = styled.span`
 `;
 
 export const ESCButton = styled.button`
-  border: none;
-  background-color: ${PALETTE.MAIN_BLUE};
-  color: white;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-// export const Wheel = styled.div`
-//  width: 100px; /* 바퀴의 직경 */
-//   height: 100px; /* 바퀴의 직경 */
-//   background-color: #ccc; /* 바퀴 림 색상 */
-//   border-radius: 50%; /* 원형으로 만들기 */
-//   border: 10px solid black; /* 타이어를 표현하기 위한 테두리 */
-
-//   position: relative; /* 내부 요소를 위해 상대적인 위치로 설정 */
-
-//   /* 가상 요소를 사용하여 바퀴 스포크를 표현 */
-//   &::before, &::after {
-//     content: '';
-//     position: absolute;
-//     top: 50%;
-//     left: 50%;
-//     width: 60px; /* 스포크 길이 */
-//     height: 6px; /* 스포크 두께 */
-//     background-color: gray; /* 스포크 색상 */
-//     transform-origin: center center;
-//   }
-
-//   &::before {
-//     transform: translate(-50%, -50%) rotate(0deg); /* 수평 스포크 */
-//   }
-
-//   &::after {
-//     transform: translate(-50%, -50%) rotate(90deg); /* 수직 스포크 */
-//   }
-
-//   /* 스포크를 추가하여 바퀴에 더 많은 디테일을 부여 */
-//   &::nth-child(1) {
-//     transform: translate(-50%, -50%) rotate(45deg);
-//   }
-
-//   &::nth-child(2) {
-//     transform: translate(-50%, -50%) rotate(135deg);
-//   }
-// `;
+    border: none;
+    background-color: ${PALETTE.MAIN_BLUE};
+    color: white;
+    &:hover{cursor: pointer;
+    }
+`
