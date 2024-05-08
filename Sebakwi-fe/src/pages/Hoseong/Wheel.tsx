@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Canvas, useFrame, ThreeEvent } from '@react-three/fiber';
 import { OrbitControls, Text } from '@react-three/drei';
 import * as THREE from 'three';
 import * as Styled from "./Wheel_style";
+import axios from 'axios';
 
 
-const Wheel = ({ no, position, defeat }: { no: number, position: [number, number, number]; defeat: number | undefined }) => {
+type WheelProps = {
+    no: number;
+    position: [number, number, number];
+    defeat: number | undefined;
+    sendDataToParent: (data: CheckupData) => void;
+};
+
+const Wheel = ({ no, position, defeat, sendDataToParent }: WheelProps) => {
+
     const holeSize = 0.04;
     const positions: THREE.Vector3[] = [];
 
@@ -28,6 +37,19 @@ const Wheel = ({ no, position, defeat }: { no: number, position: [number, number
     // 클릭 이벤트 핸들러
     const handleWheelClick = (event: ThreeEvent<MouseEvent>) => {
         console.log(`Wheel ${no} clicked!`);
+
+        const fetchData = async () => {
+            try {
+                const baseUrl = process.env.REACT_APP_BASE_URL;
+                const response = await axios.get<CheckupData>(`${baseUrl}/checkup_list/3`);
+                sendDataToParent(response.data);  // 응답 데이터를 state에 저장\
+                console.log(response.data);
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            }
+        };
+
+        fetchData();
 
     };
 
@@ -86,7 +108,7 @@ const Wheel = ({ no, position, defeat }: { no: number, position: [number, number
 };
 
 
-const WheelSet: React.FC<{ position: number | undefined, OHTId: string | undefined }> = ({ position, OHTId }) => {
+const WheelSet: React.FC<OHTWheelProps> = ({ position, OHTId, sendDataToParent }) => {
     return (
         <Canvas
             camera={{
@@ -111,19 +133,39 @@ const WheelSet: React.FC<{ position: number | undefined, OHTId: string | undefin
             >
                 {"OHTID :" + OHTId}
             </Text>
-            <Wheel no={1} position={[-2, 0, -2]} defeat={position} />
-            <Wheel no={2} position={[2, 0, -2]} defeat={position} />
-            <Wheel no={3} position={[-2, 0, 2]} defeat={position} /> {/* 결함이 있는 바퀴 */}
-            <Wheel no={4} position={[2, 0, 2]} defeat={position} />
+            <Wheel no={1} position={[-2, 0, -2]} defeat={position} sendDataToParent={sendDataToParent} />
+            <Wheel no={2} position={[2, 0, -2]} defeat={position} sendDataToParent={sendDataToParent} />
+            <Wheel no={3} position={[-2, 0, 2]} defeat={position} sendDataToParent={sendDataToParent} />
+            <Wheel no={4} position={[2, 0, 2]} defeat={position} sendDataToParent={sendDataToParent} />
         </Canvas>
     );
 };
 
+interface CheckupData {
+    checkedDate: string;
+    crack: boolean;
+    createdDate: string;
+    diameter: number;
+    ohtNumber: string;
+    peeling: boolean;
+    position: number;
+    stamp: boolean;
+    status: string;
+    wheelImage: string;
+    wheelNumber: string;
+}
 
-const OHTWheel: React.FC<{ position: number | undefined, OHTId: string | undefined, sendDataToParent: Function }> = ({ position, OHTId }) => {
+type OHTWheelProps = {
+    position: number | undefined;
+    OHTId: string | undefined;
+    sendDataToParent: (data: CheckupData) => void;
+};
+
+
+const OHTWheel: React.FC<OHTWheelProps> = ({ position, OHTId, sendDataToParent }) => {
     return (
         <Styled.WheelWrapper>
-            <WheelSet position={position} OHTId={OHTId} ></WheelSet>
+            <WheelSet position={position} OHTId={OHTId} sendDataToParent={sendDataToParent} ></WheelSet>
         </Styled.WheelWrapper>
     );
 };

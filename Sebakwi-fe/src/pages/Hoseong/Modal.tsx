@@ -4,7 +4,23 @@ import * as Styled from "./Modal_style";
 import OHTWheel from './Wheel';
 import axios from 'axios';
 
+
 const Modal = ({ onClose, id }: { onClose: () => void, id: number | undefined }) => {
+    const [data, setData] = useState<CheckupData | null>(null);
+
+    interface CheckupData {
+        checkedDate: string;
+        crack: boolean;
+        createdDate: string;
+        diameter: number;
+        ohtNumber: string;
+        peeling: boolean;
+        position: number;
+        stamp: boolean;
+        status: string;
+        wheelImage: string;
+        wheelNumber: string;
+    }
 
     type TableData = {
         item: string | undefined;
@@ -29,40 +45,7 @@ const Modal = ({ onClose, id }: { onClose: () => void, id: number | undefined })
         };
     }, []);
 
-    interface CheckupData {
-        checkedDate: string;
-        crack: boolean;
-        createdDate: string;
-        diameter: number;
-        ohtNumber: string;
-        peeling: boolean;
-        position: number;
-        stamp: boolean;
-        status: string;
-        wheelImage: string;
-        wheelNumber: string;
-    }
-    const [data, setData] = useState<CheckupData | null>(null);
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const baseUrl = process.env.REACT_APP_BASE_URL;
-                const response = await axios.get<CheckupData>(`${baseUrl}/checkup_list/${id}`);
-                setData(response.data);  // 응답 데이터를 state에 저장\
-            } catch (error) {
-                console.error("Error fetching data: ", error);
-            }
-        };
-
-        fetchUser();
-    }, []);
-
-    // 콜백 함수: 자식 컴포넌트에서 데이터를 받음
-    const handleDataFromChild = (data: CheckupData) => {
-        console.log("Received data from child:", data);
-        setData(data);
-    };
 
 
     const tableData: TableData[] = [
@@ -92,6 +75,26 @@ const Modal = ({ onClose, id }: { onClose: () => void, id: number | undefined })
     }
 
 
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const baseUrl = process.env.REACT_APP_BASE_URL;
+                const response = await axios.get<CheckupData>(`${baseUrl}/checkup_list/${id}`);
+                setData(response.data);  // 응답 데이터를 state에 저장\
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            }
+        };
+
+        fetchUser();
+    }, []);
+
+    // 콜백 함수: 자식 컴포넌트에서 데이터를 받음
+    const handleDataFromChild = (data: CheckupData) => {
+        console.log("Received data from child:", data);
+        setData(data);
+    };
 
     return (
         <Styled.ModalWrapper onClick={onClose}>
