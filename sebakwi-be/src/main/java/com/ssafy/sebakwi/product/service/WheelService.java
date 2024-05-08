@@ -34,11 +34,6 @@ public class WheelService {
 
     public WheelMonthlyStatusResponse<WheelMonthlyStatus> monthlyWheelStatusInfo() {
 
-        if (defaultMonthlyStatus != null) {
-//        log.info("defaultMonthlyStatus.getCount().getTotal()={}", defaultMonthlyStatus.getCount().getTotal());
-
-        }
-
         // 이번달 구하기
         LocalDate now = LocalDate.now();
         LocalDateTime startOfMonth = LocalDateTime.of(now.getYear(),now.getMonthValue(), 1, 0, 0, 0);
