@@ -8,7 +8,7 @@ interface TableSectionProps {
   filter: Filters;
 }
 
-export default function TableSection(props : TableSectionProps) {
+export default function TableSection(props: TableSectionProps) {
   const { filter } = props;
   const positionLabels: { [key: number]: string } = {
     1: 'LF', // Left Front
@@ -71,7 +71,7 @@ export default function TableSection(props : TableSectionProps) {
         </tbody>
       </Styled.Table>
       <Comp.Pagination totalPages={totalPages} onPageChange={setCurrentPage} />
-      {isModalOpen && <Modal onClose={closeModal} />}
+      {isModalOpen && <Modal onClose={closeModal} id={1} />}
     </Styled.Wrapper>
   );
 }
