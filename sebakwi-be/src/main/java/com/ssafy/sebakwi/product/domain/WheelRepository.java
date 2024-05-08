@@ -24,4 +24,8 @@ public interface WheelRepository extends JpaRepository<Wheel, Integer> {
             "AND (c1.crack = true or c1.stamp = true or c1.peeling = true)")
     List<Object[]> findWheelMonthlyStatus(LocalDateTime startOfMonth);
 
+
+    @Query("SELECT w FROM Wheel w WHERE w.createdDate < :limitDate")
+    List<Wheel> findWheelReplacement(LocalDate limitDate);
+
 }
