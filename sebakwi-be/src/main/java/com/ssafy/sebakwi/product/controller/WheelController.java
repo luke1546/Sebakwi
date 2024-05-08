@@ -63,9 +63,6 @@ public class WheelController {
         return "initialize the chart";
     }
 
-
-
-
     /**
      * 젯슨나노
      */
@@ -95,6 +92,7 @@ public class WheelController {
                 .build();
 
         checkupListRepository.save(checkupListDTO.toEntity());
+        log.info("checkupListDTO={}",checkupListDTO);
 
         if (wheelStatus == WheelStatus.ABNORMAL) {
 
