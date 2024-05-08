@@ -2,6 +2,11 @@ import { BaseButton } from 'components';
 import styled from 'styled-components';
 import { Noto_Sans_KR, PALETTE } from 'styles';
 
+interface DateCheckProps {
+  disabled: boolean;
+} 
+
+
 export const Wrapper = styled.div`
   width: 100%;
   height: 100px;
@@ -46,14 +51,8 @@ export const LeftContentWrapper = styled.div`
 `;
 
 export const DatePickerContainer = styled.div`
-  width: 136px;
-  height: 26px;
-  border: 1.5px solid ${PALETTE.MAIN_BLUE};
-  border-radius: 5px;
-  padding: 0px 10px;
+  width: 200px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
 `;
 
 export const FilterTitle = styled.p`
@@ -64,13 +63,20 @@ export const FilterTitle = styled.p`
   margin-right: 14px;
 `;
 
-export const DatePickerInputWrapper = styled.div`
-  width: 100%;
-  height: 26px;
+export const InputWrapper = styled.input`
+  width: 90%;
+  height: 22px;
   display: flex;
   justify-content: center;
   align-items: center;
-
+  border: none;
+  outline: none;
+  font-size: 15px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: ${Noto_Sans_KR.medium.weight};
+  ::placeholder {
+    color: ${PALETTE.LIGHT_BLACK};
+  }
   > p {
     margin: 0px;
     color: ${PALETTE.MAIN_BLACK};
@@ -78,17 +84,30 @@ export const DatePickerInputWrapper = styled.div`
   }
 `;
 
-export const RangeWrapper = styled.div`
+export const RangeWrapper = styled.div<DateCheckProps>`
   height: fit-content;
   display: flex;
   align-items: center;
+  margin: 0px 0px 0px 22px;
 
   > p {
     margin: 0px 15px;
-
     color: ${PALETTE.MAIN_BLACK};
+    opacity: ${props => props.disabled ? 0.5 : 1};
     font-size: 20px;
   }
+`;
+
+export const OHTInputWrapper = styled.div`
+  width: 134px;
+  height: 26px;
+  background-color: white;
+  border-radius: 3px;
+  border: 1px solid #0052a3;
+  padding: 0px 3px 0px 3px;
+  color: #1a1a1a;
+  font-size: 15px;
+  font-weight: 600;
 `;
 
 export const ButtonWrapper = styled.div`

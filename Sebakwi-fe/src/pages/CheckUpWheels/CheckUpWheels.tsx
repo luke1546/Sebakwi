@@ -31,6 +31,17 @@ export default function CheckUpWheelsPage() {
     setFilters(newFilters);
   };
   
+
+  const transformedFilters = {
+    isCheckedDate: filters.selectedTimeCheck === 1,
+    startDateTime: filters.selectedTimeCheck === 1 ? "" : filters.startDateTime,
+    endDateTime: filters.selectedTimeCheck === 1 ? "" : filters.endDateTime,
+    onlyAbnormal: filters.selectedAbnormal === 1,
+    position: filters.selectedWheelPosition,
+    ohtSerialNumber: filters.OHTLabel,
+    desc: filters.selectedSortType === 1,
+  };
+  
   useEffect(() => {console.log(filters)}, [filters]);
 
   return (
@@ -41,7 +52,7 @@ export default function CheckUpWheelsPage() {
         </Comp.Card>
       </Styled.FilterSectionWrapper>
       <Comp.Card width="100%" height="100wh" padding="30px">
-        <TableSection filter={filters}/>
+        <TableSection filter={transformedFilters}/>
       </Comp.Card>
     </Styled.Wrapper>
   );

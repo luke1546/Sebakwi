@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import * as Styled from './FilterSection_style';
 import * as Comp from 'components';
 import { Filters } from '../CheckUpWheels';
@@ -37,7 +37,6 @@ export default function FilterSection(props: FilterSectionProps) {
             onChange={(e) => handleUpdateLocalFilter('selectedDateType', Number(e.target.value))}
           />
         </Comp.FilterInput>
-
         <Comp.FilterInput title="날짜 기간">
           <Comp.CheckBox
             name="전체"
@@ -45,19 +44,27 @@ export default function FilterSection(props: FilterSectionProps) {
             onChange={(e) => handleUpdateLocalFilter('selectedTimeCheck', e.target.checked ? 1 : 0)}
           />
           <Styled.DatePickerContainer>
-            <Styled.DatePickerInputWrapper>
-              <p>{filter.startDateTime}</p>
-            </Styled.DatePickerInputWrapper>
-            <img src="/images/calender.png" alt="123" width={14} height={16} />
-          </Styled.DatePickerContainer>
-          <Styled.RangeWrapper>
-            <p>~</p>
-          </Styled.RangeWrapper>
-          <Styled.DatePickerContainer>
-            <Styled.DatePickerInputWrapper>
-              <p>{filter.endDateTime}</p>
-            </Styled.DatePickerInputWrapper>
-            <img src="/images/calender.png" alt="123" width={14} height={16} />
+            <Comp.DatePicker
+              selectedDate={new Date(localFilters.startDateTime)}
+              onChange={(date) =>
+                handleUpdateLocalFilter(
+                  'startDateTime',
+                  date ? date.toISOString().slice(0, 10) : '',
+                )
+              }
+              disabled={localFilters.selectedTimeCheck === 1}
+            />
+            <Styled.RangeWrapper disabled={localFilters.selectedTimeCheck === 1}>
+              <p>~</p>
+            </Styled.RangeWrapper>
+            <Comp.DatePicker
+              selectedDate={new Date(localFilters.endDateTime)}
+              startDate={new Date(localFilters.startDateTime)}
+              onChange={(date) =>
+                handleUpdateLocalFilter('endDateTime', date ? date.toISOString().slice(0, 10) : '')
+              }
+              disabled={localFilters.selectedTimeCheck === 1}
+            />
           </Styled.DatePickerContainer>
         </Comp.FilterInput>
       </Styled.FilterWrapper>
@@ -84,11 +91,13 @@ export default function FilterSection(props: FilterSectionProps) {
             />
           </Comp.FilterInput>
           <Comp.FilterInput title="OHT 호기">
-            <Styled.DatePickerContainer>
-              <Styled.DatePickerInputWrapper>
-                <p>VM1233</p>
-              </Styled.DatePickerInputWrapper>
-            </Styled.DatePickerContainer>
+            <Styled.OHTInputWrapper>
+              <Styled.InputWrapper
+                placeholder="ex) VM0872"
+                value={localFilters.OHTLabel}
+                onChange={(e) => handleUpdateLocalFilter('OHTLabel', e.target.value)}
+              />
+            </Styled.OHTInputWrapper>
           </Comp.FilterInput>
 
           <Comp.CheckBox

@@ -8,10 +8,10 @@ interface AttributesTitleProps {
 }
 
 export const Wrapper = styled.div`
-  height: calc(600px - 72px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 30px;
 `;
 
 export const Table = styled.table`

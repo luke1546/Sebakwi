@@ -9,8 +9,10 @@ export default function CheckBox(props: CheckBoxProps) {
         type="checkbox"
         checked={checked === 1 ? true : false}
         onChange={onChange}
-      ></Styled.CheckBoxInput>
-      <Styled.CheckBoxLabel>{name}</Styled.CheckBoxLabel>
+      />
+      <Styled.CheckBoxTextWrapper>
+        <Styled.CheckBoxText>{name}</Styled.CheckBoxText>
+      </Styled.CheckBoxTextWrapper>
     </Styled.CheckBoxWrapper>
   );
 }
