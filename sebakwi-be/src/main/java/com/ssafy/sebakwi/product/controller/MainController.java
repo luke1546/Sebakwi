@@ -18,14 +18,14 @@ public class MainController {
 
     private final MainService mainService;
 
-    @GetMapping(value = "/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "/monthly/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribe(@PathVariable Long id) {
         return mainService.subscribe(id);
     }
 
-    @PostMapping("/monthly/{id}")
-    public void sendMonthly(@PathVariable Long id) {
-        mainService.sendMonthly(id, "data");
-    }
+//    @PostMapping("/monthly/{id}")
+//    public void sendMonthly(@PathVariable Long id) {
+//        mainService.sendMonthly(id, "data");
+//    }
 
 }

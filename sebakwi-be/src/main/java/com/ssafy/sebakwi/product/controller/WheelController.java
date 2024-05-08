@@ -39,6 +39,11 @@ public class WheelController {
     @GetMapping("/wheels")
     public List<Wheel> wheels() {return wheelRepository.findAll();}
 
+    @GetMapping("/wheels/replacement")
+    public List<WheelReplacementResponse> wheelReplacement() {
+        return wheelService.wheelReplacementInfo();
+    }
+
     /**
      * 메인페이지
      */
@@ -46,6 +51,19 @@ public class WheelController {
     public WheelMonthlyStatusResponse<WheelMonthlyStatus> mainMonthlyWheelStatus() {
         return wheelService.monthlyWheelStatusInfo();
     }
+
+    @GetMapping("/wheels/chart")
+    public WheelChartResponse getChartInfo() {
+        return wheelService.wheelChartInfo();
+    }
+
+    @GetMapping("/wheels/chart/initialize")
+    public String initializeWheelChart() {
+        wheelService.initializeWheelChartInfo();
+        return "initialize the chart";
+    }
+
+
 
 
     /**
@@ -61,24 +79,6 @@ public class WheelController {
 
         Wheel checkedWheel = wheelRepository.findByWheelSerialNumber(request.getWheelSerialNumber());
         Oht checkedOht = ohtRepository.findByOhtSerialNumber(request.getOhtSerialNumber());
-
-//        if (checkedWheel == null) {
-//            OhtDTO ohtDTO = OhtDTO.builder()
-//                    .id(checkedOht.getId())
-//                    .serialNumber(checkedOht.getSerialNumber())
-//                    .maintenance(checkedOht.isMaintenance())
-//                    .build();
-//
-//            WheelDTO wheelDTO = WheelDTO.builder()
-//                    .oht(ohtDTO)
-//                    .serialNumber(request.getWheelSerialNumber())
-////                    .currentStatus(wheelStatus)
-//                    .createdDate(LocalDate.now())
-//                    .position(request.getPosition())
-//                    .build();
-//
-//            checkedWheel = wheelRepository.save(wheelDTO.toEntity());
-//        }
 
         LocalDateTime time = LocalDateTime.now();
         DateTimeFormatter createdTime = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -124,11 +124,9 @@ public class WheelController {
     @Data
     static class CreateWheelResponse {
         private String serialNumber;
-//        private Wheel wheel;
 
         public CreateWheelResponse(String serialNumber) {
             this.serialNumber = serialNumber;
-//            this.wheel = wheel;
         }
     }
 

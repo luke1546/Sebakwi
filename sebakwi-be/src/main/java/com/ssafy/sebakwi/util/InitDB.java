@@ -3,6 +3,7 @@ package com.ssafy.sebakwi.util;
 import com.ssafy.sebakwi.product.domain.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class InitDB {
     private final InitService initService;
 
@@ -43,13 +45,17 @@ public class InitDB {
 
         for (int i = 0; i < 120; i++) {
             Wheel wheel = createWheel();
+            if (wheel != null) {
             wheelRepository.save(wheel);
+            log.info(wheel.getOht().getSerialNumber());
+
+            }
         }
     }
     int num = 1;
     private Oht createOht() {
 
-        String sNumber = String.format("VM%05d", num);
+        String sNumber = String.format("VM%04d", num);
         List<Integer> repairList = Arrays.asList(296, 297, 298, 299, 300);
         boolean rep = false;
         if (repairList.contains(num)) {
@@ -70,6 +76,11 @@ public class InitDB {
         Long ohtNum = Math.floorDiv(wNum, 4) + 1;
         Optional<Oht> ohtOptional = ohtRepository.findById(ohtNum);
         Oht oht = ohtOptional.orElse(null);
+        if (oht == null) {
+            log.error("Oht not found with id: {}", ohtNum);
+            return null;
+        }
+
         String swNumber = String.format("SM%05d", wNum);
 
         int wheelNum;
