@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -24,6 +25,30 @@ import java.util.stream.Collectors;
 public class CheckupListService {
 
     private final CheckupListRepository checkupListRepository;
+
+    /**
+     * 체크업리스트 requestParam 받기
+     */
+
+    public CheckupListArrayRequest getCheckupListArrayRequest(boolean isCheckedDate, String startDateTimeStr, String endDateTimeStr, boolean onlyAbnormal, int position, String ohtSerialNumber, int page, boolean sortByCheck, boolean desc) {
+
+        LocalDate startDateTime = null;
+        LocalDate endDateTime = null;
+
+        if (startDateTimeStr != null && !startDateTimeStr.isEmpty()) {
+            startDateTime = LocalDate.parse(startDateTimeStr);
+        }
+
+        if (endDateTimeStr != null && !endDateTimeStr.isEmpty()) {
+            endDateTime = LocalDate.parse(endDateTimeStr);
+        }
+
+        return new CheckupListArrayRequest(
+                isCheckedDate, startDateTime, endDateTime, onlyAbnormal, position,
+                ohtSerialNumber, page, sortByCheck, desc
+        );
+    }
+
 
     public CheckupListPageResponse<CheckupListArrayResponse> findCheckupListArray(CheckupListArrayRequest request) {
 

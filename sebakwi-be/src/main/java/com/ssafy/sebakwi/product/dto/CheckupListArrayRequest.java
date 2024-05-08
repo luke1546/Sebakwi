@@ -5,6 +5,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +16,10 @@ import java.time.LocalTime;
 
 import static lombok.AccessLevel.PRIVATE;
 
-@NoArgsConstructor(access = PRIVATE)
 @Getter
+@Builder
+@NoArgsConstructor(access = PRIVATE)
+@AllArgsConstructor
 public class CheckupListArrayRequest {
 
     private boolean isCheckedDate;
@@ -37,21 +40,21 @@ public class CheckupListArrayRequest {
 
     private boolean desc;
 
-    @Builder
-    public CheckupListArrayRequest(boolean isCheckedDate, LocalDate startDateTime, LocalDate endDateTime,
-                                    boolean onlyAbnormal, int position, String ohtSerialNumber, int page, boolean sortByCheck, boolean desc) {
-
-        this.isCheckedDate = isCheckedDate;
-        this.startDateTime = startDateTime;
-        this.endDateTime = endDateTime;
-        this.onlyAbnormal = onlyAbnormal;
-        this.position = position;
-        this.ohtSerialNumber = ohtSerialNumber;
-        this.page = page;
-        this.sortByCheck = sortByCheck;
-        this.desc = desc;
-
-    }
+//    @Builder
+//    public CheckupListArrayRequest(boolean isCheckedDate, LocalDate startDateTime, LocalDate endDateTime,
+//                                    boolean onlyAbnormal, int position, String ohtSerialNumber, int page, boolean sortByCheck, boolean desc) {
+//
+//        this.isCheckedDate = isCheckedDate;
+//        this.startDateTime = startDateTime;
+//        this.endDateTime = endDateTime;
+//        this.onlyAbnormal = onlyAbnormal;
+//        this.position = position;
+//        this.ohtSerialNumber = ohtSerialNumber;
+//        this.page = page;
+//        this.sortByCheck = sortByCheck;
+//        this.desc = desc;
+//
+//    }
 
 
     public void noEndDateTime() {
