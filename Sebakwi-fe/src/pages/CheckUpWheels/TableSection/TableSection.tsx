@@ -37,12 +37,11 @@ export default function TableSection(props: TableSectionProps) {
     3: 'LR', // Left Rear
     4: 'RR', // Right Rear
   };
-
-  const posts = generateData();
+  
   const [currentPage, setCurrentPage] = useState(1); // -1 페이지를 가져오게 해야함
-  const pageSize = 20;
+  const pageSize = 15;
   const [totalPages, setTotalPages] = useState(0);
-
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
@@ -50,13 +49,14 @@ export default function TableSection(props: TableSectionProps) {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
-  // 현재 페이지 데이터 가져오기
-  const currentData = () => {
-    const begin = (currentPage - 1) * pageSize;
-    const end = begin + pageSize;
-    return posts.slice(begin, end);
-  };
+  
+  // const posts = generateData();
+  // // 현재 페이지 데이터 가져오기
+  // const currentData = () => {
+  //   const begin = (currentPage - 1) * pageSize;
+  //   const end = begin + pageSize;
+  //   return posts.slice(begin, end);
+  // };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -132,14 +132,14 @@ export default function TableSection(props: TableSectionProps) {
   );
 }
 
-const generateData = () => {
-  return Array.from({ length: 140 }, (_, index) => ({
-    checkupListId: index + 1,
-    wheelNumber: `SM00${232 + index}`,
-    position: (index % 4) + 1, // 예를 들어 1부터 5까지 반복
-    ohtNumber: `VM00${4 + index}`,
-    checkedDate: `2024-05-${Math.floor(index / 2) + 1} 10:53:38`, // 날짜도 약간 변동을 주어서 생성
-    status: index % 2 === 0 ? 'NORMAL' : 'ABNORMAL',
-    createdDate: `2024-05-${Math.floor(index / 2) + 1}`,
-  }));
-};
+// const generateData = () => {
+//   return Array.from({ length: 140 }, (_, index) => ({
+//     checkupListId: index + 1,
+//     wheelNumber: `SM00${232 + index}`,
+//     position: (index % 4) + 1, // 예를 들어 1부터 5까지 반복
+//     ohtNumber: `VM00${4 + index}`,
+//     checkedDate: `2024-05-${Math.floor(index / 2) + 1} 10:53:38`, // 날짜도 약간 변동을 주어서 생성
+//     status: index % 2 === 0 ? 'NORMAL' : 'ABNORMAL',
+//     createdDate: `2024-05-${Math.floor(index / 2) + 1}`,
+//   }));
+// };
