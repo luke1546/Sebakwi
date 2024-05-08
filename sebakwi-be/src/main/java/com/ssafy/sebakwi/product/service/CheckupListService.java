@@ -1,11 +1,10 @@
 package com.ssafy.sebakwi.product.service;
 
-import com.ssafy.sebakwi.product.domain.CheckupList;
-import com.ssafy.sebakwi.product.domain.CheckupListRepository;
-import com.ssafy.sebakwi.product.domain.WheelStatus;
+import com.ssafy.sebakwi.product.domain.*;
 import com.ssafy.sebakwi.product.dto.*;
 import com.ssafy.sebakwi.util.exception.CustomException;
 import com.ssafy.sebakwi.util.exception.CustomExceptionStatus;
+import jakarta.persistence.Tuple;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -25,6 +24,7 @@ import java.util.stream.Collectors;
 public class CheckupListService {
 
     private final CheckupListRepository checkupListRepository;
+    private final WheelRepository wheelRepository;
 
     /**
      * 체크업리스트 requestParam 받기
@@ -65,7 +65,7 @@ public class CheckupListService {
         }
 
         // pageable 객체 생성
-        int size = 20;
+        int size = 15;
         Pageable pageable = PageRequest.of(request.getPage(), size);
 
 //        if (request.isCheckedDate()){
@@ -130,61 +130,8 @@ public class CheckupListService {
                     return new CheckupListPageResponse<>(totalPages, responseList);
                 }
             }
-//        } else {
-//
-//            // 교체일시
-//            if (request.isOnlyAbnormal()) {
-//
-//                if (request.getStartDateTime() == null) {
-//
-//                    Page<CheckupList> page = checkupListRepository.findCreatedStatusCheckupListArray(request.getEndDateTime(), WheelStatus.ABNORMAL, pageable, request.isSortByCheck(), request.isDesc());
-//                    if (page.isEmpty()) {
-//                        throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
-//                    }
-//                    int totalPages = page.getTotalPages();
-//                    List<CheckupList> checkupLists = page.getContent();
-//                    List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
-//                    return new CheckupListPageResponse<>(totalPages, responseList);
-//
-//                } else {
-//
-//                    Page<CheckupList> page = checkupListRepository.findCreatedStartDateTimeStatusCheckupListArray(request.getStartDateTime(), request.getEndDateTime(), WheelStatus.ABNORMAL, pageable, request.isSortByCheck(), request.isDesc());
-//                    if (page.isEmpty()) {
-//                        throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
-//                    }
-//                    int totalPages = page.getTotalPages();
-//                    List<CheckupList> checkupLists = page.getContent();
-//                    List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
-//                    return new CheckupListPageResponse<>(totalPages, responseList);
-//
-//                }
-//            } else {
-//                if (request.getStartDateTime() == null) {
-//
-//                    Page<CheckupList> page = checkupListRepository.findCreatedCheckupListArray(request.getEndDateTime(), pageable, request.isSortByCheck(), request.isDesc());
-//                    if (page.isEmpty()) {
-//                        throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
-//                    }
-//                    int totalPages = page.getTotalPages();
-//                    List<CheckupList> checkupLists = page.getContent();
-//                    List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
-//                    return new CheckupListPageResponse<>(totalPages, responseList);
-//
-//                } else {
-//
-//                    Page<CheckupList> page = checkupListRepository.findCreatedStartDateTimeCheckupListArray(request.getStartDateTime(), request.getEndDateTime(), pageable, request.isSortByCheck(), request.isDesc());
-//                    if (page.isEmpty()) {
-//                        throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
-//                    }
-//                    int totalPages = page.getTotalPages();
-//                    List<CheckupList> checkupLists = page.getContent();
-//                    List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
-//                    return new CheckupListPageResponse<>(totalPages, responseList);
-//                }
-//            }
-//        }
-
     }
+
 
     public class CheckupListMapper {
 
@@ -205,6 +152,46 @@ public class CheckupListService {
                     .createdDate(checkupList.getWheel().getCreatedDate())
                     .build();
         }
+    }
+
+    /**
+     * CheckupListDetailModalWheelNumberList 만들기
+     */
+
+    public CheckupListDetailModalWheelNumberList constructWheelNumberList(String ohtNumber) {
+        List<String> wheelNumberList = wheelRepository.findWheelByOhtNumber(ohtNumber);
+        return CheckupListDetailModalWheelNumberList.builder()
+                .LF((String) wheelNumberList.get(0))
+                .RF((String) wheelNumberList.get(1))
+                .LR((String) wheelNumberList.get(2))
+                .RR((String) wheelNumberList.get(3))
+                .build();
+    }
+
+
+    /**
+     * CheckupListDetailModalWheel 만들기
+     */
+
+    public CheckupListDetailModalWheel checkupListDetailWheelInfo(String wheelNumber) {
+        Tuple tuple = wheelRepository.findWheelDetailByWheelNumber(wheelNumber);
+        Wheel wheel = tuple.get(0, Wheel.class);
+        CheckupList checkupList = tuple.get(1, CheckupList.class);
+
+        return CheckupListDetailModalWheel.builder()
+                .wheelNumber(wheel.getSerialNumber())
+                .position(wheel.getPosition())
+                .ohtNumber(wheel.getOht().getSerialNumber())
+                .checkedDate(checkupList.getCheckedDate())
+                .wheelImage(checkupList.getWheelImage())
+                .diameter(checkupList.getDiameter())
+                .crack(checkupList.isCrack())
+                .stamp(checkupList.isStamp())
+                .peeling(checkupList.isPeeling())
+                .status(checkupList.getStatus())
+                .createdDate(wheel.getCreatedDate())
+                .build();
+
     }
 
 }
