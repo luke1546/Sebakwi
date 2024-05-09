@@ -5,16 +5,15 @@ import axios from 'axios';
 import Modal from '../../Hoseong/Modal';
 import { TableSectionProps, CheckupListItem } from 'types';
 
-
 export default function TableSection(props: TableSectionProps) {
   const { Filter } = props;
 
   const [data, setData] = useState<CheckupListItem[]>([]);
-  
+
   const [currentPage, setCurrentPage] = useState(1); // -1 페이지를 가져오게 해야함
   const pageSize = 15;
   const [totalPages, setTotalPages] = useState(0);
-  
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
@@ -23,11 +22,9 @@ export default function TableSection(props: TableSectionProps) {
     setIsModalOpen(true);
   };
 
-
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +40,7 @@ export default function TableSection(props: TableSectionProps) {
             page: currentPage - 1,
             sortByCheck: true,
             ohtSerialNumber: Filter.ohtSerialNumber,
+            wheelSerialNumber: Filter.WheelSerialNumber,
             desc: Filter.desc,
           },
         });
@@ -64,38 +62,36 @@ export default function TableSection(props: TableSectionProps) {
       <Styled.Table>
         <thead>
           <Styled.AttributesRow>
-            <Styled.AttributesTitle width={35}>No.</Styled.AttributesTitle>
-            <Styled.AttributesTitle width={70}>검진 ID</Styled.AttributesTitle>
+            <Styled.AttributesTitle width={35}>검진 ID</Styled.AttributesTitle>
+            <Styled.AttributesTitle width={70}>휠 일련번호</Styled.AttributesTitle>
             <Styled.AttributesTitle width={35}>휠 위치</Styled.AttributesTitle>
             <Styled.AttributesTitle width={70}>OHT 호기</Styled.AttributesTitle>
-            <Styled.AttributesTitle width={90}>대시보드</Styled.AttributesTitle>
+            <Styled.AttributesTitle width={90}>검진 일자</Styled.AttributesTitle>
             <Styled.AttributesTitle width={50}>검사 결과</Styled.AttributesTitle>
-            <Styled.AttributesTitle width={80}>교체일자</Styled.AttributesTitle>
+            <Styled.AttributesTitle width={80}>교체 일자</Styled.AttributesTitle>
           </Styled.AttributesRow>
         </thead>
 
         <tbody>
-        {data.length > 0 ? (
-          data.map((item, index) => (
-            <Styled.TableTuple key={index} onClick={() => openModal(item.checkupListId)}>
-              <Styled.AttributesValue>
-                {(currentPage - 1) * pageSize + index + 1}
-              </Styled.AttributesValue>
-              <Styled.AttributesValue>{item.wheelNumber}</Styled.AttributesValue>
-              <Styled.AttributesValue>{positionLabels[item.position]}</Styled.AttributesValue>
-              <Styled.AttributesValue>{item.ohtNumber}</Styled.AttributesValue>
-              <Styled.AttributesValue>{item.checkedDate}</Styled.AttributesValue>
-              <Styled.AttributesValue>
-                {item.status === 'NORMAL' ? '정상' : '비정상'}
-              </Styled.AttributesValue>
-              <Styled.AttributesValue>{item.createdDate}</Styled.AttributesValue>
-            </Styled.TableTuple>
-          ))
-        ) : (
-          <tr>
-            <Styled.NoDataTd colSpan={7}>데이터가 없습니다.</Styled.NoDataTd>
-          </tr>
-        )}
+          {data.length > 0 ? (
+            data.map((item, index) => (
+              <Styled.TableTuple key={index} onClick={() => openModal(item.checkupListId)}>
+                <Styled.AttributesValue>{item.checkupListId}</Styled.AttributesValue>
+                <Styled.AttributesValue>{item.wheelNumber}</Styled.AttributesValue>
+                <Styled.AttributesValue>{positionLabels[item.position]}</Styled.AttributesValue>
+                <Styled.AttributesValue>{item.ohtNumber}</Styled.AttributesValue>
+                <Styled.AttributesValue>{item.checkedDate}</Styled.AttributesValue>
+                <Styled.AttributesValue>
+                  {item.status === 'NORMAL' ? '정상' : '비정상'}
+                </Styled.AttributesValue>
+                <Styled.AttributesValue>{item.createdDate}</Styled.AttributesValue>
+              </Styled.TableTuple>
+            ))
+          ) : (
+            <tr>
+              <Styled.NoDataTd colSpan={7}>데이터가 없습니다.</Styled.NoDataTd>
+            </tr>
+          )}
         </tbody>
       </Styled.Table>
       <Comp.Pagination totalPages={totalPages} onPageChange={setCurrentPage} />

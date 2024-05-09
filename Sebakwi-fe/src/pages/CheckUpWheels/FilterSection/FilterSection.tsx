@@ -3,7 +3,6 @@ import * as Styled from './FilterSection_style';
 import * as Comp from 'components';
 import { Filters, FilterSectionProps } from 'types';
 
-
 export default function FilterSection(props: FilterSectionProps) {
   const { filter, onSubmitFilters, onResetFilters } = props;
 
@@ -35,6 +34,14 @@ export default function FilterSection(props: FilterSectionProps) {
             options={dateTypes}
             value={localFilters.selectedDateType}
             onChange={(e) => handleUpdateLocalFilter('selectedDateType', Number(e.target.value))}
+          />
+        </Comp.FilterInput>
+
+        <Comp.FilterInput title="정렬 기준">
+          <Comp.DropDownFilter
+            options={sortTypes}
+            value={localFilters.selectedSortType}
+            onChange={(e) => handleUpdateLocalFilter('selectedSortType', Number(e.target.value))}
           />
         </Comp.FilterInput>
         <Comp.FilterInput title="날짜 기간">
@@ -83,19 +90,21 @@ export default function FilterSection(props: FilterSectionProps) {
             />
           </Comp.FilterInput>
 
-          <Comp.FilterInput title="정렬 기준">
-            <Comp.DropDownFilter
-              options={sortTypes}
-              value={localFilters.selectedSortType}
-              onChange={(e) => handleUpdateLocalFilter('selectedSortType', Number(e.target.value))}
-            />
+          <Comp.FilterInput title="휠 일련번호">
+            <Styled.OHTInputWrapper>
+              <Styled.InputWrapper
+                placeholder="ex) SM00002"
+                value={localFilters.WheelSerialNumber}
+                onChange={(e) => handleUpdateLocalFilter('WheelSerialNumber', e.target.value)}
+              />
+            </Styled.OHTInputWrapper>
           </Comp.FilterInput>
           <Comp.FilterInput title="OHT 호기">
             <Styled.OHTInputWrapper>
               <Styled.InputWrapper
                 placeholder="ex) VM0872"
-                value={localFilters.OHTLabel}
-                onChange={(e) => handleUpdateLocalFilter('OHTLabel', e.target.value)}
+                value={localFilters.OHTSerialNumber}
+                onChange={(e) => handleUpdateLocalFilter('OHTSerialNumber', e.target.value)}
               />
             </Styled.OHTInputWrapper>
           </Comp.FilterInput>
