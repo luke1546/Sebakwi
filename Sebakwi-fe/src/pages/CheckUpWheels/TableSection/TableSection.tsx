@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import * as Styled from './TableSection_style';
 import * as Comp from 'components';
 import axios from 'axios';
-import Modal from '../../Hoseong/Modal';
 import { TableSectionProps, CheckupListItem } from 'types';
 
 export default function TableSection(props: TableSectionProps) {
@@ -10,8 +9,7 @@ export default function TableSection(props: TableSectionProps) {
 
   const [data, setData] = useState<CheckupListItem[]>([]);
 
-  const [currentPage, setCurrentPage] = useState(1); // -1 페이지를 가져오게 해야함
-  const pageSize = 15;
+  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -96,9 +94,6 @@ export default function TableSection(props: TableSectionProps) {
       </Styled.Table>
       <Comp.Pagination totalPages={totalPages} onPageChange={setCurrentPage} />
       {isModalOpen && <Comp.Modal onClose={closeModal} id={selectedItemId} />}
-
-      {/* 호성이것 */}
-      {/* {isModalOpen && <Modal onClose={closeModal} id={selectedItemId} />} */}
     </Styled.Wrapper>
   );
 }

@@ -28,7 +28,7 @@ export default function CheckUpWheelsPage() {
     selectedSortType: 0, // 0: 최신 순, 1: 오래된 순
     selectedAbnormal: 0, // 비정상 결과만 보기 체크
     OHTSerialNumber: '', // OHT 호기
-    WheelSerialNumber: '', // Wheel 호기
+    WheelSerialNumber: '', // Wheel 일련번호
   };
 
   const UpdateFilter = (newFilters: Filters) => {
