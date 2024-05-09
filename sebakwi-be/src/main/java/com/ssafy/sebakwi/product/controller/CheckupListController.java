@@ -31,13 +31,14 @@ public class CheckupListController {
             @RequestParam(value = "onlyAbnormal", defaultValue = "false") boolean onlyAbnormal,
             @RequestParam(value = "position", defaultValue = "0") int position,
             @RequestParam(value = "ohtSerialNumber", required = false) String ohtSerialNumber,
+            @RequestParam(value = "wheelSerialNumber", required = false) String wheelSerialNumber,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "sortByCheck", defaultValue = "false") boolean sortByCheck,
             @RequestParam(value = "desc", defaultValue = "false") boolean desc
 
     ) throws BadRequestException {
 
-        CheckupListArrayRequest request = checkupListService.getCheckupListArrayRequest(isCheckedDate, startDateTimeStr, endDateTimeStr, onlyAbnormal, position, ohtSerialNumber, page, sortByCheck, desc);
+        CheckupListArrayRequest request = checkupListService.getCheckupListArrayRequest(isCheckedDate, startDateTimeStr, endDateTimeStr, onlyAbnormal, position, ohtSerialNumber, wheelSerialNumber, page, sortByCheck, desc);
 
         return checkupListService.findCheckupListArray(request);
 

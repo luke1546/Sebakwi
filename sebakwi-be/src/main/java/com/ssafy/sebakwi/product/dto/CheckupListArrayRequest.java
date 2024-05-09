@@ -34,27 +34,13 @@ public class CheckupListArrayRequest {
 
     private String ohtSerialNumber;
 
+    private String wheelSerialNumber;
+
     private int page;
 
     private boolean sortByCheck;
 
     private boolean desc;
-
-//    @Builder
-//    public CheckupListArrayRequest(boolean isCheckedDate, LocalDate startDateTime, LocalDate endDateTime,
-//                                    boolean onlyAbnormal, int position, String ohtSerialNumber, int page, boolean sortByCheck, boolean desc) {
-//
-//        this.isCheckedDate = isCheckedDate;
-//        this.startDateTime = startDateTime;
-//        this.endDateTime = endDateTime;
-//        this.onlyAbnormal = onlyAbnormal;
-//        this.position = position;
-//        this.ohtSerialNumber = ohtSerialNumber;
-//        this.page = page;
-//        this.sortByCheck = sortByCheck;
-//        this.desc = desc;
-//
-//    }
 
 
     public void noEndDateTime() {

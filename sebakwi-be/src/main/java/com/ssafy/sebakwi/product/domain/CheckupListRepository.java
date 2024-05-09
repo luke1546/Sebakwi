@@ -15,6 +15,7 @@ public interface CheckupListRepository extends JpaRepository<CheckupList, Intege
     // 검진일시
     @Query("SELECT c FROM CheckupList c WHERE c.status = :status AND " +
             "(:ohtSerialNumber = '' or c.wheel.oht.serialNumber = :ohtSerialNumber) AND " +
+            "(:wheelSerialNumber = '' or c.wheel.serialNumber = :wheelSerialNumber) AND " +
             "(:isCheckedDate != true or c.checkedDate <= :endDateTime) AND " +
             "(:isCheckedDate = true or c.wheel.createdDate <= DATE_TRUNC('day', CAST(:endDateTime AS DATE))) AND " +
             "(:position = 0 or c.wheel.position = :position) " +
@@ -31,14 +32,16 @@ public interface CheckupListRepository extends JpaRepository<CheckupList, Intege
                                                  @Param("isSortByCheck") boolean isSortByCheck,
                                                  @Param("isDesc") boolean isDesc,
                                                  @Param("position") int position,
-                                                 @Param("ohtSerialNumber") String ohtSerialNumber);
+                                                 @Param("ohtSerialNumber") String ohtSerialNumber,
+                                                 @Param("wheelSerialNumber") String wheelSerialNumber);
 
     @Query("SELECT c FROM CheckupList c WHERE c.status = :status AND " +
             "(:ohtSerialNumber = '' or c.wheel.oht.serialNumber = :ohtSerialNumber) AND " +
+            "(:wheelSerialNumber = '' or c.wheel.serialNumber = :wheelSerialNumber) AND " +
             "(:isCheckedDate != true or c.checkedDate >= :startDateTime) AND " +
             "(:isCheckedDate = true or c.wheel.createdDate >= DATE_TRUNC('day', CAST(:startDateTime AS DATE))) AND " +
             "(:isCheckedDate != true or c.checkedDate <= :endDateTime) AND " +
-            "(:isCheckedDate = true or c.wheel.createdDate <= DATE_TRUNC('day', CAST(:endDateTime AS DATE))) AND" +
+            "(:isCheckedDate = true or c.wheel.createdDate <= DATE_TRUNC('day', CAST(:endDateTime AS DATE))) AND " +
             "(:position = 0 or c.wheel.position = :position) " +
             "ORDER BY " +
             "CASE WHEN :isSortByCheck = true AND :isDesc = true THEN c.checkedDate END DESC, " +
@@ -53,13 +56,15 @@ public interface CheckupListRepository extends JpaRepository<CheckupList, Intege
                                                               @Param("isSortByCheck") boolean isSortByCheck,
                                                               @Param("isDesc") boolean isDesc,
                                                               @Param("position") int position,
-                                                              @Param("ohtSerialNumber") String ohtSerialNumber);
+                                                              @Param("ohtSerialNumber") String ohtSerialNumber,
+                                                              @Param("wheelSerialNumber") String wheelSerialNumber);
 
     @Query("SELECT c FROM CheckupList c " +
             "WHERE " +
             "(:ohtSerialNumber = '' or c.wheel.oht.serialNumber = :ohtSerialNumber) AND " +
+            "(:wheelSerialNumber = '' or c.wheel.serialNumber = :wheelSerialNumber) AND " +
             "(:isCheckedDate != true or c.checkedDate <= :endDateTime) AND " +
-            "(:isCheckedDate = true or c.wheel.createdDate <= DATE_TRUNC('day', CAST(:endDateTime AS DATE))) AND" +
+            "(:isCheckedDate = true or c.wheel.createdDate <= DATE_TRUNC('day', CAST(:endDateTime AS DATE))) AND " +
             "(:position = 0 or c.wheel.position = :position) " +
             "ORDER BY " +
             "CASE WHEN :isSortByCheck = true AND :isDesc = true THEN c.checkedDate END DESC, " +
@@ -72,11 +77,13 @@ public interface CheckupListRepository extends JpaRepository<CheckupList, Intege
                                            @Param("isSortByCheck") boolean isSortByCheck,
                                            @Param("isDesc") boolean isDesc,
                                            @Param("position") int position,
-                                           @Param("ohtSerialNumber") String ohtSerialNumber);
+                                           @Param("ohtSerialNumber") String ohtSerialNumber,
+                                           @Param("wheelSerialNumber") String wheelSerialNumber);
 
     @Query("SELECT c FROM CheckupList c " +
             "WHERE " +
             "(:ohtSerialNumber = '' or c.wheel.oht.serialNumber = :ohtSerialNumber) AND " +
+            "(:wheelSerialNumber = '' or c.wheel.serialNumber = :wheelSerialNumber) AND " +
             "(:isCheckedDate != true or c.checkedDate >= :startDateTime) AND " +
             "(:isCheckedDate = true or c.wheel.createdDate >= DATE_TRUNC('day', CAST(:startDateTime AS DATE))) AND " +
             "(:isCheckedDate != true or c.checkedDate <= :endDateTime) AND " +
@@ -94,6 +101,7 @@ public interface CheckupListRepository extends JpaRepository<CheckupList, Intege
                                                         @Param("isSortByCheck") boolean isSortByCheck,
                                                         @Param("isDesc") boolean isDesc,
                                                         @Param("position") int position,
-                                                        @Param("ohtSerialNumber") String ohtSerialNumber);
+                                                        @Param("ohtSerialNumber") String ohtSerialNumber,
+                                                        @Param("wheelSerialNumber") String wheelSerialNumber);
 
 }

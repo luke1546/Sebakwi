@@ -30,7 +30,7 @@ public class CheckupListService {
      * 체크업리스트 requestParam 받기
      */
 
-    public CheckupListArrayRequest getCheckupListArrayRequest(boolean isCheckedDate, String startDateTimeStr, String endDateTimeStr, boolean onlyAbnormal, int position, String ohtSerialNumber, int page, boolean sortByCheck, boolean desc) {
+    public CheckupListArrayRequest getCheckupListArrayRequest(boolean isCheckedDate, String startDateTimeStr, String endDateTimeStr, boolean onlyAbnormal, int position, String ohtSerialNumber, String wheelSerialNumber, int page, boolean sortByCheck, boolean desc) {
 
         LocalDate startDateTime = null;
         LocalDate endDateTime = null;
@@ -45,7 +45,7 @@ public class CheckupListService {
 
         return new CheckupListArrayRequest(
                 isCheckedDate, startDateTime, endDateTime, onlyAbnormal, position,
-                ohtSerialNumber, page, sortByCheck, desc
+                ohtSerialNumber, wheelSerialNumber, page, sortByCheck, desc
         );
     }
 
@@ -75,7 +75,7 @@ public class CheckupListService {
                     Page<CheckupList> page = checkupListRepository.findStatusCheckupListArray(
                             request.isCheckedDate(), endDateTime,
                             WheelStatus.ABNORMAL, pageable, request.isSortByCheck(),
-                            request.isDesc(), request.getPosition(), request.getOhtSerialNumber());
+                            request.isDesc(), request.getPosition(), request.getOhtSerialNumber(), request.getWheelSerialNumber());
                     if (page.isEmpty()) {
                         throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
                     }
@@ -90,7 +90,7 @@ public class CheckupListService {
                             request.isCheckedDate(), startDateTime,
                             endDateTime, WheelStatus.ABNORMAL,
                             pageable, request.isSortByCheck(),
-                            request.isDesc(), request.getPosition(), request.getOhtSerialNumber());
+                            request.isDesc(), request.getPosition(), request.getOhtSerialNumber(), request.getWheelSerialNumber());
                     if (page.isEmpty()) {
                         throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
                     }
@@ -106,7 +106,7 @@ public class CheckupListService {
                     Page<CheckupList> page = checkupListRepository.findCheckupListArray(
                             request.isCheckedDate(), endDateTime,
                             pageable, request.isSortByCheck(), request.isDesc(),
-                            request.getPosition(), request.getOhtSerialNumber());
+                            request.getPosition(), request.getOhtSerialNumber(), request.getWheelSerialNumber());
                     if (page.isEmpty()) {
                         throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
                     }
@@ -120,7 +120,7 @@ public class CheckupListService {
                     Page<CheckupList> page = checkupListRepository.findStartDateTimeCheckupListArray(
                             request.isCheckedDate(), startDateTime,
                             endDateTime, pageable, request.isSortByCheck(),
-                            request.isDesc(), request.getPosition(), request.getOhtSerialNumber());
+                            request.isDesc(), request.getPosition(), request.getOhtSerialNumber(), request.getWheelSerialNumber());
                     if (page.isEmpty()) {
                         throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
                     }
