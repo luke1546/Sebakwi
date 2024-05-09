@@ -4,7 +4,7 @@ import { OHTWheelProps } from 'types';
 import Wheel from './Wheel/Wheel';
 
 export default function WheelSet(props: OHTWheelProps) {
-  const { position, OHTId, sendDataToParent } = props;
+  const { position, OHTId, serialNumbers, sendDataToParent } = props;
   return (
     <Canvas
       camera={{
@@ -29,10 +29,10 @@ export default function WheelSet(props: OHTWheelProps) {
       >
         {'OHTID :' + OHTId}
       </Text>
-      <Wheel no={1} position={[-2, 0, -2]} defeat={position} sendDataToParent={sendDataToParent} />
-      <Wheel no={2} position={[2, 0, -2]} defeat={position} sendDataToParent={sendDataToParent} />
-      <Wheel no={3} position={[-2, 0, 2]} defeat={position} sendDataToParent={sendDataToParent} />
-      <Wheel no={4} position={[2, 0, 2]} defeat={position} sendDataToParent={sendDataToParent} />
+      <Wheel no={1} position={[-2, 0, -2]} defeat={position} serialNumbers={serialNumbers} sendDataToParent={sendDataToParent} />
+      <Wheel no={2} position={[2, 0, -2]} defeat={position} serialNumbers={serialNumbers} sendDataToParent={sendDataToParent} />
+      <Wheel no={3} position={[-2, 0, 2]} defeat={position} serialNumbers={serialNumbers} sendDataToParent={sendDataToParent} />
+      <Wheel no={4} position={[2, 0, 2]} defeat={position} serialNumbers={serialNumbers} sendDataToParent={sendDataToParent} />
     </Canvas>
   );
 }

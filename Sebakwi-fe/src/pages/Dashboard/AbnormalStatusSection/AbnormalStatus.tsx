@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Styled from './AbnormalStatus_style';
 import axios from 'axios';
 
@@ -47,6 +47,7 @@ function AbnormalDetail({ title, count }: Abnormal) {
 // 표
 function WheelTable({ data }: TableProps) {
   return (
+
     <Styled.TableContainer>
       <Styled.Table>
         <Styled.TableHead>
@@ -63,7 +64,7 @@ function WheelTable({ data }: TableProps) {
               <Styled.TableTd>{item.wheelNumber}</Styled.TableTd>
               <Styled.TableTd>{item.ohtNumber}</Styled.TableTd>
               <Styled.TableTd>{item.position}</Styled.TableTd>
-              <Styled.TableTd>{item.crack}</Styled.TableTd>
+              <Styled.TableTd>{item.crack ? "크랙 " : ""} {item.peeling ? "박리 " : ""} {item.stamp ? "찍힘" : ""} </Styled.TableTd>
             </tr>
           )) : <tr></tr>}
         </Styled.TableBody>
@@ -93,10 +94,10 @@ export default function AbnormalStatus() {  // 첫 이상 데이터 받아오기
 
     eventSource.addEventListener('sse', (event) => {
       const newMessage: WheelData = JSON.parse(event.data);
-      setAbData(newMessage);
       if (typeof newMessage == 'string') console.log(newMessage)
       else {
-        console.log("SSE : " + event.data)
+        console.log("데이터 : " + event.data);
+        setAbData(newMessage);
       }
     });
 
@@ -108,10 +109,10 @@ export default function AbnormalStatus() {  // 첫 이상 데이터 받아오기
   return (
     <Styled.AbContainer>
       <Styled.AbTop>
-        <AbnormalDetail title="찍힘" count={abData?.count.stamp}></AbnormalDetail>
-        <AbnormalDetail title="크랙" count={abData?.count.crack}></AbnormalDetail>
-        <AbnormalDetail title="박리" count={abData?.count.peeling}></AbnormalDetail>
-        <AbnormalDetail title="합계" count={abData?.count.total}></AbnormalDetail>
+        <AbnormalDetail title="찍힘" count={abData ? abData.count.stamp : 0}></AbnormalDetail>
+        <AbnormalDetail title="크랙" count={abData ? abData.count.crack : 0}></AbnormalDetail>
+        <AbnormalDetail title="박리" count={abData ? abData.count.peeling : 0}></AbnormalDetail>
+        <AbnormalDetail title="합계" count={abData ? abData.count.total : 0}></AbnormalDetail>
       </Styled.AbTop>
       <WheelTable data={abData?.wheelList} />
     </Styled.AbContainer>

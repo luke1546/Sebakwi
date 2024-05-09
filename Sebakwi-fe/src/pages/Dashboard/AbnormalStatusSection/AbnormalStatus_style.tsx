@@ -42,18 +42,21 @@ export const Table = styled.table`
   border: 1px solid ${PALETTE.LIGHT_BLACK};
   border-collapse: collapse;
   width: 100%;
+  max-height: 140px;
 `;
 
 export const TableHead = styled.thead`
   position: sticky;
   top: 0px;
   margin: 0;
+  z-index: 1;
 `;
 
 export const TableBody = styled.tbody`
   /* display: block; */
   max-height: 140px;
   overflow-y: scroll;
+  
 `;
 
 export const TableTr = styled.tr`

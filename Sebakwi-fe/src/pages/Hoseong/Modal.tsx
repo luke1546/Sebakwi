@@ -113,12 +113,12 @@ const Modal = ({ onClose, id }: { onClose: () => void; id: number | null }) => {
               {data?.position === 1
                 ? 'FL'
                 : data?.position === 2
-                ? 'FR'
-                : data?.position === 3
-                ? 'BL'
-                : data?.position === 4
-                ? 'BR'
-                : ''}{' '}
+                  ? 'FR'
+                  : data?.position === 3
+                    ? 'BL'
+                    : data?.position === 4
+                      ? 'BR'
+                      : ''}{' '}
             </div>
             <div>|</div>
             <div>

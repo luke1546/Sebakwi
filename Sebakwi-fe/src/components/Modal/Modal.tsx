@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ModalProps, CheckupDataProps, TableData } from 'types';
+import { ModalProps, CheckupDataProps, TableData, ModalData, SerialNumbers } from 'types';
 import ModalTable from './Sub/ModalTable';
 import axios from 'axios';
 import * as Styled from './Modal_style';
@@ -8,6 +8,7 @@ import Wheel3D from 'components/Wheel3D/Wheel3D';
 export default function Modal(props: ModalProps) {
   const { id, onClose } = props;
   const [data, setData] = useState<CheckupDataProps | null>(null);
+  const [serialNumbers, setSerialNumbers] = useState<SerialNumbers | null>(null);
 
   useEffect(() => {
     // 키보드 입력 이벤트를 감지하는 함수입니다.
@@ -37,9 +38,9 @@ export default function Modal(props: ModalProps) {
     const fetchData = async () => {
       try {
         const baseUrl = process.env.REACT_APP_BASE_URL;
-        const response = await axios.get<CheckupDataProps>(`${baseUrl}/checkup_list/${id}`);
-        setData(response.data); // 응답 데이터를 state에 저장\
-        console.log('Modal Data',response.data);
+        const response = await axios.get<ModalData>(`${baseUrl}/checkup_list/${id}`);
+        setData(response.data.checkupListDetailModalWheel); // 응답 데이터를 state에 저장
+        setSerialNumbers(response.data.checkupListDetailModalWheelNumberList);
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
@@ -50,11 +51,11 @@ export default function Modal(props: ModalProps) {
 
   const tableData: TableData[] = data
     ? [
-        { item: '마모도', value: data.diameter },
-        { item: '찍힘', value: data.stamp },
-        { item: '크랙', value: data.crack },
-        { item: '박리', value: data.peeling },
-      ]
+      { item: '마모도', value: data.diameter },
+      { item: '찍힘', value: data.stamp },
+      { item: '크랙', value: data.crack },
+      { item: '박리', value: data.peeling },
+    ]
     : [];
 
   return (
@@ -69,16 +70,16 @@ export default function Modal(props: ModalProps) {
             <div>교체 일자 : {data?.createdDate} </div>
             <div>|</div>
             <div>
-              위치 :{' '}
+              위치 :
               {data?.position === 1
-                ? 'FL'
+                ? 'LF'
                 : data?.position === 2
-                ? 'FR'
-                : data?.position === 3
-                ? 'BL'
-                : data?.position === 4
-                ? 'BR'
-                : ''}{' '}
+                  ? 'RF'
+                  : data?.position === 3
+                    ? 'LR'
+                    : data?.position === 4
+                      ? 'RR'
+                      : ''}{' '}
             </div>
             <div>|</div>
             <div>
@@ -100,6 +101,7 @@ export default function Modal(props: ModalProps) {
               position={data?.position}
               OHTId={data?.ohtNumber}
               sendDataToParent={handleDataFromChild}
+              serialNumbers={serialNumbers}
             />
           </Styled.SubContent>
           <Styled.SubContent>

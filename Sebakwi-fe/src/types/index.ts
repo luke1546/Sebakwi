@@ -5,7 +5,7 @@ import { ModalProps, CheckupDataProps, TableData } from 'types/components/Modal'
 import { Filters } from 'types/pages/CheckUpWheels';
 import { FilterSectionProps } from 'types/pages/CheckUpWheels/FilterSection';
 import { TableSectionProps, CheckupListItem } from './pages/CheckUpWheels/TableSection';
-import { CheckupData, OHTWheelProps, WheelProps } from 'types/components/3DWheel';
+import { OHTWheelProps, WheelProps, ModalData, SerialNumbers } from 'types/components/3DWheel';
 
 export type {
   BaseButtonProps,
@@ -18,7 +18,8 @@ export type {
   FilterSectionProps,
   TableSectionProps,
   CheckupListItem,
-  CheckupData,
   OHTWheelProps,
   WheelProps,
+  ModalData,
+  SerialNumbers,
 };

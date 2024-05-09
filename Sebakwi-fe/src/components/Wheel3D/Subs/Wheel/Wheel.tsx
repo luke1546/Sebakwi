@@ -3,10 +3,10 @@ import { useFrame, ThreeEvent } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import * as THREE from 'three';
 import axios from 'axios';
-import { CheckupData, WheelProps } from 'types';
+import { WheelProps, CheckupDataProps } from 'types';
 
 export default function Wheel(props: WheelProps) {
-  const { no, position, defeat, sendDataToParent } = props;
+  const { no, position, defeat, serialNumbers, sendDataToParent } = props;
   const holeSize = 0.04;
   const positions: THREE.Vector3[] = [];
 
@@ -28,16 +28,18 @@ export default function Wheel(props: WheelProps) {
 
   // 클릭 이벤트 핸들러
   const handleWheelClick = (event: ThreeEvent<MouseEvent>) => {
+    event.stopPropagation();
     console.log(`Wheel ${no} clicked!`);
 
     const fetchData = async () => {
       try {
+        const serialNumber = no === 1 ? serialNumbers?.lf : no === 2 ? serialNumbers?.rf : no === 3 ? serialNumbers?.lr : no === 4 ? serialNumbers?.rr : ""
         const baseUrl = process.env.REACT_APP_BASE_URL;
-        const response = await axios.get<CheckupData>(`${baseUrl}/checkup_list/1`);
+        const response = await axios.get<CheckupDataProps>(`${baseUrl}/checkup_list/wheels/${serialNumber}`);
         sendDataToParent(response.data); // 응답 데이터를 state에 저장\
-        console.log(response.data);
+
       } catch (error) {
-        console.error('Error fetching data: ', error);
+        alert("데이터가 없습니다.");
       }
     };
 
@@ -61,7 +63,8 @@ export default function Wheel(props: WheelProps) {
         onPointerOut={handlePointerOut}
       >
         {/* 바깥쪽 고무 부분 */}
-        <mesh rotation={[Math.PI / 2, 0, Math.PI / 2]}>
+        <mesh rotation={[Math.PI / 2, 0, Math.PI / 2]}
+        >
           <cylinderGeometry args={[1, 1, 0.4, 32]} /> {/* 두께 조정 */}
           <meshStandardMaterial color={no === defeat ? '#de2e2e' : '#ffffff'} />{' '}
           {/* 어두운 색 고무 */}
@@ -92,7 +95,7 @@ export default function Wheel(props: WheelProps) {
         anchorX="center"
         anchorY="middle"
       >
-        {no === 1 ? 'FL' : no === 2 ? 'FR' : no === 3 ? 'BL' : no === 4 ? 'BR' : ''}
+        {no === 1 ? 'LF' : no === 2 ? 'RF' : no === 3 ? 'LR' : no === 4 ? 'RR' : ''}
       </Text>
     </group>
   );

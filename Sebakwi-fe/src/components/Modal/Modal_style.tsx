@@ -44,7 +44,7 @@ color: ${({ status }) => {
       case 'ABNORMAL':
         return 'red';
       case 'NORMAL':
-        return '${PALETTE.MAIN_BLUE}';
+        return `white`;
       default:
         return 'gray';
     }
