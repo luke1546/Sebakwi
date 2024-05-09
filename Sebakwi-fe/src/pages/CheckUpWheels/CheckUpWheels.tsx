@@ -15,7 +15,8 @@ export default function CheckUpWheelsPage() {
     selectedWheelPosition: 0, // 0: 전체, 1: LF, 2: RF, 3: LR, 4: RR
     selectedSortType: 0, // 0: 최신 순, 1: 오래된 순
     selectedAbnormal: 0, // 비정상 결과만 보기 체크
-    OHTLabel: '', // OHT 호기
+    OHTSerialNumber: '', // OHT 호기
+    WheelSerialNumber: '', // Wheel 호기
   });
 
   const Resetfilters = {
@@ -26,7 +27,8 @@ export default function CheckUpWheelsPage() {
     selectedWheelPosition: 0, // 0: 전체, 1: LF, 2: RF, 3: LR, 4: RR
     selectedSortType: 0, // 0: 최신 순, 1: 오래된 순
     selectedAbnormal: 0, // 비정상 결과만 보기 체크
-    OHTLabel: '', // OHT 호기
+    OHTSerialNumber: '', // OHT 호기
+    WheelSerialNumber: '', // Wheel 일련번호
   };
 
   const UpdateFilter = (newFilters: Filters) => {
@@ -43,7 +45,8 @@ export default function CheckUpWheelsPage() {
     endDateTime: filters.selectedTimeCheck === 1 ? '' : filters.endDateTime,
     onlyAbnormal: filters.selectedAbnormal === 1,
     position: filters.selectedWheelPosition,
-    ohtSerialNumber: filters.OHTLabel,
+    ohtSerialNumber: filters.OHTSerialNumber,
+    WheelSerialNumber: filters.WheelSerialNumber,
     desc: filters.selectedSortType === 0,
   };
 

@@ -18,21 +18,6 @@ export default function Mainheader() {
       <Styled.StyledLink to="/checkupwheels" isActive={location.pathname === '/checkupwheels'}>
         검진 목록
       </Styled.StyledLink>
-      {/* <Styled.StyledLink to="/statistics" isActive={location.pathname === '/statistics'}>
-        통계
-      </Styled.StyledLink>
-      <Styled.StyledLink to="/jihun" isActive={location.pathname === '/jihun'}>
-        jihun
-      </Styled.StyledLink>
-      <Styled.StyledLink to="/jiwon" isActive={location.pathname === '/jiwon'}>
-        jiwon
-      </Styled.StyledLink>
-      <Styled.StyledLink to="/hoseong" isActive={location.pathname === '/hoseong'}>
-        hoseong
-      </Styled.StyledLink>
-      <Styled.StyledLink to="/example" isActive={location.pathname === '/example'}>
-        Example
-      </Styled.StyledLink> */}
     </Styled.MainheaderContainer>
   );
 }

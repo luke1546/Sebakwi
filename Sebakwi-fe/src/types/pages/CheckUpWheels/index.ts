@@ -6,5 +6,6 @@ export interface Filters {
     selectedWheelPosition: number;
     selectedSortType: number;
     selectedAbnormal: number;
-    OHTLabel: string;
+    OHTSerialNumber: string;
+    WheelSerialNumber: string;
   }
