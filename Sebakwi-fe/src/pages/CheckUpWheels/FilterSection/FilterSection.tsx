@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Styled from './FilterSection_style';
 import * as Comp from 'components';
-import { Filters } from '../CheckUpWheels';
+import { Filters, FilterSectionProps } from 'types';
 
-interface FilterSectionProps {
-  filter: Filters;
-  onSubmitFilters: (filters: Filters) => void; // 데이터 조회 함수 추가
-}
 
 export default function FilterSection(props: FilterSectionProps) {
-  const { filter, onSubmitFilters } = props;
+  const { filter, onSubmitFilters, onResetFilters } = props;
 
   const [localFilters, setLocalFilters] = useState<Filters>(filter);
   const handleUpdateLocalFilter = (filterName: keyof Filters, value: Filters[keyof Filters]) => {
@@ -24,8 +20,12 @@ export default function FilterSection(props: FilterSectionProps) {
   };
 
   const handleReset = () => {
-    setLocalFilters(filter);
+    onResetFilters();
   };
+
+  useEffect(() => {
+    setLocalFilters(filter);
+  }, [filter]);
 
   return (
     <Styled.Wrapper>

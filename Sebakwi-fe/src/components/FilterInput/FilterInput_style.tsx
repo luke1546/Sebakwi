@@ -8,7 +8,7 @@ export const FilterInputWrapper = styled.div`
   white-space: nowrap;
 `;
 
-export const FilterInputTitle = styled.div`
+export const FilterInputTitle = styled.p`
   margin: 0px;
   color: ${PALETTE.MAIN_BLUE};
   font-size: 17px;

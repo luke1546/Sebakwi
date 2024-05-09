@@ -1,30 +1,14 @@
-// components/Modal.tsx
 import React, { useEffect, useState } from 'react';
-import * as Styled from './Modal_style';
-import OHTWheel from './Wheel';
+import { ModalProps, CheckupDataProps, TableData, ModalData, SerialNumbers } from 'types';
+import ModalTable from './Sub/ModalTable';
 import axios from 'axios';
+import * as Styled from './Modal_style';
+import Wheel3D from 'components/Wheel3D/Wheel3D';
 
-const Modal = ({ onClose, id }: { onClose: () => void; id: number | null }) => {
-  const [data, setData] = useState<CheckupData | null>(null);
-
-  interface CheckupData {
-    checkedDate: string;
-    crack: boolean;
-    createdDate: string;
-    diameter: number;
-    ohtNumber: string;
-    peeling: boolean;
-    position: number;
-    stamp: boolean;
-    status: string;
-    wheelImage: string;
-    wheelNumber: string;
-  }
-
-  interface TableData {
-    item: string | undefined;
-    value: string | number | boolean | undefined;
-  };
+export default function Modal(props: ModalProps) {
+  const { id, onClose } = props;
+  const [data, setData] = useState<CheckupDataProps | null>(null);
+  const [serialNumbers, setSerialNumbers] = useState<SerialNumbers | null>(null);
 
   useEffect(() => {
     // 키보드 입력 이벤트를 감지하는 함수입니다.
@@ -44,58 +28,35 @@ const Modal = ({ onClose, id }: { onClose: () => void; id: number | null }) => {
     };
   }, []);
 
-  const tableData: TableData[] = [
-    { item: '마모도', value: data?.diameter },
-    { item: '찍힘', value: data?.stamp }, // 체크박스는 boolean 타입으로
-    { item: '크랙', value: data?.crack },
-    { item: '박리', value: data?.peeling },
-  ];
-
-  function renderTable(data: TableData[]) {
-    return (
-      <table>
-        <tbody>
-          {data.map((row, index) => (
-            <tr key={index}>
-              <td>{row.item}</td>
-              <td>
-                {typeof row.value === 'boolean' ? (
-                  <Styled.CheckBoxInput
-                    type="checkbox"
-                    checked={row.value}
-                    readOnly
-                  ></Styled.CheckBoxInput>
-                ) : (
-                  row.value
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    );
-  }
+  // 콜백 함수: 자식 컴포넌트에서 데이터를 받음
+  const handleDataFromChild = (data: CheckupDataProps) => {
+    console.log('Received data from child:', data);
+    setData(data);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const baseUrl = process.env.REACT_APP_BASE_URL;
-        const response = await axios.get<CheckupData>(`${baseUrl}/checkup_list/${id}`);
-        setData(response.data); // 응답 데이터를 state에 저장\
-        console.log('Modal Data', response.data);
+        const response = await axios.get<ModalData>(`${baseUrl}/checkup_list/${id}`);
+        setData(response.data.checkupListDetailModalWheel); // 응답 데이터를 state에 저장
+        setSerialNumbers(response.data.checkupListDetailModalWheelNumberList);
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
-  // 콜백 함수: 자식 컴포넌트에서 데이터를 받음
-  const handleDataFromChild = (data: CheckupData) => {
-    console.log('Received data from child:', data);
-    setData(data);
-  };
+  const tableData: TableData[] = data
+    ? [
+      { item: '마모도', value: data.diameter },
+      { item: '찍힘', value: data.stamp },
+      { item: '크랙', value: data.crack },
+      { item: '박리', value: data.peeling },
+    ]
+    : [];
 
   return (
     <Styled.ModalWrapper onClick={onClose}>
@@ -109,15 +70,15 @@ const Modal = ({ onClose, id }: { onClose: () => void; id: number | null }) => {
             <div>교체 일자 : {data?.createdDate} </div>
             <div>|</div>
             <div>
-              위치 :{' '}
+              위치 :
               {data?.position === 1
-                ? 'FL'
+                ? 'LF'
                 : data?.position === 2
-                  ? 'FR'
+                  ? 'RF'
                   : data?.position === 3
-                    ? 'BL'
+                    ? 'LR'
                     : data?.position === 4
-                      ? 'BR'
+                      ? 'RR'
                       : ''}{' '}
             </div>
             <div>|</div>
@@ -136,11 +97,12 @@ const Modal = ({ onClose, id }: { onClose: () => void; id: number | null }) => {
             <Styled.SubTitle>
               <div>휠 위치</div>
             </Styled.SubTitle>
-            <OHTWheel
+            <Wheel3D
               position={data?.position}
               OHTId={data?.ohtNumber}
               sendDataToParent={handleDataFromChild}
-            ></OHTWheel>
+              serialNumbers={serialNumbers}
+            />
           </Styled.SubContent>
           <Styled.SubContent>
             <Styled.SubTitle>
@@ -151,12 +113,12 @@ const Modal = ({ onClose, id }: { onClose: () => void; id: number | null }) => {
             <Styled.SubTitle>
               <div>검진 결과</div>
             </Styled.SubTitle>
-            <Styled.ResultTable>{renderTable(tableData)}</Styled.ResultTable>
+            <Styled.ResultTable>
+              <ModalTable data={tableData} />
+            </Styled.ResultTable>
           </Styled.SubContent>
         </Styled.Content>
       </Styled.Modal>
     </Styled.ModalWrapper>
   );
-};
-
-export default Modal;
+}

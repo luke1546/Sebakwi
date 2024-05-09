@@ -6,5 +6,16 @@ import Card from './Card/Card';
 import Pagination from './Pagenation/Pagenation';
 import FilterInput from './FilterInput/FilterInput';
 import DatePicker from './DatePicker/DatePicker';
+import Modal from './Modal/Modal';
 
-export { MainHeader, BaseButton, CheckBox, DropDownFilter, Card, Pagination, FilterInput, DatePicker };
+export {
+  MainHeader,
+  BaseButton,
+  CheckBox,
+  DropDownFilter,
+  Card,
+  Pagination,
+  FilterInput,
+  DatePicker,
+  Modal,
+};
