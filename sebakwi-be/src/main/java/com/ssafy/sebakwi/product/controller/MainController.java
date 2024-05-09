@@ -18,11 +18,10 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 public class MainController {
 
     private final MainService mainService;
-    private final WheelService wheelService;
 
     @GetMapping(value = "/monthly/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public void subscribe(@PathVariable Long id) {
-        mainService.subscribe(id);
+    public SseEmitter subscribe(@PathVariable Long id) {
+        return mainService.subscribe(id);
     }
 
 }

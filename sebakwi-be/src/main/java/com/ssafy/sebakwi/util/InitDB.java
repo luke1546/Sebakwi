@@ -45,9 +45,14 @@ public class InitDB {
 
         for (int i = 0; i < 120; i++) {
             Wheel wheel = createWheel();
+
             if (wheel != null) {
+
+                if (i == 119 || i == 118) {
+                    LocalDate updateCreatedDate = LocalDate.now().minusYears(3);
+                    wheel.changeCreatedDate(updateCreatedDate);
+                }
             wheelRepository.save(wheel);
-            log.info(wheel.getOht().getSerialNumber());
 
             }
         }
@@ -56,7 +61,8 @@ public class InitDB {
     private Oht createOht() {
 
         String sNumber = String.format("VM%04d", num);
-        List<Integer> repairList = Arrays.asList(296, 297, 298, 299, 300);
+//        List<Integer> repairList = Arrays.asList(296, 297, 298, 299, 300);
+        List<Integer> repairList = Arrays.asList(29, 30);
         boolean rep = false;
         if (repairList.contains(num)) {
             rep = true;
