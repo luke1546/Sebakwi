@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static com.ssafy.sebakwi.util.exception.CustomExceptionStatus.SEVER_ERROR;
-import static com.ssafy.sebakwi.util.exception.CustomExceptionStatus.VALIDATE_INVALID;
+import static com.ssafy.sebakwi.util.exception.CustomExceptionStatus.*;
 
 
 @RestControllerAdvice
@@ -47,12 +46,23 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleCustomException(RuntimeException ex) {
         ErrorResponse response = ErrorResponse.builder()
-            .errorCode(SEVER_ERROR.getErrorCode())
-            .message(SEVER_ERROR.getMessage())
+            .errorCode(SERVER_ERROR.getErrorCode())
+            .message(SERVER_ERROR.getMessage())
             .build();
 
         return ResponseEntity.badRequest()
             .body(response);
+    }
+
+    @ExceptionHandler(DuplicateDataException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateDataException(RuntimeException ex) {
+        ErrorResponse response = ErrorResponse.builder()
+                .errorCode(NO_CHANGE_STATUS.getErrorCode())
+                .message(NO_CHANGE_STATUS.getMessage())
+                .build();
+
+        return ResponseEntity.badRequest()
+                .body(response);
     }
 
 }
