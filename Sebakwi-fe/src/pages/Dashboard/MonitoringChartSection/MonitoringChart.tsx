@@ -81,9 +81,6 @@ export default function MonitoringChart() {
         return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 인터벌 해제
     }, []);
 
-    const xdata = [
-
-    ]
 
     const data = {
         labels: times,

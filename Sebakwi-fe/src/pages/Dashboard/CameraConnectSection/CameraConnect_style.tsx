@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Noto_Sans_KR, PALETTE } from 'styles';
 
 export const Container = styled.div`
