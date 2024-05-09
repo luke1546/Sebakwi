@@ -6,6 +6,7 @@ export interface TableSectionProps {
     onlyAbnormal: boolean;
     position: number;
     ohtSerialNumber: string;
+    WheelSerialNumber: string;
     desc: boolean;
   };
 }
