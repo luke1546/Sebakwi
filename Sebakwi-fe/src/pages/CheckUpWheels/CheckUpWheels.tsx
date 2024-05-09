@@ -1,19 +1,10 @@
+import { useState } from 'react';
+import TableSection from './TableSection/TableSection';
+import FilterSection from './FilterSection/FilterSection';
 import * as Styled from './CheckUpWheels_style';
 import * as Comp from 'components';
-import FilterSection from './FilterSection/FilterSection';
-import TableSection from './TableSection/TableSection';
-import { useState } from 'react';
+import { Filters } from 'types';
 
-export interface Filters {
-  selectedDateType: number;
-  selectedTimeCheck: number;
-  startDateTime: string;
-  endDateTime: string;
-  selectedWheelPosition: number;
-  selectedSortType: number;
-  selectedAbnormal: number;
-  OHTLabel: string;
-}
 
 export default function CheckUpWheelsPage() {
   const [filters, setFilters] = useState<Filters>({
@@ -68,7 +59,7 @@ export default function CheckUpWheelsPage() {
         </Comp.Card>
       </Styled.FilterSectionWrapper>
       <Comp.Card width="100%" height="90%" padding="30px">
-        <TableSection filter={transformedFilters} />
+        <TableSection Filter={transformedFilters} />
       </Comp.Card>
     </Styled.Wrapper>
   );

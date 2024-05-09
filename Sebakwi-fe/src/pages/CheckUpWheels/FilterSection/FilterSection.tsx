@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import * as Styled from './FilterSection_style';
 import * as Comp from 'components';
-import { Filters } from '../CheckUpWheels';
+import { Filters, FilterSectionProps } from 'types';
 
-interface FilterSectionProps {
-  filter: Filters;
-  onSubmitFilters: (filters: Filters) => void;
-  onResetFilters: () => void;
-}
 
 export default function FilterSection(props: FilterSectionProps) {
   const { filter, onSubmitFilters, onResetFilters } = props;

@@ -1,77 +1,49 @@
 import { useEffect, useState } from 'react';
 import * as Styled from './TableSection_style';
 import * as Comp from 'components';
-import Modal from '../../Hoseong/Modal';
 import axios from 'axios';
+import Modal from '../../Hoseong/Modal';
+import { TableSectionProps, CheckupListItem } from 'types';
 
-interface TableSectionProps {
-  filter: {
-    isCheckedDate: boolean;
-    startDateTime: string;
-    endDateTime: string;
-    onlyAbnormal: boolean;
-    position: number;
-    ohtSerialNumber: string;
-    desc: boolean;
-  };
-}
-
-interface CheckupListItem {
-  checkupListId: number;
-  wheelNumber: string;
-  position: number;
-  ohtNumber: string;
-  checkedDate: string;
-  status: string;
-  createdDate: string;
-}
 
 export default function TableSection(props: TableSectionProps) {
-  const { filter } = props;
+  const { Filter } = props;
 
   const [data, setData] = useState<CheckupListItem[]>([]);
-
-  const positionLabels: { [key: number]: string } = {
-    1: 'LF', // Left Front
-    2: 'RF', // Right Front
-    3: 'LR', // Left Rear
-    4: 'RR', // Right Rear
-  };
   
   const [currentPage, setCurrentPage] = useState(1); // -1 페이지를 가져오게 해야함
   const pageSize = 15;
   const [totalPages, setTotalPages] = useState(0);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => {
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+
+  const openModal = (Id: number) => {
+    setSelectedItemId(Id);
     setIsModalOpen(true);
   };
+
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
   
-  // const posts = generateData();
-  // // 현재 페이지 데이터 가져오기
-  // const currentData = () => {
-  //   const begin = (currentPage - 1) * pageSize;
-  //   const end = begin + pageSize;
-  //   return posts.slice(begin, end);
-  // };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://k10s108.p.ssafy.io/api/checkup_list', {
+        const baseUrl = process.env.REACT_APP_BASE_URL;
+        const response = await axios.get(`${baseUrl}/checkup_list`, {
           params: {
-            isCheckedDate: filter.isCheckedDate,
-            startDateTime: filter.startDateTime,
-            endDateTime: filter.endDateTime,
-            onlyAbnormal: filter.onlyAbnormal,
-            position: filter.position,
+            isCheckedDate: Filter.isCheckedDate,
+            startDateTime: Filter.startDateTime,
+            endDateTime: Filter.endDateTime,
+            onlyAbnormal: Filter.onlyAbnormal,
+            position: Filter.position,
             page: currentPage - 1,
             sortByCheck: true,
-            ohtSerialNumber: filter.ohtSerialNumber,
-            desc: filter.desc,
+            ohtSerialNumber: Filter.ohtSerialNumber,
+            desc: Filter.desc,
           },
         });
         setData(response.data.checkupListArray);
@@ -85,7 +57,7 @@ export default function TableSection(props: TableSectionProps) {
     };
 
     fetchData();
-  }, [filter, currentPage]); // filter,currentPage가 변경될 때마다 요청을 다시 보냄
+  }, [Filter, currentPage]); // filter,currentPage가 변경될 때마다 요청을 다시 보냄
 
   return (
     <Styled.Wrapper>
@@ -105,7 +77,7 @@ export default function TableSection(props: TableSectionProps) {
         <tbody>
         {data.length > 0 ? (
           data.map((item, index) => (
-            <Styled.TableTuple key={index} onClick={openModal}>
+            <Styled.TableTuple key={index} onClick={() => openModal(item.checkupListId)}>
               <Styled.AttributesValue>
                 {(currentPage - 1) * pageSize + index + 1}
               </Styled.AttributesValue>
@@ -126,20 +98,18 @@ export default function TableSection(props: TableSectionProps) {
         )}
         </tbody>
       </Styled.Table>
-      {data.length > 0 && <Comp.Pagination totalPages={totalPages} onPageChange={setCurrentPage} />}
-      {isModalOpen && <Modal onClose={closeModal} />}
+      <Comp.Pagination totalPages={totalPages} onPageChange={setCurrentPage} />
+      {isModalOpen && <Comp.Modal onClose={closeModal} id={selectedItemId} />}
+
+      {/* 호성이것 */}
+      {/* {isModalOpen && <Modal onClose={closeModal} id={selectedItemId} />} */}
     </Styled.Wrapper>
   );
 }
 
-// const generateData = () => {
-//   return Array.from({ length: 140 }, (_, index) => ({
-//     checkupListId: index + 1,
-//     wheelNumber: `SM00${232 + index}`,
-//     position: (index % 4) + 1, // 예를 들어 1부터 5까지 반복
-//     ohtNumber: `VM00${4 + index}`,
-//     checkedDate: `2024-05-${Math.floor(index / 2) + 1} 10:53:38`, // 날짜도 약간 변동을 주어서 생성
-//     status: index % 2 === 0 ? 'NORMAL' : 'ABNORMAL',
-//     createdDate: `2024-05-${Math.floor(index / 2) + 1}`,
-//   }));
-// };
+const positionLabels: { [key: number]: string } = {
+  1: 'LF', // Left Front
+  2: 'RF', // Right Front
+  3: 'LR', // Left Rear
+  4: 'RR', // Right Rear
+};

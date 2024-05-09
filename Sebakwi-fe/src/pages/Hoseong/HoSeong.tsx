@@ -15,7 +15,7 @@ export default function HoseongPage() {
       <Styled.Title>호성이 페이지</Styled.Title>
 
       <Styled.Button onClick={openModal}>BUTTON</Styled.Button>
-      {isModalOpen && <Modal onClose={closeModal} />}
+      {isModalOpen && <Modal onClose={closeModal} id={1} />}
     </>
   );
 }
