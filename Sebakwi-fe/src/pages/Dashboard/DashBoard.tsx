@@ -5,82 +5,6 @@ import AbnormalStatus from './AbnormalStatusSection/AbnormalStatus';
 import ReplaceSection from './ReplaceSection/ReplaceSection';
 import MonitoringChart from './MonitoringChartSection/MonitoringChart';
 import OHTState from './OHTStateSection/OHTState';
-import { useEffect, useState } from 'react';
-
-interface Wheel {
-  wheelNumber: string;
-  ohtNumber: string;
-  position: number;
-  crack: boolean;
-  stamp: boolean;
-  peeling: boolean;
-}
-
-// Count 데이터 타입 정의
-interface Count {
-  crack: number;
-  stamp: number;
-  peeling: number;
-  total: number;
-}
-
-// 전체 데이터를 포함하는 인터페이스
-interface WheelData {
-  count: Count;
-  wheelList: Wheel[];
-}
-
-const initialState: WheelData = {
-  count: {
-    crack: 0,
-    stamp: 0,
-    peeling: 0,
-    total: 0
-  },
-  wheelList: [
-    {
-      wheelNumber: "SM00017",
-      ohtNumber: "VM0005 ",
-      position: 1,
-      crack: false,
-      stamp: false,
-      peeling: false
-    }
-  ]
-};
-
-
-const SSEComponent: React.FC = () => {
-  const [messages, setMessages] = useState<WheelData>();
-  useEffect(() => {
-    const baseUrl = process.env.REACT_APP_BASE_URL;
-    const eventSource = new EventSource(`${baseUrl}/wheels/monthly/1`);
-
-    eventSource.addEventListener('sse', (event) => {
-      const newMessage: WheelData = JSON.parse(event.data);
-      setMessages(newMessage);
-      if (typeof newMessage == 'string') console.log(newMessage)
-      else {
-        console.log("dd.d." + event.data)
-        console.log(`messages : ${messages}`);
-        console.log(`newMessage : ${newMessage.count.crack}`);
-      }
-    });
-
-    console.log("안녕하세요 : " + messages);
-
-
-    return () => {
-      eventSource.close();
-    };
-  }, []);
-
-  return (
-    <div></div>
-  );
-};
-
-
 
 export default function DashBoradPage() {
   return (
@@ -97,8 +21,7 @@ export default function DashBoradPage() {
             <ReplaceSection></ReplaceSection>
           </Card>
           <Card title="OHT 현황" width="310px" height="90px" padding="10px">
-            {/* <OHTState></OHTState> */}
-            <SSEComponent></SSEComponent>
+            <OHTState></OHTState>
           </Card>
         </styled.SideCard>
       </styled.CardContainer>
