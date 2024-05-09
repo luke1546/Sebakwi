@@ -29,10 +29,12 @@ public class MainService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public void subscribe(Long userId) {
+    public SseEmitter subscribe(Long userId) {
 
         SseEmitter emitter = createEmitter(userId);
         sendToClient(userId, "안녕하세요 연결 됐습니다");
+
+        return emitter;
     }
 
     public void sendMonthly(Long userId, Object event) {

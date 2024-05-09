@@ -29,7 +29,6 @@ public class WheelController {
     private final WheelRepository wheelRepository;
     private final CheckupListRepository checkupListRepository;
     private final WheelService wheelService;
-    private final MainService mainService;
 
     @GetMapping("/ohts")
     public List<Oht> ohts() {
