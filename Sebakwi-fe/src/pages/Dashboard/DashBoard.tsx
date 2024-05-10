@@ -1,10 +1,10 @@
 import * as styled from './DashBoard_style';
 import Card from '../../components/Card/Card';
-import CameraConnect from './CameraConnectSection/CameraConnect';
-import AbnormalStatus from './AbnormalStatusSection/AbnormalStatus';
+import CameraConnect from './CameraConnectSection/CameraConnectSection';
+import AbnormalStatus from './AbnormalStatusSection/AbnormalStatusSection';
 import ReplaceSection from './ReplaceSection/ReplaceSection';
-import MonitoringChart from './MonitoringChartSection/MonitoringChart';
-import OHTState from './OHTStateSection/OHTState';
+import MonitoringChart from './MonitoringChartSection/MonitoringChartSection';
+import OHTState from './OHTStateSection/OHTStateSection';
 
 export default function DashBoradPage() {
   return (

@@ -1,38 +1,7 @@
 import { useEffect, useState } from 'react';
-import * as Styled from './AbnormalStatus_style';
+import { Abnormal, TableProps, WheelData } from 'types';
+import * as Styled from './AbnormalStatusSection_style';
 import axios from 'axios';
-
-interface Abnormal {
-  title: string;
-  count: number | undefined;
-};
-
-interface TableProps {
-  data: Wheel[] | undefined;
-}
-
-interface Wheel {
-  wheelNumber: string;
-  ohtNumber: string;
-  position: number;
-  crack: boolean;
-  stamp: boolean;
-  peeling: boolean;
-}
-
-// Count 데이터 타입 정의
-interface Count {
-  crack: number;
-  stamp: number;
-  peeling: number;
-  total: number;
-}
-
-// 전체 데이터를 포함하는 인터페이스
-interface WheelData {
-  count: Count;
-  wheelList: Wheel[];
-}
 
 // 비정상 수 컴포넌트
 function AbnormalDetail({ title, count }: Abnormal) {
@@ -47,7 +16,6 @@ function AbnormalDetail({ title, count }: Abnormal) {
 // 표
 function WheelTable({ data }: TableProps) {
   return (
-
     <Styled.TableContainer>
       <Styled.Table>
         <Styled.TableHead>
@@ -59,21 +27,29 @@ function WheelTable({ data }: TableProps) {
           </Styled.TableTr>
         </Styled.TableHead>
         <Styled.TableBody>
-          {data ? data.map((item, index) => (
-            <tr key={index}>
-              <Styled.TableTd>{item.wheelNumber}</Styled.TableTd>
-              <Styled.TableTd>{item.ohtNumber}</Styled.TableTd>
-              <Styled.TableTd>{item.position}</Styled.TableTd>
-              <Styled.TableTd>{item.crack ? "크랙 " : ""} {item.peeling ? "박리 " : ""} {item.stamp ? "찍힘" : ""} </Styled.TableTd>
-            </tr>
-          )) : <tr></tr>}
+          {data ? (
+            data.map((item, index) => (
+              <tr key={index}>
+                <Styled.TableTd>{item.wheelNumber}</Styled.TableTd>
+                <Styled.TableTd>{item.ohtNumber}</Styled.TableTd>
+                <Styled.TableTd>{item.position}</Styled.TableTd>
+                <Styled.TableTd>
+                  {item.crack ? '크랙 ' : ''} {item.peeling ? '박리 ' : ''}{' '}
+                  {item.stamp ? '찍힘' : ''}{' '}
+                </Styled.TableTd>
+              </tr>
+            ))
+          ) : (
+            <tr></tr>
+          )}
         </Styled.TableBody>
       </Styled.Table>
     </Styled.TableContainer>
   );
 }
 
-export default function AbnormalStatus() {  // 첫 이상 데이터 받아오기.
+export default function AbnormalStatusSection() {
+  // 첫 이상 데이터 받아오기.
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const [abData, setAbData] = useState<WheelData | null>(null);
   const fetchData = async () => {
@@ -87,16 +63,17 @@ export default function AbnormalStatus() {  // 첫 이상 데이터 받아오기
 
   useEffect(() => {
     fetchData();
-  }, [])
+  }, []);
 
-  useEffect(() => { //SSE 연결
+  useEffect(() => {
+    //SSE 연결
     const eventSource = new EventSource(`${baseUrl}/wheels/monthly/1`);
 
     eventSource.addEventListener('sse', (event) => {
       const newMessage: WheelData = JSON.parse(event.data);
-      if (typeof newMessage == 'string') console.log(newMessage)
+      if (typeof newMessage == 'string') console.log(newMessage);
       else {
-        console.log("데이터 : " + event.data);
+        console.log('데이터 : ' + event.data);
         setAbData(newMessage);
       }
     });
