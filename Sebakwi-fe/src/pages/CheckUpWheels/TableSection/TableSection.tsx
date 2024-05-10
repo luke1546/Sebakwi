@@ -44,11 +44,8 @@ export default function TableSection(props: TableSectionProps) {
         });
         setData(response.data.checkupListArray);
         setTotalPages(response.data.totalPages);
-        console.log('Data fetched:', response.data.checkupListArray);
-        console.log('Total pages:', response.data.totalPages);
       } catch (error) {
         setData([]);
-        console.error('Error fetching data:', error);
       }
     };
 
