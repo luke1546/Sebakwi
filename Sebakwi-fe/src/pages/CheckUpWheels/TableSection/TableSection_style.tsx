@@ -7,6 +7,10 @@ interface AttributesTitleProps {
   width: number;
 }
 
+interface TableTupleProps {
+  status: string;
+}
+
 export const Wrapper = styled.div`
   display: flex;
   min-height: 50vh;
@@ -27,11 +31,11 @@ export const AttributesRow = styled.tr`
   border-bottom: 1px solid ${TableLineColor};
 `;
 
-export const TableTuple = styled.tr`
+export const TableTuple = styled.tr<TableTupleProps>`
   border-top: 1px solid ${TableLineColor};
   border-bottom: 1px solid ${TableLineColor};
+  background-color: ${(props) => (props.status === 'NORMAL' ? "white" : PALETTE.LIGHT_RED)};
   cursor: pointer;
-
   &:hover {
     text-decoration: underline;
   }
