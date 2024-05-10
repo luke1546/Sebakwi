@@ -99,8 +99,8 @@ export default function TableSection(props: TableSectionProps) {
 }
 
 const positionLabels: { [key: number]: string } = {
-  1: 'LF', // Left Front
-  2: 'RF', // Right Front
-  3: 'LR', // Left Rear
-  4: 'RR', // Right Rear
+  1: 'FL', // Front Left
+  2: 'FR', // Front Right 
+  3: 'RL', // Rear Left 
+  4: 'RR', // Rear Right 
 };
