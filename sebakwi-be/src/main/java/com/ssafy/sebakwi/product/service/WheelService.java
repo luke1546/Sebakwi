@@ -2,6 +2,7 @@ package com.ssafy.sebakwi.product.service;
 
 import com.ssafy.sebakwi.product.domain.Wheel;
 import com.ssafy.sebakwi.product.domain.WheelRepository;
+import com.ssafy.sebakwi.product.domain.WheelStatus;
 import com.ssafy.sebakwi.product.dto.*;
 import com.ssafy.sebakwi.util.exception.DuplicateDataException;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,6 +31,11 @@ public class WheelService {
     /**
      * 메인페이지 관련
      */
+
+    public void updateWheelCurrentStatus(String wheelSerialNumber, WheelStatus status) {
+        Wheel wheel = wheelRepository.findByWheelSerialNumber(wheelSerialNumber);
+        wheel.updateCurrentStatus(status);
+    }
 
     WheelMonthlyStatusResponse<WheelMonthlyStatus> defaultMonthlyStatus;
 

@@ -34,8 +34,8 @@ public interface WheelRepository extends JpaRepository<Wheel, Integer> {
     /**
      * checkupList 상세모달
      */
-    @Query("SELECT w.serialNumber FROM Wheel w WHERE w.oht.serialNumber = :ohtNumber ORDER BY w.position")
-    List<String> findWheelByOhtNumber(String ohtNumber);
+    @Query("SELECT w FROM Wheel w WHERE w.oht.serialNumber = :ohtNumber ORDER BY w.position")
+    List<Wheel> findWheelByOhtNumber(String ohtNumber);
 
     @Query("SELECT w, c FROM Wheel w " +
             "LEFT JOIN w.checkupLists c " +

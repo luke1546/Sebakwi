@@ -93,6 +93,11 @@ public class WheelController {
         checkupListRepository.save(checkupListDTO.toEntity());
         log.info("checkupListDTO={}",checkupListDTO);
 
+        // 바퀴의 현재상태 업데이트
+        if (checkedWheel.getCurrentStatus() != wheelStatus) {
+            wheelService.updateWheelCurrentStatus(checkedWheel.getSerialNumber(), wheelStatus);
+        }
+
         if (wheelStatus == WheelStatus.ABNORMAL) {
 
             wheelService.updateMonthlyStatus(checkupListDTO);

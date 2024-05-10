@@ -101,7 +101,7 @@ public class InitDB {
         Wheel wheel = Wheel.builder()
                 .oht(oht)
                 .serialNumber(swNumber)
-//                .currentStatus(WheelStatus.NORMAL)
+                .currentStatus(WheelStatus.NORMAL)
                 .createdDate(LocalDate.now())
                 .position(wheelNum)
                 .build();

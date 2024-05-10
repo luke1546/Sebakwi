@@ -18,6 +18,8 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.ssafy.sebakwi.product.dto.CheckupListDetailModalWheelNumberList.*;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -159,12 +161,12 @@ public class CheckupListService {
      */
 
     public CheckupListDetailModalWheelNumberList constructWheelNumberList(String ohtNumber) {
-        List<String> wheelNumberList = wheelRepository.findWheelByOhtNumber(ohtNumber);
-        return CheckupListDetailModalWheelNumberList.builder()
-                .LF((String) wheelNumberList.get(0))
-                .RF((String) wheelNumberList.get(1))
-                .LR((String) wheelNumberList.get(2))
-                .RR((String) wheelNumberList.get(3))
+        List<Wheel> wheelNumberList = wheelRepository.findWheelByOhtNumber(ohtNumber);
+        return builder()
+                .FL(new WheelNumberStatus(wheelNumberList.get(0).getSerialNumber(), wheelNumberList.get(0).getCurrentStatus()))
+                .FR(new WheelNumberStatus(wheelNumberList.get(1).getSerialNumber(), wheelNumberList.get(1).getCurrentStatus()))
+                .RL(new WheelNumberStatus(wheelNumberList.get(2).getSerialNumber(), wheelNumberList.get(2).getCurrentStatus()))
+                .RR(new WheelNumberStatus(wheelNumberList.get(3).getSerialNumber(), wheelNumberList.get(3).getCurrentStatus()))
                 .build();
     }
 
