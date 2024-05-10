@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Noto_Sans_KR, PALETTE } from 'styles';
+import { PALETTE } from 'styles';
 
 export const Modal = styled.div`
   background-color: white;
@@ -147,4 +147,10 @@ export const ESCButton = styled.button`
     color: white;
     &:hover{cursor: pointer;
     }
+`
+
+export const DetailImg = styled.img`
+  width: 100%;
+  height: 100%;
+  margin-top: 20px;
 `

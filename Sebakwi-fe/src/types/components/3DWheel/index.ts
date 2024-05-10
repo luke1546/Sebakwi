@@ -1,40 +1,36 @@
-export interface ModalData {
-  checkupListDetailModalWheel: CheckupData;
-  checkupListDetailModalWheelNumberList: SerialNumbers;
-}
+import { CheckupDataProps } from "../Modal";
 
-export interface SerialNumbers {
-  lf: string;
-  lr: string;
-  rf: string;
-  rr: string;
+export interface WheelInfo {
+  wheelNumber: string;
+  currentStatus: string;
 }
 
 export interface CheckupData {
-  checkedDate: string;
-  crack: boolean;
-  createdDate: string;
-  diameter: number;
-  ohtNumber: string;
-  peeling: boolean;
-  position: number;
-  stamp: boolean;
-  status: string;
-  wheelImage: string;
+  checkupListId: number;
   wheelNumber: string;
+  position: number;
+  ohtNumber: string;
+  checkedDate: string;
+  wheelImage: string;
+  diameter: number;
+  crack: boolean;
+  stamp: boolean;
+  peeling: boolean;
+  status: string;
+  createdDate: string;
 }
 
 export interface OHTWheelProps {
-  position: number | undefined;
+  selected: number | undefined;
   OHTId: string | undefined;
-  serialNumbers: SerialNumbers | null;
-  sendDataToParent: (data: CheckupData) => void;
+  status: CheckupDataProps[] | null;
+  sendDataToParent: (data: number) => void;
 }
 
 export interface WheelProps {
   no: number;
   position: [number, number, number];
-  defeat: number | undefined;
-  serialNumbers: SerialNumbers | null;
-  sendDataToParent: (data: CheckupData) => void;
+  selected: number | undefined;
+  status: string | null;
+  sendDataToParent: (data: number) => void;
 };

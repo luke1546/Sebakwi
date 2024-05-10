@@ -2,13 +2,15 @@ import React from 'react';
 import { useFrame, ThreeEvent } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import * as THREE from 'three';
-import axios from 'axios';
-import { WheelProps, CheckupDataProps } from 'types';
+import { WheelProps } from 'types';
+import { PALETTE } from 'styles';
+
 
 export default function Wheel(props: WheelProps) {
-  const { no, position, defeat, serialNumbers, sendDataToParent } = props;
+  const { no, position, selected, status, sendDataToParent } = props;
   const holeSize = 0.04;
   const positions: THREE.Vector3[] = [];
+
 
   positions.push(new THREE.Vector3(0, 0, 0.3));
   positions.push(new THREE.Vector3(0, 0, -0.3));
@@ -30,24 +32,12 @@ export default function Wheel(props: WheelProps) {
   const handleWheelClick = (event: ThreeEvent<MouseEvent>) => {
     event.stopPropagation();
     console.log(`Wheel ${no} clicked!`);
-
-    const fetchData = async () => {
-      try {
-        const serialNumber = no === 1 ? serialNumbers?.lf : no === 2 ? serialNumbers?.rf : no === 3 ? serialNumbers?.lr : no === 4 ? serialNumbers?.rr : ""
-        const baseUrl = process.env.REACT_APP_BASE_URL;
-        const response = await axios.get<CheckupDataProps>(`${baseUrl}/checkup_list/wheels/${serialNumber}`);
-        sendDataToParent(response.data); // 응답 데이터를 state에 저장\
-
-      } catch (error) {
-        alert("데이터가 없습니다.");
-      }
-    };
-
-    fetchData();
+    sendDataToParent(no - 1);
   };
 
   const handlePointerOver = () => {
     document.body.style.cursor = 'pointer';
+    console.log(selected);
   };
 
   const handlePointerOut = () => {
@@ -66,24 +56,25 @@ export default function Wheel(props: WheelProps) {
         <mesh rotation={[Math.PI / 2, 0, Math.PI / 2]}
         >
           <cylinderGeometry args={[1, 1, 0.4, 32]} /> {/* 두께 조정 */}
-          <meshStandardMaterial color={no === defeat ? '#de2e2e' : '#ffffff'} />{' '}
+          <meshBasicMaterial color={status === "ABNORMAL" ? `#ff5435` : no === selected ? `#3274b5` : '#ffffff'} />{' '}
           {/* 어두운 색 고무 */}
         </mesh>
         {/* 안쪽 휠 부분 */}
+
         <mesh rotation={[Math.PI / 2, 0, Math.PI / 2]}>
           <cylinderGeometry args={[0.7, 0.7, 0.41, 32]} /> {/* 두께 조정 */}
-          <meshStandardMaterial color={no === defeat ? '#ad3333' : '#cccccc'} /> {/* 밝은 색 휠 */}
+          <meshBasicMaterial color={status === "ABNORMAL" ? '#ff3916' : no === selected ? `#1963ac` : '#cccccc'} /> {/* 밝은 색 휠 */}
         </mesh>
         <mesh rotation={[Math.PI / 2, 0, Math.PI / 2]}>
           <cylinderGeometry args={[0.2, 0.2, 0.42, 32]} /> {/* 두께 조정 */}
-          <meshStandardMaterial color={'#999999'} /> {/* 작은 고무 */}
+          <meshBasicMaterial color={'#999999'} /> {/* 작은 고무 */}
         </mesh>
         {/* 안쪽 작은 구멍 8개 */}
         {Array.from({ length: 8 }, (_, i) => {
           return (
             <mesh key={i} position={positions[i]} rotation={[Math.PI / 2, 0, Math.PI / 2]}>
               <cylinderGeometry args={[holeSize, holeSize, 0.42, 32]} />
-              <meshStandardMaterial color={'#393939'} />
+              <meshBasicMaterial color={'#393939'} />
             </mesh>
           );
         })}
@@ -91,11 +82,11 @@ export default function Wheel(props: WheelProps) {
       <Text
         position={[0, 1.75, 0]} // 텍스트 위치 조정
         fontSize={0.8}
-        color="black"
+        color={no === selected ? `${PALETTE.MAIN_BLUE}` : `black`}
         anchorX="center"
         anchorY="middle"
       >
-        {no === 1 ? 'LF' : no === 2 ? 'RF' : no === 3 ? 'LR' : no === 4 ? 'RR' : ''}
+        {no === 1 ? 'FL' : no === 2 ? 'FR' : no === 3 ? 'RL' : no === 4 ? 'RR' : ''}
       </Text>
     </group>
   );
