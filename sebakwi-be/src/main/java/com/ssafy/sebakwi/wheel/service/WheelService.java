@@ -1,6 +1,6 @@
 package com.ssafy.sebakwi.wheel.service;
 
-import com.ssafy.sebakwi.checkupList.dto.CheckupListDTO;
+import com.ssafy.sebakwi.checkupList.dto.CheckupListDto;
 import com.ssafy.sebakwi.sse.domain.EmitterRepository;
 import com.ssafy.sebakwi.sse.service.SseService;
 import com.ssafy.sebakwi.wheel.domain.Wheel;
@@ -95,7 +95,9 @@ public class WheelService {
         return response;
     }
 
-    public void updateMonthlyStatus(CheckupListDTO checkupListDTO) {
+
+
+    public void updateMonthlyStatus(CheckupListDto checkupListDto) {
 
         // 기존에 비정상 체크된 바퀴인데, 비정상 원인이 다를 경우 tmp에 저장
         List<WheelMonthlyStatus> tmp = new ArrayList<>();
@@ -108,9 +110,9 @@ public class WheelService {
         } else {
 
             defaultMonthlyStatus.updateWheelList(defaultMonthlyStatus.getWheelList().stream().filter(o -> {
-                        if (Objects.equals(o.getWheelNumber(), checkupListDTO.getWheel().getSerialNumber())) {
+                        if (Objects.equals(o.getWheelNumber(), checkupListDto.getWheel().getSerialNumber())) {
 
-                            if (Objects.equals(o.isCrack(), checkupListDTO.isCrack()) && Objects.equals(o.isStamp(), checkupListDTO.isStamp() && Objects.equals(o.isPeeling(), checkupListDTO.isPeeling()))) {
+                            if (Objects.equals(o.isCrack(), checkupListDto.isCrack()) && Objects.equals(o.isStamp(), checkupListDto.isStamp() && Objects.equals(o.isPeeling(), checkupListDto.isPeeling()))) {
                                 throw new DuplicateDataException("This Wheel is already checked");
                             }
 
@@ -126,7 +128,7 @@ public class WheelService {
                             }
 
                             // 새로 바뀐거 적용
-                            WheelMonthlyStatus newMonthlyStatus = updateNewCheckupListDto(checkupListDTO);
+                            WheelMonthlyStatus newMonthlyStatus = updateNewCheckupListDto(checkupListDto);
                             tmp.add(newMonthlyStatus);
 
                             // chart에 담을 데이터 추가
@@ -158,7 +160,7 @@ public class WheelService {
             } else {
 
                 // 새로 바뀐거 적용
-                WheelMonthlyStatus newMonthlyStatus = updateNewCheckupListDto(checkupListDTO);
+                WheelMonthlyStatus newMonthlyStatus = updateNewCheckupListDto(checkupListDto);
                 defaultMonthlyStatus.getWheelList().add(newMonthlyStatus);
 
                 // cahrt에 추가
@@ -173,25 +175,25 @@ public class WheelService {
 
     }
 
-    private WheelMonthlyStatus updateNewCheckupListDto(CheckupListDTO checkupListDTO) {
+    private WheelMonthlyStatus updateNewCheckupListDto(CheckupListDto checkupListDto) {
 
-        if (checkupListDTO.isCrack()) {
+        if (checkupListDto.isCrack()) {
             defaultMonthlyStatus.getCount().updateCrack(1);
         }
-        if (checkupListDTO.isStamp()) {
+        if (checkupListDto.isStamp()) {
             defaultMonthlyStatus.getCount().updateStamp(1);
         }
-        if (checkupListDTO.isPeeling()) {
+        if (checkupListDto.isPeeling()) {
             defaultMonthlyStatus.getCount().updatePeeling(1);
         }
 
         WheelMonthlyStatus newMonthlyStatus = WheelMonthlyStatus.builder()
-                .wheelNumber(checkupListDTO.getWheel().getSerialNumber())
-                .ohtNumber(checkupListDTO.getWheel().getOht().getSerialNumber())
-                .position(checkupListDTO.getWheel().getPosition())
-                .crack(checkupListDTO.isCrack())
-                .stamp(checkupListDTO.isStamp())
-                .peeling(checkupListDTO.isPeeling())
+                .wheelNumber(checkupListDto.getWheel().getSerialNumber())
+                .ohtNumber(checkupListDto.getWheel().getOht().getSerialNumber())
+                .position(checkupListDto.getWheel().getPosition())
+                .crack(checkupListDto.isCrack())
+                .stamp(checkupListDto.isStamp())
+                .peeling(checkupListDto.isPeeling())
                 .build();
         return newMonthlyStatus;
     }

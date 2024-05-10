@@ -52,15 +52,4 @@ public class WheelController {
 //        return "initialize the chart";
 //    }
 
-    /**
-     * 젯슨나노
-     */
-
-    @PostMapping("/wheels")
-    public CreateWheelResponse saveWheel(@RequestBody @Valid CreateWheelRequest request) {
-        return checkupListService.getCreateWheelResponse(request);
-    }
-
-
-
 }

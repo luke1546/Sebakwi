@@ -2,7 +2,7 @@ package com.ssafy.sebakwi.checkupList.dto;
 
 import com.ssafy.sebakwi.checkupList.domain.CheckupList;
 import com.ssafy.sebakwi.wheel.domain.WheelStatus;
-import com.ssafy.sebakwi.wheel.dto.WheelDTO;
+import com.ssafy.sebakwi.wheel.dto.WheelDto;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.*;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class CheckupListModalDto {
 
     private int checkupListId;
-    private WheelDTO wheel;
+    private WheelDto wheel;
     private LocalDateTime checkedDate;
     private String wheelImage;
 

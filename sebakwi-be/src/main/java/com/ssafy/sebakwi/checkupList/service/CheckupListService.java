@@ -13,7 +13,7 @@ import com.ssafy.sebakwi.wheel.domain.WheelRepository;
 import com.ssafy.sebakwi.wheel.domain.WheelStatus;
 import com.ssafy.sebakwi.wheel.dto.CreateWheelRequest;
 import com.ssafy.sebakwi.wheel.dto.CreateWheelResponse;
-import com.ssafy.sebakwi.wheel.dto.WheelDTO;
+import com.ssafy.sebakwi.wheel.dto.WheelDto;
 import com.ssafy.sebakwi.wheel.service.WheelService;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.ssafy.sebakwi.checkupList.dto.CheckupListDetailModalWheelNumberList.*;
@@ -44,7 +45,6 @@ public class CheckupListService {
 
     private final WheelService wheelService;
 
-
     /**
      * 젯슨나노로부터 바퀴 검사데이터 받기
      */
@@ -57,12 +57,8 @@ public class CheckupListService {
         }
 
         Wheel checkedWheel = wheelRepository.findByWheelSerialNumber(request.getWheelSerialNumber());
-        Oht checkedOht = ohtRepository.findByOhtSerialNumber(request.getOhtSerialNumber());
 
-        LocalDateTime time = LocalDateTime.now();
-        DateTimeFormatter createdTime = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        CheckupListDTO checkupListDTO = CheckupListDTO.builder()
+        CheckupList checkupList = CheckupList.builder()
                 .wheel(checkedWheel)
                 .checkedDate(LocalDateTime.now())
                 .wheelImage(request.getWheelImage())
@@ -73,8 +69,7 @@ public class CheckupListService {
                 .peeling(request.isPeeling())
                 .build();
 
-        checkupListRepository.save(checkupListDTO.toEntity());
-        log.info("checkupListDTO={}",checkupListDTO);
+        checkupListRepository.save(checkupList);
 
         // 바퀴의 현재상태 업데이트
 //        if (checkedWheel.getCurrentStatus() != wheelStatus) {
@@ -83,10 +78,27 @@ public class CheckupListService {
 
         if (wheelStatus == WheelStatus.ABNORMAL) {
 
-            wheelService.updateMonthlyStatus(checkupListDTO);
+            wheelService.updateMonthlyStatus(convertToCheckupListDto(checkupList));
         }
 
         return new CreateWheelResponse(request.getWheelSerialNumber());
+    }
+
+    private CheckupListDto convertToCheckupListDto(CheckupList checkupList) {
+
+        WheelDto wheelDto = WheelDto.toDto(checkupList.getWheel());
+
+        return CheckupListDto.builder()
+                .id(checkupList.getId())
+                .wheel(wheelDto)
+                .checkedDate(checkupList.getCheckedDate())
+                .wheelImage(checkupList.getWheelImage())
+                .status(checkupList.getStatus())
+                .diameter(checkupList.getDiameter())
+                .crack(checkupList.isCrack())
+                .stamp(checkupList.isStamp())
+                .peeling(checkupList.isPeeling())
+                .build();
     }
 
 
@@ -120,35 +132,45 @@ public class CheckupListService {
      * checkupListDetail 모달
      */
 
+    public List<CheckupListDetailModalWheel> getCheckupListDetailModalWheels(int checkupListId) {
+
+        CheckupList findCheckupList = checkupListRepository.findById(checkupListId)
+                .orElseThrow(RuntimeException::new);
+
+        return getCheckupListDetailModalResponse(findCheckupList);
+    }
+
+
+
     public List<CheckupListDetailModalWheel> getCheckupListDetailModalResponse(CheckupList findCheckupList) {
 
         //찾는 바퀴
 
-        OhtDTO ohtDTO = OhtDTO.builder()
-                .id(findCheckupList.getWheel().getOht().getId())
-                .serialNumber(findCheckupList.getWheel().getOht().getSerialNumber())
-                .maintenance(findCheckupList.getWheel().getOht().isMaintenance())
-                .build();
-
-        WheelDTO wheelDTO = WheelDTO.builder()
-                .oht(ohtDTO)
-                .serialNumber(findCheckupList.getWheel().getSerialNumber())
-//                .currentStatus(findCheckupList.getWheel().getCurrentStatus())
-                .createdDate(findCheckupList.getWheel().getCreatedDate())
-                .position(findCheckupList.getWheel().getPosition())
-                .build();
-
-        CheckupListModalDto checkupListDTO = CheckupListModalDto.builder()
-                .checkupListId(findCheckupList.getId())
-                .wheel(wheelDTO)
-                .checkedDate(findCheckupList.getCheckedDate())
-                .wheelImage(findCheckupList.getWheelImage())
-                .status(findCheckupList.getStatus())
-                .diameter(findCheckupList.getDiameter())
-                .crack(findCheckupList.isCrack())
-                .stamp(findCheckupList.isStamp())
-                .peeling(findCheckupList.isPeeling())
-                .build();
+//        OhtDTO ohtDTO = OhtDTO.builder()
+//                .id(findCheckupList.getWheel().getOht().getId())
+//                .serialNumber(findCheckupList.getWheel().getOht().getSerialNumber())
+//                .maintenance(findCheckupList.getWheel().getOht().isMaintenance())
+//                .build();
+//
+//        WheelDto wheelDto = WheelDto.builder()
+//                .oht(ohtDTO)
+//                .serialNumber(findCheckupList.getWheel().getSerialNumber())
+////                .currentStatus(findCheckupList.getWheel().getCurrentStatus())
+//                .createdDate(findCheckupList.getWheel().getCreatedDate())
+//                .position(findCheckupList.getWheel().getPosition())
+//                .build();
+//
+//        CheckupListModalDto checkupListDTO = CheckupListModalDto.builder()
+//                .checkupListId(findCheckupList.getId())
+//                .wheel(wheelDTO)
+//                .checkedDate(findCheckupList.getCheckedDate())
+//                .wheelImage(findCheckupList.getWheelImage())
+//                .status(findCheckupList.getStatus())
+//                .diameter(findCheckupList.getDiameter())
+//                .crack(findCheckupList.isCrack())
+//                .stamp(findCheckupList.isStamp())
+//                .peeling(findCheckupList.isPeeling())
+//                .build();
 
         // oht와 찾는 시간대
         String ohtNumber = findCheckupList.getWheel().getOht().getSerialNumber();
@@ -201,7 +223,6 @@ public class CheckupListService {
         int size = 15;
         Pageable pageable = PageRequest.of(request.getPage(), size);
 
-//        if (request.isCheckedDate()){
             if (request.isOnlyAbnormal()) {
 
                 if (request.getStartDateTime() == null) {
@@ -266,7 +287,7 @@ public class CheckupListService {
     }
 
 
-    public class CheckupListMapper {
+    public static class CheckupListMapper {
 
         public static List<CheckupListArrayResponse> toDtoList(List<CheckupList> checkupLists) {
             return checkupLists.stream()
@@ -291,15 +312,15 @@ public class CheckupListService {
      * CheckupListDetailModalWheelNumberList 만들기
      */
 
-    public CheckupListDetailModalWheelNumberList constructWheelNumberList(String ohtNumber, LocalDateTime checkedDateTime) {
-        List<Wheel> wheelNumberList = wheelRepository.findWheelByOhtNumber(ohtNumber);
-        return builder()
+//    public CheckupListDetailModalWheelNumberList constructWheelNumberList(String ohtNumber, LocalDateTime checkedDateTime) {
+//        List<Wheel> wheelNumberList = wheelRepository.findWheelByOhtNumber(ohtNumber);
+//        return builder()
 //                .FL(new WheelNumberStatus(wheelNumberList.get(0).getSerialNumber(), wheelNumberList.get(0).getCurrentStatus()))
 //                .FR(new WheelNumberStatus(wheelNumberList.get(1).getSerialNumber(), wheelNumberList.get(1).getCurrentStatus()))
 //                .RL(new WheelNumberStatus(wheelNumberList.get(2).getSerialNumber(), wheelNumberList.get(2).getCurrentStatus()))
 //                .RR(new WheelNumberStatus(wheelNumberList.get(3).getSerialNumber(), wheelNumberList.get(3).getCurrentStatus()))
-                .build();
-    }
+//                .build();
+//    }
 
 
     /**

@@ -3,6 +3,7 @@ package com.ssafy.sebakwi.checkupList.dto;
 import com.ssafy.sebakwi.checkupList.domain.CheckupList;
 import com.ssafy.sebakwi.wheel.domain.Wheel;
 import com.ssafy.sebakwi.wheel.domain.WheelStatus;
+import com.ssafy.sebakwi.wheel.dto.WheelDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,10 +14,10 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class CheckupListDTO {
+public class CheckupListDto {
 
-//    private int id;
-    private Wheel wheel;
+    private int id;
+    private WheelDto wheel;
     private LocalDateTime checkedDate;
     private String wheelImage;
 
@@ -28,17 +29,4 @@ public class CheckupListDTO {
     private boolean stamp;
     private boolean peeling;
 
-    public CheckupList toEntity() {
-        return CheckupList.builder()
-//                .id(id)
-                .wheel(wheel)
-                .checkedDate(checkedDate)
-                .wheelImage(wheelImage)
-                .status(status)
-                .diameter(diameter)
-                .crack(crack)
-                .stamp(stamp)
-                .peeling(peeling)
-                .build();
-    }
 }

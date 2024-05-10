@@ -1,5 +1,7 @@
 package com.ssafy.sebakwi.util;
 
+import com.ssafy.sebakwi.checkupList.controller.CheckupListController;
+import com.ssafy.sebakwi.checkupList.service.CheckupListService;
 import com.ssafy.sebakwi.oht.domain.Oht;
 import com.ssafy.sebakwi.oht.domain.OhtRepository;
 import com.ssafy.sebakwi.wheel.controller.WheelController;
@@ -37,7 +39,7 @@ public class InitDB {
     private final OhtRepository ohtRepository;
     private final WheelRepository wheelRepository;
 
-    private final WheelController wheelController;
+    private final CheckupListController checkupListController;
 
     public void dbInit() {
         Optional<Oht> oo = ohtRepository.findById(1L);
@@ -89,7 +91,7 @@ public class InitDB {
                     .peeling(peeling.get(i))
                     .build();
 
-            wheelController.saveWheel(request);
+            checkupListController.saveWheel(request);
         }
 
 

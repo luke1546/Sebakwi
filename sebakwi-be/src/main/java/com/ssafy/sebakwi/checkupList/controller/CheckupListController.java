@@ -7,6 +7,9 @@ import com.ssafy.sebakwi.checkupList.dto.CheckupListArrayResponse;
 import com.ssafy.sebakwi.checkupList.dto.CheckupListDetailModalWheel;
 import com.ssafy.sebakwi.checkupList.dto.CheckupListPageResponse;
 import com.ssafy.sebakwi.checkupList.service.CheckupListService;
+import com.ssafy.sebakwi.wheel.dto.CreateWheelRequest;
+import com.ssafy.sebakwi.wheel.dto.CreateWheelResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
@@ -21,7 +24,6 @@ import java.util.Optional;
 @RequestMapping("/api/checkup_list")
 public class CheckupListController {
 
-    private final CheckupListRepository checkupListRepository;
     private final CheckupListService checkupListService;
 
     @GetMapping
@@ -49,17 +51,18 @@ public class CheckupListController {
     @GetMapping("/{checkupListId}")
     public List<CheckupListDetailModalWheel> checkupListDetailModal(@PathVariable("checkupListId") int checkupListId) {
 
-        Optional<CheckupList> fCheckupList = checkupListRepository.findById(checkupListId);
-
-        if (fCheckupList.isPresent()) {
-
-            CheckupList findCheckupList = fCheckupList.get();
-
-            return checkupListService.getCheckupListDetailModalResponse(findCheckupList);
-
-        } else {
-            throw new RuntimeException();
-        }
+        return checkupListService.getCheckupListDetailModalWheels(checkupListId);
     }
+
+
+    /**
+     * 젯슨나노에서 데이터 받을 때
+     */
+
+    @PostMapping("/data")
+    public CreateWheelResponse saveWheel(@RequestBody @Valid CreateWheelRequest request) {
+        return checkupListService.getCreateWheelResponse(request);
+    }
+
 
 }

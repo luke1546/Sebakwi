@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class WheelDTO {
+public class WheelDto {
 
 //    private int id;
     private OhtDTO oht;
@@ -34,14 +34,14 @@ public class WheelDTO {
                 .build();
     }
 
-    public static WheelDTO toDTO(Wheel wheel) {
+    public static WheelDto toDto(Wheel wheel) {
         OhtDTO ohtDTO = OhtDTO.builder()
                 .id(wheel.getOht().getId())
                 .serialNumber(wheel.getOht().getSerialNumber())
                 .maintenance(wheel.getOht().isMaintenance())
                 .build();
 
-        return WheelDTO.builder()
+        return WheelDto.builder()
                 .oht(ohtDTO)
                 .serialNumber(wheel.getSerialNumber())
 //                .currentStatus(wheel.getCurrentStatus())
