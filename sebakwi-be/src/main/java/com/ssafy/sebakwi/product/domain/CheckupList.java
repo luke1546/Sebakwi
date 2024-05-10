@@ -35,15 +35,4 @@ public class CheckupList {
     private boolean stamp;
     private boolean peeling;
 
-//    @Builder
-//    public CheckupList(Wheel wheel, String wheelImage, WheelStatus status, float diameter, boolean crack, boolean stamp, boolean peeling) {
-//        this.wheel = wheel;
-//        this.wheelImage = wheelImage;
-//        this.status = status;
-//        this.diameter = diameter;
-//        this.crack = crack;
-//        this.stamp = stamp;
-//        this.peeling = peeling;
-//    }
-
 }

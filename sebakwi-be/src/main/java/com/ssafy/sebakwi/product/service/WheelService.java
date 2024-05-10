@@ -1,5 +1,6 @@
 package com.ssafy.sebakwi.product.service;
 
+import com.ssafy.sebakwi.product.domain.EmitterRepository;
 import com.ssafy.sebakwi.product.domain.Wheel;
 import com.ssafy.sebakwi.product.domain.WheelRepository;
 import com.ssafy.sebakwi.product.domain.WheelStatus;
@@ -27,15 +28,16 @@ public class WheelService {
 
     private final WheelRepository wheelRepository;
     private final MainService mainService;
+    private final EmitterRepository emitterRepository;
 
     /**
      * 메인페이지 관련
      */
 
-    public void updateWheelCurrentStatus(String wheelSerialNumber, WheelStatus status) {
-        Wheel wheel = wheelRepository.findByWheelSerialNumber(wheelSerialNumber);
-        wheel.updateCurrentStatus(status);
-    }
+//    public void updateWheelCurrentStatus(String wheelSerialNumber, WheelStatus status) {
+//        Wheel wheel = wheelRepository.findByWheelSerialNumber(wheelSerialNumber);
+//        wheel.updateCurrentStatus(status);
+//    }
 
     WheelMonthlyStatusResponse<WheelMonthlyStatus> defaultMonthlyStatus;
 
@@ -169,7 +171,9 @@ public class WheelService {
         }
         tmpY++;
 
-        mainService.sendMonthly(1L, defaultMonthlyStatus);
+        emitterRepository.getAllUuid().forEach(o ->
+            mainService.sendMonthly(o, defaultMonthlyStatus)
+        );
 
     }
 

@@ -20,7 +20,7 @@ public class CheckupListDetailModalWheelNumberList {
     @AllArgsConstructor
     public static class WheelNumberStatus {
         private String wheelNumber;
-        private WheelStatus currentStatus;
+//        private WheelStatus currentStatus;
     }
 
 }
