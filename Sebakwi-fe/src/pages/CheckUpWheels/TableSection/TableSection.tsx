@@ -73,7 +73,7 @@ export default function TableSection(props: TableSectionProps) {
         <tbody>
           {data.length > 0 ? (
             data.map((item, index) => (
-              <Styled.TableTuple key={index} onClick={() => openModal(item.checkupListId)}>
+              <Styled.TableTuple key={index} onClick={() => openModal(item.checkupListId)} status={item.status}>
                 <Styled.AttributesValue>{item.checkupListId}</Styled.AttributesValue>
                 <Styled.AttributesValue>{item.wheelNumber}</Styled.AttributesValue>
                 <Styled.AttributesValue>{positionLabels[item.position]}</Styled.AttributesValue>
