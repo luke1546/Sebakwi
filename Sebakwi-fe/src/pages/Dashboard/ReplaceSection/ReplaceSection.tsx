@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Replace, ReplaceWheel } from 'types';
 import * as Styled from './ReplaceSection_style';
 import axios from 'axios';
-
-interface Replace {
-  wheelNumber: string;
-  date: string;
-}
 
 function ReplaceComponent({ wheelNumber, date }: Replace) {
   return (
@@ -14,11 +10,6 @@ function ReplaceComponent({ wheelNumber, date }: Replace) {
       <Styled.Date>{date}</Styled.Date>
     </Styled.ReplaceWrapper>
   );
-}
-
-interface ReplaceWheel {
-  "wheelNumber": string,
-  "createdDate": string
 }
 
 export default function ReplaceSection() {
@@ -35,7 +26,7 @@ export default function ReplaceSection() {
 
   useEffect(() => {
     fetchData();
-  }, [])
+  }, []);
 
   return (
     <div>
@@ -44,11 +35,18 @@ export default function ReplaceSection() {
         <span>교체 일자</span>
       </Styled.ReplaceHeader>
       <Styled.ReplaceContainer>
-        {replaceData ?
-          replaceData.map((wheel, index) => (
-            <ReplaceComponent key={index} wheelNumber={wheel.wheelNumber} date={wheel.createdDate} />
-          ))
-          : <p>Loading...</p>  // 데이터가 로드 중이거나 불러오는 데 실패한 경우
+        {
+          replaceData ? (
+            replaceData.map((wheel, index) => (
+              <ReplaceComponent
+                key={index}
+                wheelNumber={wheel.wheelNumber}
+                date={wheel.createdDate}
+              />
+            ))
+          ) : (
+            <p>Loading...</p>
+          ) // 데이터가 로드 중이거나 불러오는 데 실패한 경우
         }
       </Styled.ReplaceContainer>
     </div>
