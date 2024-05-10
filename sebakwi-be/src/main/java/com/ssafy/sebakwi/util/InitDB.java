@@ -1,17 +1,18 @@
 package com.ssafy.sebakwi.util;
 
-import com.ssafy.sebakwi.product.controller.WheelController;
-import com.ssafy.sebakwi.product.domain.*;
-import com.ssafy.sebakwi.product.dto.CreateWheelRequest;
+import com.ssafy.sebakwi.oht.domain.Oht;
+import com.ssafy.sebakwi.oht.domain.OhtRepository;
+import com.ssafy.sebakwi.wheel.controller.WheelController;
+import com.ssafy.sebakwi.wheel.dto.CreateWheelRequest;
+import com.ssafy.sebakwi.wheel.domain.Wheel;
+import com.ssafy.sebakwi.wheel.domain.WheelRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;

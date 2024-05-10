@@ -1,5 +1,6 @@
 package com.ssafy.sebakwi.product.domain;
 
+import com.ssafy.sebakwi.checkupList.domain.CheckupList;
 import jakarta.persistence.*;
 import lombok.Getter;
 
