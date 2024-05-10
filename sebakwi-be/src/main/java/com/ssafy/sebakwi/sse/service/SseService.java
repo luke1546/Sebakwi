@@ -60,6 +60,10 @@ public class SseService {
 
         emitter.onCompletion(() -> emitterRepository.deleteById(uuid));
         emitter.onTimeout(() -> emitterRepository.deleteById(uuid));
+        emitter.onError((ex) -> {
+            emitterRepository.deleteById(uuid);
+            log.error("SSE error: {}", ex.getMessage());
+        });
 
         return emitter;
     }
