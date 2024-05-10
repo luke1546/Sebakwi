@@ -7,10 +7,8 @@ import com.ssafy.sebakwi.product.service.CheckupListService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,13 +38,13 @@ public class CheckupListController {
 
         CheckupListArrayRequest request = checkupListService.getCheckupListArrayRequest(isCheckedDate, startDateTimeStr, endDateTimeStr, onlyAbnormal, position, ohtSerialNumber, wheelSerialNumber, page, sortByCheck, desc);
 
-        return checkupListService.findCheckupListArray(request);
+        return checkupListService.getCheckupListArray(request);
 
     }
 
 
     @GetMapping("/{checkupListId}")
-    public CheckupListDetailModalResponse checkupListDetailModal(@PathVariable("checkupListId") int checkupListId) {
+    public List<CheckupListDetailModalWheel> checkupListDetailModal(@PathVariable("checkupListId") int checkupListId) {
 
         Optional<CheckupList> fCheckupList = checkupListRepository.findById(checkupListId);
 
@@ -54,59 +52,11 @@ public class CheckupListController {
 
             CheckupList findCheckupList = fCheckupList.get();
 
-            OhtDTO ohtDTO = OhtDTO.builder()
-                    .id(findCheckupList.getWheel().getOht().getId())
-                    .serialNumber(findCheckupList.getWheel().getOht().getSerialNumber())
-                    .maintenance(findCheckupList.getWheel().getOht().isMaintenance())
-                    .build();
+            return checkupListService.getCheckupListDetailModalResponse(findCheckupList);
 
-            WheelDTO wheelDTO = WheelDTO.builder()
-                    .oht(ohtDTO)
-                    .serialNumber(findCheckupList.getWheel().getSerialNumber())
-//                    .currentStatus(findCheckupList.getWheel().getCurrentStatus())
-                    .createdDate(findCheckupList.getWheel().getCreatedDate())
-                    .position(findCheckupList.getWheel().getPosition())
-                    .build();
-
-            CheckupListModalDto checkupListDTO = CheckupListModalDto.builder()
-                    .wheel(wheelDTO)
-                    .checkedDate(findCheckupList.getCheckedDate())
-                    .wheelImage(findCheckupList.getWheelImage())
-                    .status(findCheckupList.getStatus())
-                    .diameter(findCheckupList.getDiameter())
-                    .crack(findCheckupList.isCrack())
-                    .stamp(findCheckupList.isStamp())
-                    .peeling(findCheckupList.isPeeling())
-                    .build();
-
-            CheckupListDetailModalWheel modalResponse = CheckupListDetailModalWheel.builder()
-                    .wheelNumber(checkupListDTO.getWheel().getSerialNumber())
-                    .position(checkupListDTO.getWheel().getPosition())
-                    .ohtNumber(checkupListDTO.getWheel().getOht().getSerialNumber())
-                    .checkedDate(checkupListDTO.getCheckedDate())
-                    .wheelImage(checkupListDTO.getWheelImage())
-                    .diameter(checkupListDTO.getDiameter())
-                    .crack(checkupListDTO.isCrack())
-                    .stamp(checkupListDTO.isStamp())
-                    .peeling(checkupListDTO.isPeeling())
-                    .status(checkupListDTO.getStatus())
-                    .createdDate(checkupListDTO.getWheel().getCreatedDate())
-                    .build();
-
-            CheckupListDetailModalWheelNumberList wheelNumberList = checkupListService.constructWheelNumberList(checkupListDTO.getWheel().getOht().getSerialNumber());
-
-            return CheckupListDetailModalResponse.builder()
-                    .checkupListDetailModalWheel(modalResponse)
-                    .checkupListDetailModalWheelNumberList(wheelNumberList)
-                    .build();
         } else {
             throw new RuntimeException();
         }
-    }
-
-    @GetMapping("wheels/{wheelNumber}")
-    public CheckupListDetailModalWheel checkupListDetailWheel(@PathVariable String wheelNumber) {
-        return checkupListService.checkupListDetailWheelInfo(wheelNumber);
     }
 
 }

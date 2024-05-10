@@ -19,9 +19,9 @@ public class MainController {
 
     private final MainService mainService;
 
-    @GetMapping(value = "/monthly/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter subscribe(@PathVariable Long id) {
-        return mainService.subscribe(id);
+    @GetMapping(value = "/monthly/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter subscribe() {
+        return mainService.subscribe();
     }
 
 }

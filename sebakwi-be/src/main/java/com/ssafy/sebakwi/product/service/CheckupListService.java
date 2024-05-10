@@ -6,6 +6,7 @@ import com.ssafy.sebakwi.util.exception.CustomException;
 import com.ssafy.sebakwi.util.exception.CustomExceptionStatus;
 import jakarta.persistence.Tuple;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,9 +19,12 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.ssafy.sebakwi.product.dto.CheckupListDetailModalWheelNumberList.*;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
+@ToString
 public class CheckupListService {
 
     private final CheckupListRepository checkupListRepository;
@@ -50,7 +54,74 @@ public class CheckupListService {
     }
 
 
-    public CheckupListPageResponse<CheckupListArrayResponse> findCheckupListArray(CheckupListArrayRequest request) {
+    /**
+     * checkupListDetail 모달
+     */
+
+    public List<CheckupListDetailModalWheel> getCheckupListDetailModalResponse(CheckupList findCheckupList) {
+
+        //찾는 바퀴
+
+        OhtDTO ohtDTO = OhtDTO.builder()
+                .id(findCheckupList.getWheel().getOht().getId())
+                .serialNumber(findCheckupList.getWheel().getOht().getSerialNumber())
+                .maintenance(findCheckupList.getWheel().getOht().isMaintenance())
+                .build();
+
+        WheelDTO wheelDTO = WheelDTO.builder()
+                .oht(ohtDTO)
+                .serialNumber(findCheckupList.getWheel().getSerialNumber())
+//                .currentStatus(findCheckupList.getWheel().getCurrentStatus())
+                .createdDate(findCheckupList.getWheel().getCreatedDate())
+                .position(findCheckupList.getWheel().getPosition())
+                .build();
+
+        CheckupListModalDto checkupListDTO = CheckupListModalDto.builder()
+                .checkupListId(findCheckupList.getId())
+                .wheel(wheelDTO)
+                .checkedDate(findCheckupList.getCheckedDate())
+                .wheelImage(findCheckupList.getWheelImage())
+                .status(findCheckupList.getStatus())
+                .diameter(findCheckupList.getDiameter())
+                .crack(findCheckupList.isCrack())
+                .stamp(findCheckupList.isStamp())
+                .peeling(findCheckupList.isPeeling())
+                .build();
+
+        // oht와 찾는 시간대
+        String ohtNumber = findCheckupList.getWheel().getOht().getSerialNumber();
+        LocalDateTime findDateTime = findCheckupList.getCheckedDate();
+
+        List<CheckupListDetailModalWheel> response = checkupListDetailWheelInfo(ohtNumber, findDateTime);
+        return response;
+
+
+//        CheckupListDetailModalWheel modalResponse = CheckupListDetailModalWheel.builder()
+//                .checkupListId(checkupListDTO.getCheckupListId())
+//                .wheelNumber(checkupListDTO.getWheel().getSerialNumber())
+//                .position(checkupListDTO.getWheel().getPosition())
+//                .ohtNumber(checkupListDTO.getWheel().getOht().getSerialNumber())
+//                .checkedDate(checkupListDTO.getCheckedDate())
+//                .wheelImage(checkupListDTO.getWheelImage())
+//                .diameter(checkupListDTO.getDiameter())
+//                .crack(checkupListDTO.isCrack())
+//                .stamp(checkupListDTO.isStamp())
+//                .peeling(checkupListDTO.isPeeling())
+//                .status(checkupListDTO.getStatus())
+//                .createdDate(checkupListDTO.getWheel().getCreatedDate())
+//                .build();
+//
+////        CheckupListDetailModalWheelNumberList wheelNumberList = constructWheelNumberList(checkupListDTO.getWheel().getOht().getSerialNumber(), checkupListDTO.getCheckedDate());
+//
+//        return CheckupListDetailModalResponse.builder()
+//                .checkupListDetailModalWheel(modalResponse)
+//                .build();
+    }
+
+
+
+
+    public CheckupListPageResponse<CheckupListArrayResponse> getCheckupListArray(CheckupListArrayRequest request) {
 
         if (request.getEndDateTime() == null) {
             request.noEndDateTime();
@@ -158,13 +229,13 @@ public class CheckupListService {
      * CheckupListDetailModalWheelNumberList 만들기
      */
 
-    public CheckupListDetailModalWheelNumberList constructWheelNumberList(String ohtNumber) {
-        List<String> wheelNumberList = wheelRepository.findWheelByOhtNumber(ohtNumber);
-        return CheckupListDetailModalWheelNumberList.builder()
-                .LF((String) wheelNumberList.get(0))
-                .RF((String) wheelNumberList.get(1))
-                .LR((String) wheelNumberList.get(2))
-                .RR((String) wheelNumberList.get(3))
+    public CheckupListDetailModalWheelNumberList constructWheelNumberList(String ohtNumber, LocalDateTime checkedDateTime) {
+        List<Wheel> wheelNumberList = wheelRepository.findWheelByOhtNumber(ohtNumber);
+        return builder()
+//                .FL(new WheelNumberStatus(wheelNumberList.get(0).getSerialNumber(), wheelNumberList.get(0).getCurrentStatus()))
+//                .FR(new WheelNumberStatus(wheelNumberList.get(1).getSerialNumber(), wheelNumberList.get(1).getCurrentStatus()))
+//                .RL(new WheelNumberStatus(wheelNumberList.get(2).getSerialNumber(), wheelNumberList.get(2).getCurrentStatus()))
+//                .RR(new WheelNumberStatus(wheelNumberList.get(3).getSerialNumber(), wheelNumberList.get(3).getCurrentStatus()))
                 .build();
     }
 
@@ -173,24 +244,30 @@ public class CheckupListService {
      * CheckupListDetailModalWheel 만들기
      */
 
-    public CheckupListDetailModalWheel checkupListDetailWheelInfo(String wheelNumber) {
-        Tuple tuple = wheelRepository.findWheelDetailByWheelNumber(wheelNumber);
-        Wheel wheel = tuple.get(0, Wheel.class);
-        CheckupList checkupList = tuple.get(1, CheckupList.class);
+    public List<CheckupListDetailModalWheel> checkupListDetailWheelInfo(String ohtNumber, LocalDateTime findDateTime) {
 
-        return CheckupListDetailModalWheel.builder()
-                .wheelNumber(wheel.getSerialNumber())
-                .position(wheel.getPosition())
-                .ohtNumber(wheel.getOht().getSerialNumber())
-                .checkedDate(checkupList.getCheckedDate())
-                .wheelImage(checkupList.getWheelImage())
-                .diameter(checkupList.getDiameter())
-                .crack(checkupList.isCrack())
-                .stamp(checkupList.isStamp())
-                .peeling(checkupList.isPeeling())
-                .status(checkupList.getStatus())
-                .createdDate(wheel.getCreatedDate())
-                .build();
+        LocalDateTime findStartDateTime = findDateTime.minusSeconds(2);
+        LocalDateTime findEndDateTime = findDateTime.plusSeconds(2);
+
+        List<CheckupListDetailModalDto> wheelAndCheckupListList = wheelRepository.findOtherWheelDetailByWheelNumber(ohtNumber, findStartDateTime, findEndDateTime);
+
+        List<CheckupListDetailModalWheel> response = wheelAndCheckupListList.stream().map(o -> CheckupListDetailModalWheel.builder()
+                        .checkupListId(o.getCheckupList().getId())
+                        .wheelNumber(o.getWheel().getSerialNumber())
+                        .position(o.getWheel().getPosition())
+                        .ohtNumber(o.getWheel().getOht().getSerialNumber())
+                        .checkedDate(o.getCheckupList().getCheckedDate())
+                        .wheelImage(o.getCheckupList().getWheelImage())
+                        .diameter(o.getCheckupList().getDiameter())
+                        .crack(o.getCheckupList().isCrack())
+                        .stamp(o.getCheckupList().isStamp())
+                        .peeling(o.getCheckupList().isPeeling())
+                        .status(o.getCheckupList().getStatus())
+                        .createdDate(o.getWheel().getCreatedDate())
+                        .build())
+                .collect(Collectors.toList());
+
+        return response;
 
     }
 

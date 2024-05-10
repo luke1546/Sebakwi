@@ -7,6 +7,7 @@ import com.ssafy.sebakwi.product.service.WheelService;
 import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -69,7 +70,7 @@ public class WheelController {
     @PostMapping("/wheels")
     public CreateWheelResponse saveWheel(@RequestBody @Valid CreateWheelRequest request) {
         WheelStatus wheelStatus = WheelStatus.NORMAL;
-        if (request.crack || request.stamp || request.peeling) {
+        if (request.isCrack() || request.isStamp() || request.isPeeling()) {
             wheelStatus = WheelStatus.ABNORMAL;
         }
 
@@ -82,16 +83,21 @@ public class WheelController {
         CheckupListDTO checkupListDTO = CheckupListDTO.builder()
                 .wheel(checkedWheel)
                 .checkedDate(LocalDateTime.now())
-                .wheelImage(request.wheelImage)
+                .wheelImage(request.getWheelImage())
                 .status(wheelStatus)
-                .diameter(request.diameter)
-                .crack(request.crack)
-                .stamp(request.stamp)
-                .peeling(request.peeling)
+                .diameter(request.getDiameter())
+                .crack(request.isCrack())
+                .stamp(request.isStamp())
+                .peeling(request.isPeeling())
                 .build();
 
         checkupListRepository.save(checkupListDTO.toEntity());
         log.info("checkupListDTO={}",checkupListDTO);
+
+        // 바퀴의 현재상태 업데이트
+//        if (checkedWheel.getCurrentStatus() != wheelStatus) {
+//            wheelService.updateWheelCurrentStatus(checkedWheel.getSerialNumber(), wheelStatus);
+//        }
 
         if (wheelStatus == WheelStatus.ABNORMAL) {
 
@@ -99,32 +105,6 @@ public class WheelController {
         }
 
         return new CreateWheelResponse(request.getWheelSerialNumber());
-    }
-
-
-    @Data
-    static class CreateWheelRequest {
-
-        @NotEmpty
-        private String ohtSerialNumber;
-        @NotEmpty
-        private String WheelSerialNumber;
-        private int position;
-
-        private String wheelImage;
-        private float diameter;
-        private boolean crack;
-        private boolean stamp;
-        private boolean peeling;
-    }
-
-    @Data
-    static class CreateWheelResponse {
-        private String serialNumber;
-
-        public CreateWheelResponse(String serialNumber) {
-            this.serialNumber = serialNumber;
-        }
     }
 
 }

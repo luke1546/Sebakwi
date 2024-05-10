@@ -1,5 +1,6 @@
 package com.ssafy.sebakwi.product.domain;
 
+import com.ssafy.sebakwi.product.dto.CheckupListDetailModalDto;
 import com.ssafy.sebakwi.product.dto.CheckupListDetailModalWheel;
 import com.ssafy.sebakwi.product.dto.WheelMonthlyStatus;
 import io.lettuce.core.dynamic.annotation.Param;
@@ -34,13 +35,18 @@ public interface WheelRepository extends JpaRepository<Wheel, Integer> {
     /**
      * checkupList 상세모달
      */
-    @Query("SELECT w.serialNumber FROM Wheel w WHERE w.oht.serialNumber = :ohtNumber ORDER BY w.position")
-    List<String> findWheelByOhtNumber(String ohtNumber);
+    @Query("SELECT w FROM Wheel w WHERE w.oht.serialNumber = :ohtNumber ORDER BY w.position")
+    List<Wheel> findWheelByOhtNumber(String ohtNumber);
 
-    @Query("SELECT w, c FROM Wheel w " +
+    @Query("SELECT NEW com.ssafy.sebakwi.product.dto.CheckupListDetailModalDto(w, c) " +
+            "FROM Wheel w " +
             "LEFT JOIN w.checkupLists c " +
-            "WHERE w.serialNumber = :wheelNumber " +
-            "AND c.id = (SELECT MAX(c2.id) FROM CheckupList c2 WHERE c2.wheel = w)"
-            )
-    Tuple findWheelDetailByWheelNumber(String wheelNumber);
+            "WHERE w.oht.serialNumber = :ohtNumber AND " +
+            "c.checkedDate BETWEEN :findStartDateTime AND :findEndDateTime " +
+            "GROUP BY w.id, c.id " +
+            "HAVING c.id = (SELECT MAX(c1.id) " +
+            "                FROM CheckupList c1 " +
+            "                WHERE c1.wheel = w) " +
+            "ORDER BY w.position")
+    List<CheckupListDetailModalDto> findOtherWheelDetailByWheelNumber(String ohtNumber, LocalDateTime findStartDateTime, LocalDateTime findEndDateTime);
 }

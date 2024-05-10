@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CheckupListModalDto {
 
+    private int checkupListId;
     private WheelDTO wheel;
     private LocalDateTime checkedDate;
     private String wheelImage;
@@ -29,7 +30,7 @@ public class CheckupListModalDto {
 
     public CheckupList toEntity() {
         return CheckupList.builder()
-//                .id(id)
+//                .id(checkupListId)
                 .wheel(wheel.toEntity())
                 .checkedDate(checkedDate)
                 .wheelImage(wheelImage)

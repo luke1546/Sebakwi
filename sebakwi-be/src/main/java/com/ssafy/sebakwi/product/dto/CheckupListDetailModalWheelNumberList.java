@@ -1,6 +1,9 @@
 package com.ssafy.sebakwi.product.dto;
 
+import com.ssafy.sebakwi.product.domain.WheelStatus;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -8,9 +11,16 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CheckupListDetailModalWheelNumberList {
 
-    private String LF;
-    private String RF;
-    private String LR;
-    private String RR;
+    private WheelNumberStatus FL;
+    private WheelNumberStatus FR;
+    private WheelNumberStatus RL;
+    private WheelNumberStatus RR;
+
+    @Getter
+    @AllArgsConstructor
+    public static class WheelNumberStatus {
+        private String wheelNumber;
+//        private WheelStatus currentStatus;
+    }
 
 }
