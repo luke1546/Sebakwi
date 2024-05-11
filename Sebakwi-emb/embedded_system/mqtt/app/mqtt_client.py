@@ -1,13 +1,14 @@
 # mqtt/app/mqtt_client.py
 
 import paho.mqtt.client as mqtt
-from mqtt.config import *
+from embedded_system.mqtt.config import *
+from embedded_system.utils.log_config import custom_log_info
 
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+    custom_log_info("Connected with result code "+str(rc))
 
 def on_publish(client, userdata, mid):
-    print("Message Published.")
+    custom_log_info("Message Published.")
 
 def setup_mqtt_client():
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)

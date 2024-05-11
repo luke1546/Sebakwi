@@ -1,36 +1,39 @@
-import time
-from datetime import datetime
+# main.py
+
 import mqtt as MQTT
-from ai.app import *
+from embedded_system.ai.app import *
+from embedded_system.utils.log_config import setup_logging, custom_log_info
 
 
 def main():
-    count = 0
+    custom_log_info("프로그램 시작!")
+    
+    # 로그 관련
+    setup_logging()
+    
+    # MQTT 설정
+    client = MQTT.setup_mqtt_client()
+    client.loop_start()
 
     try:
-        # MQTT 클라이언트를 시작합니다. 모든 메시지 처리는 background thread에서 수행됩니다.
-        client = MQTT.setup_mqtt_client()
-        client.loop_start()
 
         while True:
-            print("-----------------")
-            print(detection.extract())
-            print(defection.extract())
-            print("-----------------")
+            # 실시간 휠 감지
+            if detection.extract() == False:
+                # 휠이 감지 되지않았다면 계속
+                continue
+            # 휠 결함 찾기
+            json_data = defection.extract()
 
-            message = "Hello, MQTT! " + datetime.now().isoformat()
-
-            MQTT.publish_message(client, MQTT.HELLO_MQTT_TOPIC, message)
-            count += 1
-            time.sleep(2)
+            MQTT.publish_message(client, MQTT.HELLO_MQTT_TOPIC, json_data)
 
     except KeyboardInterrupt:
-        print("Interrupted by user, shutting down.")
+        custom_log_info("Interrupted by user, shutting down.")
 
     finally:
         client.loop_stop()  # background 네트워크 루프를 멈춥니다.
         client.disconnect()  # 클라이언트 연결을 종료합니다.
-        print("MQTT client disconnected.")
+        custom_log_info("프로그램을 종료합니다.")
 
 if __name__ == "__main__":
     main()
