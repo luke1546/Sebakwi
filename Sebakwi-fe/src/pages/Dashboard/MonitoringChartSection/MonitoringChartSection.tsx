@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Slide, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import * as Styled from './MonitoringChartSection_style';
 import { ToolTips } from 'types';
 import {
@@ -30,6 +32,9 @@ export const options = {
 export default function MonitoringChartSection() {
   const [axisData, setAxisData] = useState<ToolTips | null>(null);
   const [times, setTimes] = useState<string[]>([]);
+  // 토스트 알림 중복 방지
+  // const [shownAlerts, setShownAlerts] = useState<Set<string>>(new Set());
+
   // 데이터를 불러오는 함수
   const fetchData = async () => {
     try {
@@ -41,6 +46,27 @@ export default function MonitoringChartSection() {
         return timePart;
       });
       setTimes(timeOnly);
+
+      // 토스트 알림 로직 부분
+      // response.data.toolTips.forEach((group, index) => {
+      //   group.forEach((item) => {
+      //     const alertKey = `${item.wheelNumber} - ${item.crack ? 'crack' : ''}${
+      //       item.stamp ? 'stamp' : ''
+      //     }${item.peeling ? 'peeling' : ''}`;
+      //     if (!shownAlerts.has(alertKey)) {
+      //       if (item.crack) {
+      //         toast.error(`${item.wheelNumber} 휠 크랙 발생`);
+      //       }
+      //       if (item.stamp) {
+      //         toast.error(`${item.wheelNumber} 휠 찍힘 발생`);
+      //       }
+      //       if (item.peeling) {
+      //         toast.error(`${item.wheelNumber} 휠 박리 발생`);
+      //       }
+      //       setShownAlerts(new Set(shownAlerts.add(alertKey)));
+      //     }
+      //   });
+      // });
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -50,7 +76,10 @@ export default function MonitoringChartSection() {
   useEffect(() => {
     fetchData(); // 최초 로드 시 실행
     const intervalId = setInterval(fetchData, 30000); // 30초마다 실행
-    return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 인터벌 해제
+    return () => {
+      clearInterval(intervalId);
+      //   setShownAlerts(new Set()); // 인터벌이 해제될 때 알림 히스토리도 초기화
+    }; // 컴포넌트 언마운트 시 인터벌 해제
   }, []);
 
   const xdata = [];
@@ -69,6 +98,20 @@ export default function MonitoringChartSection() {
 
   return (
     <Styled.ChartContainer>
+      {/* <Styled.TContainer /> */}
+      {/* <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover
+        theme="colored"
+        transition={Slide}
+      /> */}
       <Line options={options} data={data} />
     </Styled.ChartContainer>
   );
