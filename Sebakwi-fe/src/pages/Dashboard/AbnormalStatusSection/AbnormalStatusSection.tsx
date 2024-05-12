@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Abnormal, TableProps, WheelData } from 'types';
+import { Abnormal, TableProps, WheelData, AbnormalStatusSectionProps } from 'types';
 import * as Styled from './AbnormalStatusSection_style';
 import axios from 'axios';
 import { Slide, ToastContainer, toast } from 'react-toastify';
@@ -54,7 +54,7 @@ function WheelTable({ data }: TableProps) {
 // 토스트 알림 - 전역변수 선언
 let shownAlerts = new Set();
 
-export default function AbnormalStatusSection() {
+export default function AbnormalStatusSection({ onRefetch }: AbnormalStatusSectionProps) {
   // 첫 이상 데이터 받아오기.
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const [abData, setAbData] = useState<WheelData | null>(null);
@@ -81,6 +81,9 @@ export default function AbnormalStatusSection() {
       else {
         console.log('데이터 : ' + event.data);
         setAbData(newMessage);
+        // 새로운 데이터 도착을 알리기
+        onRefetch();
+
         // 토스트 알림
         if (newMessage.wheelList.length > 0) {
           const newWheelData = newMessage.wheelList[newMessage.wheelList.length - 1];
@@ -120,8 +123,8 @@ export default function AbnormalStatusSection() {
       <WheelTable data={abData?.wheelList} />
       <Styled.AlarmContainer
         position="bottom-right"
-        // autoClose={3000}
-        autoClose={false}
+        autoClose={4000}
+        // autoClose={false}
         hideProgressBar
         newestOnTop={false}
         closeOnClick={false}
