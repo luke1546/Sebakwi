@@ -13,3 +13,7 @@ export interface ToolTips {
   xdata: string[];
   ydata: number[];
 }
+
+export interface MonitoringChartSectionProps {
+  shouldRefetch: boolean;
+}

@@ -6,7 +6,11 @@ import { Filters } from 'types/pages/CheckUpWheels';
 import { FilterSectionProps } from 'types/pages/CheckUpWheels/FilterSection';
 import { TableSectionProps, CheckupListItem } from './pages/CheckUpWheels/TableSection';
 import { OHTWheelProps, WheelProps, ModalData, SerialNumbers } from 'types/components/3DWheel';
-import { WheelTypeData, ToolTips } from 'types/pages/Dashboard/MonitoringChartSection';
+import {
+  WheelTypeData,
+  ToolTips,
+  MonitoringChartSectionProps,
+} from 'types/pages/Dashboard/MonitoringChartSection';
 import { State, OHTCount } from 'types/pages/Dashboard/OHTStateSection';
 import { Replace, ReplaceWheel } from 'types/pages/Dashboard/ReplaceSection';
 import {
@@ -15,6 +19,7 @@ import {
   Wheel,
   Count,
   WheelData,
+  AbnormalStatusSectionProps,
 } from 'types/pages/Dashboard/AbnormalStateSection';
 
 export type {
@@ -43,4 +48,6 @@ export type {
   OHTCount,
   Replace,
   ReplaceWheel,
+  AbnormalStatusSectionProps,
+  MonitoringChartSectionProps,
 };

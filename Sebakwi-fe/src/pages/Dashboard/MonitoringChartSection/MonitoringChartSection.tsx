@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import 'react-toastify/dist/ReactToastify.css';
 import * as Styled from './MonitoringChartSection_style';
-import { ToolTips } from 'types';
+import { ToolTips, MonitoringChartSectionProps } from 'types';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -27,9 +28,10 @@ export const options = {
   },
 };
 
-export default function MonitoringChartSection() {
+export default function MonitoringChartSection({ shouldRefetch }: MonitoringChartSectionProps) {
   const [axisData, setAxisData] = useState<ToolTips | null>(null);
   const [times, setTimes] = useState<string[]>([]);
+
   // 데이터를 불러오는 함수
   const fetchData = async () => {
     try {
@@ -50,8 +52,10 @@ export default function MonitoringChartSection() {
   useEffect(() => {
     fetchData(); // 최초 로드 시 실행
     const intervalId = setInterval(fetchData, 30000); // 30초마다 실행
-    return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 인터벌 해제
-  }, []);
+    return () => {
+      clearInterval(intervalId);
+    }; // 컴포넌트 언마운트 시 인터벌 해제
+  }, [shouldRefetch]); // shouldRefetch가 변할때마다 렌더링
 
   const xdata = [];
 

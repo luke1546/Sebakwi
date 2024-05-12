@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Abnormal, TableProps, WheelData } from 'types';
+import { Abnormal, TableProps, WheelData, AbnormalStatusSectionProps } from 'types';
 import * as Styled from './AbnormalStatusSection_style';
 import axios from 'axios';
+import { Slide, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { GoAlert } from 'react-icons/go';
 
 // 비정상 수 컴포넌트
 function AbnormalDetail({ title, count }: Abnormal) {
@@ -48,7 +51,10 @@ function WheelTable({ data }: TableProps) {
   );
 }
 
-export default function AbnormalStatusSection() {
+// 토스트 알림 - 전역변수 선언
+let shownAlerts = new Set();
+
+export default function AbnormalStatusSection({ onRefetch }: AbnormalStatusSectionProps) {
   // 첫 이상 데이터 받아오기.
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const [abData, setAbData] = useState<WheelData | null>(null);
@@ -67,7 +73,7 @@ export default function AbnormalStatusSection() {
 
   useEffect(() => {
     //SSE 연결
-    const eventSource = new EventSource(`${baseUrl}/wheels/monthly/1`);
+    const eventSource = new EventSource(`${baseUrl}/wheels/monthly/sse`);
 
     eventSource.addEventListener('sse', (event) => {
       const newMessage: WheelData = JSON.parse(event.data);
@@ -75,6 +81,29 @@ export default function AbnormalStatusSection() {
       else {
         console.log('데이터 : ' + event.data);
         setAbData(newMessage);
+        // 새로운 데이터 도착을 알리기
+        onRefetch();
+
+        // 토스트 알림
+        if (newMessage.wheelList.length > 0) {
+          const newWheelData = newMessage.wheelList[newMessage.wheelList.length - 1];
+          const alertKey = `${newWheelData.wheelNumber} - ${newWheelData.crack ? 'crack' : ''}${
+            newWheelData.stamp ? 'stamp' : ''
+          }${newWheelData.peeling ? 'peeling' : ''}`;
+
+          if (!shownAlerts.has(alertKey)) {
+            shownAlerts.add(alertKey);
+            if (newWheelData.crack) {
+              toast.error(`${newWheelData.wheelNumber} 휠 크랙 발생`, { icon: <GoAlert /> });
+            }
+            if (newWheelData.stamp) {
+              toast.error(`${newWheelData.wheelNumber} 휠 찍힘 발생`, { icon: <GoAlert /> });
+            }
+            if (newWheelData.peeling) {
+              toast.error(`${newWheelData.wheelNumber} 휠 박리 발생`, { icon: <GoAlert /> });
+            }
+          }
+        }
       }
     });
 
@@ -92,6 +121,20 @@ export default function AbnormalStatusSection() {
         <AbnormalDetail title="합계" count={abData ? abData.count.total : 0}></AbnormalDetail>
       </Styled.AbTop>
       <WheelTable data={abData?.wheelList} />
+      <Styled.AlarmContainer
+        position="bottom-right"
+        autoClose={4000}
+        // autoClose={false}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover
+        theme="colored"
+        transition={Slide}
+      />
     </Styled.AbContainer>
   );
 }
