@@ -4,17 +4,18 @@ export interface ModalProps {
 }
 
 export interface CheckupDataProps {
-  checkedDate: string;
-  crack: boolean;
-  createdDate: string;
-  diameter: number;
-  ohtNumber: string;
-  peeling: boolean;
-  position: number;
-  stamp: boolean;
-  status: string;
-  wheelImage: string;
+  checkupListId: number;
   wheelNumber: string;
+  position: number;
+  ohtNumber: string;
+  checkedDate: string;
+  wheelImage: string;
+  diameter: number;
+  crack: boolean;
+  stamp: boolean;
+  peeling: boolean;
+  status: string;
+  createdDate: string;
 }
 
 export interface TableData {

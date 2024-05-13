@@ -148,3 +148,9 @@ export const ESCButton = styled.button`
     &:hover{cursor: pointer;
     }
 `
+
+export const DetailImg = styled.img`
+  width: 100%;
+  height: 100%;
+  margin-top: 20px;
+`
