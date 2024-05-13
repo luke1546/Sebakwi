@@ -136,9 +136,9 @@ const dateTypes = [
 
 const wheelPositions = [
   { label: '전체', value: 0 },
-  { label: 'LF', value: 1 },
-  { label: 'RF', value: 2 },
-  { label: 'LR', value: 3 },
+  { label: 'FL', value: 1 },
+  { label: 'FR', value: 2 },
+  { label: 'RL', value: 3 },
   { label: 'RR', value: 4 },
 ];
 

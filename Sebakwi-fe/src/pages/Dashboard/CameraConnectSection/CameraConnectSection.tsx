@@ -1,12 +1,12 @@
 import Camera from 'components/Camera/Camera';
-import * as Styled from './CameraConnect_style';
+import * as Styled from './CameraConnectSection_style';
 import { PALETTE } from 'styles';
 // import { useState } from 'react';
 // import axios from 'axios';
 
 // 카메라 연결현황 api 받고 props로 전달해주기(styled도)
 
-export default function CameraConnect() {
+export default function CameraConnectSection() {
   // const [cameras, setCameras] = useState([]);
 
   // isActive 상태가 변경될 때마다 실행
