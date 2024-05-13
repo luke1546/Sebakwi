@@ -332,7 +332,7 @@ public class CheckupListService {
         LocalDateTime findStartDateTime = findDateTime.minusSeconds(2);
         LocalDateTime findEndDateTime = findDateTime.plusSeconds(2);
 
-        List<CheckupListDetailModalDto> wheelAndCheckupListList = wheelRepository.findOtherWheelDetailByWheelNumber(ohtNumber, findStartDateTime, findEndDateTime);
+        List<CheckupListDetailModalDto> wheelAndCheckupListList = wheelRepository.findOtherWheelDetailByWheelNumber(ohtNumber, findEndDateTime);
 
         List<CheckupListDetailModalWheel> response = wheelAndCheckupListList.stream().map(o -> CheckupListDetailModalWheel.builder()
                         .checkupListId(o.getCheckupList().getId())

@@ -34,15 +34,25 @@ public interface WheelRepository extends JpaRepository<Wheel, Integer> {
     @Query("SELECT w FROM Wheel w WHERE w.oht.serialNumber = :ohtNumber ORDER BY w.position")
     List<Wheel> findWheelByOhtNumber(String ohtNumber);
 
+//    @Query("SELECT NEW com.ssafy.sebakwi.checkupList.dto.CheckupListDetailModalDto(w, c) " +
+//            "FROM Wheel w " +
+//            "LEFT JOIN w.checkupLists c " +
+//            "WHERE w.oht.serialNumber = :ohtNumber AND " +
+//            "c.checkedDate BETWEEN :findStartDateTime AND :findEndDateTime " +
+//            "GROUP BY w.id, c.id " +
+//            "HAVING c.id = (SELECT MAX(c1.id) " +
+//            "FROM CheckupList c1 " +
+//            "WHERE c1.wheel = w) " +
+//            "ORDER BY w.position")
     @Query("SELECT NEW com.ssafy.sebakwi.checkupList.dto.CheckupListDetailModalDto(w, c) " +
             "FROM Wheel w " +
             "LEFT JOIN w.checkupLists c " +
             "WHERE w.oht.serialNumber = :ohtNumber AND " +
-            "c.checkedDate BETWEEN :findStartDateTime AND :findEndDateTime " +
+            "c.checkedDate <= :findEndDateTime " +
             "GROUP BY w.id, c.id " +
             "HAVING c.id = (SELECT MAX(c1.id) " +
-            "                FROM CheckupList c1 " +
-            "                WHERE c1.wheel = w) " +
+            "FROM CheckupList c1 " +
+            "WHERE c1.wheel = w) " +
             "ORDER BY w.position")
-    List<CheckupListDetailModalDto> findOtherWheelDetailByWheelNumber(String ohtNumber, LocalDateTime findStartDateTime, LocalDateTime findEndDateTime);
+    List<CheckupListDetailModalDto> findOtherWheelDetailByWheelNumber(String ohtNumber, LocalDateTime findEndDateTime);
 }

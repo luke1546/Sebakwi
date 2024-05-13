@@ -17,7 +17,6 @@ public class EmitterRepository {
     private final Map<UUID, SseEmitter> emitters = new ConcurrentHashMap<>();
 
     /**
-     *
      * @param uuid
      * @param emitter - 이벤트 emitter
      */
