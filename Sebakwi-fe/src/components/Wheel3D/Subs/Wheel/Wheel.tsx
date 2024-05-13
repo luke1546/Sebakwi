@@ -31,13 +31,13 @@ export default function Wheel(props: WheelProps) {
   // 클릭 이벤트 핸들러
   const handleWheelClick = (event: ThreeEvent<MouseEvent>) => {
     event.stopPropagation();
-    console.log(`Wheel ${no} clicked!`);
+    // console.log(`Wheel ${no} clicked!`);
     sendDataToParent(no - 1);
   };
 
   const handlePointerOver = () => {
     document.body.style.cursor = 'pointer';
-    console.log(selected);
+    // console.log(selected);
   };
 
   const handlePointerOut = () => {
@@ -53,21 +53,18 @@ export default function Wheel(props: WheelProps) {
         onPointerOut={handlePointerOut}
       >
         {/* 바깥쪽 고무 부분 */}
-        <mesh rotation={[Math.PI / 2, 0, Math.PI / 2]}
-        >
-          <cylinderGeometry args={[1, 1, 0.4, 32]} /> {/* 두께 조정 */}
-          <meshBasicMaterial color={status === "ABNORMAL" ? `#ff5435` : no === selected ? `#3274b5` : '#ffffff'} />{' '}
-          {/* 어두운 색 고무 */}
+        <mesh rotation={[Math.PI / 2, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[1, 1, 0.4, 32]} />{/* 두께 조정 */}
+          <meshBasicMaterial color={status === "ABNORMAL" ? `#ff5435` : no === selected ? `#3274b5` : '#ffffff'} />
         </mesh>
         {/* 안쪽 휠 부분 */}
-
         <mesh rotation={[Math.PI / 2, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.7, 0.7, 0.41, 32]} /> {/* 두께 조정 */}
-          <meshBasicMaterial color={status === "ABNORMAL" ? '#ff3916' : no === selected ? `#1963ac` : '#cccccc'} /> {/* 밝은 색 휠 */}
+          <cylinderGeometry args={[0.7, 0.7, 0.41, 32]} />{/* 두께 조정 */}
+          <meshBasicMaterial color={status === "ABNORMAL" ? '#ff3916' : no === selected ? `#1963ac` : '#cccccc'} />{/* 밝은 색 휠 */}
         </mesh>
         <mesh rotation={[Math.PI / 2, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.2, 0.2, 0.42, 32]} /> {/* 두께 조정 */}
-          <meshBasicMaterial color={'#999999'} /> {/* 작은 고무 */}
+          <cylinderGeometry args={[0.2, 0.2, 0.42, 32]} />{/* 두께 조정 */}
+          <meshBasicMaterial color={'#999999'} />{/* 작은 고무 */}
         </mesh>
         {/* 안쪽 작은 구멍 8개 */}
         {Array.from({ length: 8 }, (_, i) => {
