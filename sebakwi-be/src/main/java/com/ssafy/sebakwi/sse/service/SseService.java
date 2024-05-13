@@ -2,7 +2,6 @@ package com.ssafy.sebakwi.sse.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.sebakwi.sse.domain.EmitterRepository;
-import com.ssafy.sebakwi.sse.dto.ErrorResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +49,7 @@ public class SseService {
                 emitter.send(SseEmitter.event().id(String.valueOf(uuid)).name("sse").data(jsonData));
             } catch (IOException e) {
                 emitterRepository.deleteById(uuid);
-                sendErrorMessage(emitter, e, uuid);
+                emitter.completeWithError(e);
             }
         }
     }
@@ -69,16 +68,4 @@ public class SseService {
         return emitter;
     }
 
-    private void sendErrorMessage(SseEmitter emitter, Exception ex, UUID uuid) {
-        try {
-            emitter.send(SseEmitter.event()
-                    .id(String.valueOf(uuid))
-                    .name("error")
-                    .data(objectMapper.writeValueAsString(new ErrorResponse(ex.getMessage()))));
-        } catch (IOException e) {
-            log.info("Error occured while sending error message={}", e.getMessage());
-        } finally {
-            emitter.completeWithError(ex);
-        }
-    }
 }
