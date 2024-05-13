@@ -19,15 +19,15 @@ def extract()-> bool:
     try:
         ## source 파일 설정
         # cap = cv2.VideoCapture(0)
-        # cap = cv2.VideoCapture(TEST_720p_VIDEO)
+        cap = cv2.VideoCapture(TEST_720p_VIDEO)
         cv2.VideoCapture().set(cv2.CAP_PROP_BUFFERSIZE, 1)
-        cap = cv2.VideoCapture(
-            gstreamer_pipeline(framerate=10, flip_method=0),
-            cv2.CAP_GSTREAMER
-        )
+        # cap = cv2.VideoCapture(
+        #     gstreamer_pipeline(framerate=10, flip_method=0),
+        #     cv2.CAP_GSTREAMER
+        # )
         while True:
             # setting Buffer Size
-            cap.set(cv2.CAP_PROP_BUFFERSIZE, 0)
+            # cap.set(cv2.CAP_PROP_BUFFERSIZE, 0)
 
             # 화면 읽어 오기
             ret, frame = cap.read()

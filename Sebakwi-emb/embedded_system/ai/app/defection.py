@@ -14,6 +14,7 @@ from embedded_system.utils.log_config import custom_log_info
 def extract() -> json:
     # 직경 측정
 
+    '''
     model = YOLO(TEST_fhd_MODEL)
     custom_log_info("Model 로드 완료")
 
@@ -74,7 +75,7 @@ def extract() -> json:
         cap.release()
         cv2.destroyAllWindows()
         custom_log_info("종료됩니다")
-
+'''
     detect_wheel = Wheel(
         "image.jpg",
         True,
