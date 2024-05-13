@@ -6,9 +6,81 @@ import * as Styled from './Modal_style';
 import Wheel3D from 'components/Wheel3D/Wheel3D';
 
 export default function Modal(props: ModalProps) {
+  const initialData = [
+    {
+      checkupListId: 0,
+      wheelNumber: "",
+      position: 0,
+      ohtNumber: "",
+      checkedDate: "",
+      wheelImage: "",
+      diameter: 0,
+      crack: false,
+      stamp: false,
+      peeling: false,
+      status: "",
+      createdDate: "",
+    },
+    {
+      checkupListId: 0,
+      wheelNumber: "",
+      position: 0,
+      ohtNumber: "",
+      checkedDate: "",
+      wheelImage: "",
+      diameter: 0,
+      crack: false,
+      stamp: false,
+      peeling: false,
+      status: "",
+      createdDate: "",
+    },
+    {
+      checkupListId: 0,
+      wheelNumber: "",
+      position: 0,
+      ohtNumber: "",
+      checkedDate: "",
+      wheelImage: "",
+      diameter: 0,
+      crack: false,
+      stamp: false,
+      peeling: false,
+      status: "",
+      createdDate: "",
+    },
+    {
+      checkupListId: 0,
+      wheelNumber: "",
+      position: 0,
+      ohtNumber: "",
+      checkedDate: "",
+      wheelImage: "",
+      diameter: 0,
+      crack: false,
+      stamp: false,
+      peeling: false,
+      status: "",
+      createdDate: "",
+    },
+    {
+      checkupListId: 0,
+      wheelNumber: "",
+      position: 0,
+      ohtNumber: "",
+      checkedDate: "",
+      wheelImage: "",
+      diameter: 0,
+      crack: false,
+      stamp: false,
+      peeling: false,
+      status: "",
+      createdDate: "",
+    },
+  ]
   const { id, onClose } = props;
-  const [data, setData] = useState<CheckupDataProps[] | null>(null);
-  const [selected, setSelected] = useState<number>(0);
+  const [data, setData] = useState<CheckupDataProps[]>(initialData);
+  const [selected, setSelected] = useState<number>(4);
 
   useEffect(() => {
     // 키보드 입력 이벤트를 감지하는 함수입니다.
@@ -29,9 +101,10 @@ export default function Modal(props: ModalProps) {
   }, [onClose]);
 
   // 콜백 함수: 자식 컴포넌트에서 데이터를 받음
-  const handleDataFromChild = (data: number) => {
-    console.log('Received data from child:', data);
-    setSelected(data);
+  const handleDataFromChild = (prop: number) => {
+    // console.log('Received data from child:', data);
+    if (data[prop].position == 0) alert("데이터가 없습니다.");
+    else setSelected(prop);
   };
 
   useEffect(() => {
@@ -39,7 +112,16 @@ export default function Modal(props: ModalProps) {
       try {
         const baseUrl = process.env.REACT_APP_BASE_URL;
         const response = await axios.get<CheckupDataProps[]>(`${baseUrl}/checkup_list/${id}`);
-        setData(response.data); // 응답 데이터를 state에 저장
+        console.log(response.data);
+        let updatedData = initialData;
+        response.data.forEach((e, index) => {
+          if (data === null) return; // 데이터가 null이면 아무 작업도 수행하지 않음
+          updatedData[e.position - 1] = e;
+          if (e.checkupListId === id) {
+            setSelected(index);
+          }
+        })
+        setData(updatedData);
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
@@ -47,15 +129,6 @@ export default function Modal(props: ModalProps) {
 
     fetchData();
   }, [id]);
-
-  useEffect(() => {
-    data?.forEach((e, index) => {
-      if (e.checkupListId === id) {
-        console.log(index);
-        setSelected(index);
-      }
-    })
-  }, [id, data])
 
   const tableData: TableData[] = data
     ?
@@ -72,30 +145,30 @@ export default function Modal(props: ModalProps) {
       <Styled.Modal onClick={(event) => event.stopPropagation()}>
         <Styled.Title>
           <Styled.TitleInfo>
-            <div>검진 ID : {data?.[selected].wheelNumber}</div>
+            <div>검진 ID : {data[selected].wheelNumber}</div>
             <div> | </div>
-            <div>검진 일자 : {data?.[selected].checkedDate}</div>
+            <div>검진 일자 : {data[selected].checkedDate}</div>
             <div> | </div>
-            <div>교체 일자 : {data?.[selected].createdDate} </div>
+            <div>교체 일자 : {data[selected].createdDate} </div>
             <div>|</div>
             <div>
               위치 :
-              {data?.[selected].position === 1
+              {data[selected].position === 1
                 ? 'FL'
-                : data?.[selected].position === 2
+                : data[selected].position === 2
                   ? 'FR'
-                  : data?.[selected].position === 3
+                  : data[selected].position === 3
                     ? 'RL'
-                    : data?.[selected].position === 4
+                    : data[selected].position === 4
                       ? 'RR'
                       : ''}{' '}
             </div>
             <div>|</div>
             <div>
               검진 결과 :{' '}
-              <Styled.Result status={data?.[selected].status}>
+              <Styled.Result status={data[selected].status}>
                 {' '}
-                {data?.[selected].status === 'ABNORMAL' ? '비정상' : '정상'}{' '}
+                {data[selected].status === 'ABNORMAL' ? '비정상' : '정상'}{' '}
               </Styled.Result>
             </div>
           </Styled.TitleInfo>
@@ -107,8 +180,8 @@ export default function Modal(props: ModalProps) {
               <div>휠 위치</div>
             </Styled.SubTitle>
             <Wheel3D
-              selected={data?.[selected].position}
-              OHTId={data?.[selected].ohtNumber}
+              selected={data[selected].position}
+              OHTId={data[selected].ohtNumber}
               status={data}
               sendDataToParent={handleDataFromChild}
             />
