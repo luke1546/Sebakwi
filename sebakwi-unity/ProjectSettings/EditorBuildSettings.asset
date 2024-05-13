@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/CyberneticWalrus/Factory_Interior/Scenes/Factory_Interior.unity
+    guid: eda0b8fb7e8c03642a26d0c819eb1630
   m_configObjects: {}

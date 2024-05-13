@@ -8,7 +8,7 @@ public class CanvasManager : MonoBehaviour
     public Image greenBox;
     public Image redBox;
     public TMP_Text judgment;
-    float time = -2;
+    float time = -1.8f;
     void Start()
     {
         Hide();
@@ -32,7 +32,7 @@ public class CanvasManager : MonoBehaviour
     {
         string msg;
         int randomNumber = Random.Range(0, 100);
-        if (randomNumber < 90)
+        if (randomNumber < 70)
         {
             msg = "Good ";
             greenBox.gameObject.SetActive(true); // 대화 상자 활성화
@@ -43,6 +43,8 @@ public class CanvasManager : MonoBehaviour
             redBox.gameObject.SetActive(true); // 대화 상자 활성화
         }
         float randomValue = Random.Range(0.5f, 0.99f);
+        msg += randomValue.ToString("F2");
+        judgment.text = msg;
         judgment.gameObject.SetActive(true);
     }
 
