@@ -30,7 +30,7 @@ export default function DashBoradPage() {
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  }, []);
+  }, [baseUrl]);
 
 
   useEffect(() => {

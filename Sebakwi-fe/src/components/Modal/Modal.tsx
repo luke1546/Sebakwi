@@ -103,7 +103,7 @@ export default function Modal(props: ModalProps) {
   // 콜백 함수: 자식 컴포넌트에서 데이터를 받음
   const handleDataFromChild = (prop: number) => {
     // console.log('Received data from child:', data);
-    if (data[prop].position == 0) alert("데이터가 없습니다.");
+    if (data[prop].position === 0) alert("데이터가 없습니다.");
     else setSelected(prop);
   };
 
