@@ -12,8 +12,8 @@ public class SebakwiApplication {
 		SpringApplication.run(SebakwiApplication.class, args);
 
 	}
-	@Bean
-	Hibernate5JakartaModule hibernate5Module() {
-		return new Hibernate5JakartaModule();
-	}
+//	@Bean
+//	Hibernate5JakartaModule hibernate5Module() {
+//		return new Hibernate5JakartaModule();
+//	}
 }

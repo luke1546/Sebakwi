@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/wheels")
 public class WheelController {
 
     private final WheelRepository wheelRepository;
@@ -25,10 +25,10 @@ public class WheelController {
     private final WheelService wheelService;
 
 
-    @GetMapping("/wheels")
+    @GetMapping()
     public List<Wheel> wheels() {return wheelRepository.findAll();}
 
-    @GetMapping("/wheels/replacement")
+    @GetMapping("/replacement")
     public List<WheelReplacementResponse> wheelReplacement() {
         return wheelService.wheelReplacementInfo();
     }
@@ -36,14 +36,14 @@ public class WheelController {
     /**
      * sse연결하기 전 monthly 데이터 받는 요청
      */
-    @GetMapping("/wheels/monthly")
+    @GetMapping("/monthly")
     public WheelMonthlyStatusResponse<WheelMonthlyStatus> mainMonthlyWheelStatus() {
         return wheelService.monthlyWheelStatusInfo();
     }
 
-    @GetMapping("/wheels/chart")
+    @GetMapping("/chart")
     public WheelChartResponse getChartInfo() {
-        return wheelService.wheelChartInfo();
+        return wheelService.sendChartInfo();
     }
 
 //    @GetMapping("/wheels/chart/initialize")
