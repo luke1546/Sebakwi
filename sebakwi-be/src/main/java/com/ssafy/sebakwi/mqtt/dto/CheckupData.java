@@ -1,4 +1,4 @@
-package com.ssafy.sebakwi.wheel.dto;
+package com.ssafy.sebakwi.mqtt.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -8,17 +8,23 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
-public class CreateWheelRequest {
+public class CheckupData {
 
     @NotEmpty
     private String ohtSerialNumber;
+
     @NotEmpty
     private String wheelSerialNumber;
+
     private int position;
 
     private String wheelImage;
+
     private float diameter;
+
     private boolean crack;
+
     private boolean stamp;
+
     private boolean peeling;
 }
