@@ -16,7 +16,6 @@ public interface WheelRepository extends JpaRepository<Wheel, Integer> {
     /**
      * 메인페이지
      */
-
     @Query("SELECT w, w.serialNumber, w.oht.serialNumber, w.position, c1.crack, c1.stamp, c1.peeling FROM Wheel w " +
             "LEFT JOIN FETCH w.checkupLists c1 " +
             "WHERE c1.id = (SELECT MAX(c2.id) FROM CheckupList c2 WHERE c2.wheel.id = w.id AND c2.checkedDate >= :startOfMonth) " +
@@ -53,7 +52,7 @@ public interface WheelRepository extends JpaRepository<Wheel, Integer> {
             "HAVING c.id = (SELECT MAX(c1.id) " +
             "FROM CheckupList c1 " +
             "WHERE c1.wheel = w AND " +
-            "c.checkedDate <= :findEndDateTime) " +
+            "c1.checkedDate <= :findEndDateTime) " +
             "ORDER BY w.position")
     List<CheckupListDetailModalDto> findOtherWheelDetailByWheelNumber(String ohtNumber, LocalDateTime findEndDateTime);
 }
