@@ -333,6 +333,7 @@ public class CheckupListService {
         LocalDateTime findEndDateTime = findDateTime.plusSeconds(2);
 
         List<CheckupListDetailModalDto> wheelAndCheckupListList = wheelRepository.findOtherWheelDetailByWheelNumber(ohtNumber, findEndDateTime);
+        log.info("wheelAndCheckupListList.size()={}", wheelAndCheckupListList.size());
 
         List<CheckupListDetailModalWheel> response = wheelAndCheckupListList.stream().map(o -> CheckupListDetailModalWheel.builder()
                         .checkupListId(o.getCheckupList().getId())
@@ -349,7 +350,7 @@ public class CheckupListService {
                         .createdDate(o.getWheel().getCreatedDate())
                         .build())
                 .collect(Collectors.toList());
-
+        log.info("response.size()={}", response.size());
         return response;
 
     }

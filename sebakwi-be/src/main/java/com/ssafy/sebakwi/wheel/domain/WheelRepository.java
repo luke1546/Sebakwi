@@ -52,7 +52,8 @@ public interface WheelRepository extends JpaRepository<Wheel, Integer> {
             "GROUP BY w.id, c.id " +
             "HAVING c.id = (SELECT MAX(c1.id) " +
             "FROM CheckupList c1 " +
-            "WHERE c1.wheel = w) " +
+            "WHERE c1.wheel = w AND " +
+            "c.checkedDate <= :findEndDateTime) " +
             "ORDER BY w.position")
     List<CheckupListDetailModalDto> findOtherWheelDetailByWheelNumber(String ohtNumber, LocalDateTime findEndDateTime);
 }

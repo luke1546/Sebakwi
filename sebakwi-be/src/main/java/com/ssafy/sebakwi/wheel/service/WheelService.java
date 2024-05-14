@@ -9,6 +9,8 @@ import com.ssafy.sebakwi.util.exception.DuplicateDataException;
 import com.ssafy.sebakwi.wheel.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 @Service
+@EnableScheduling
 public class WheelService {
 
     private final WheelRepository wheelRepository;
@@ -169,6 +172,9 @@ public class WheelService {
         }
         tmpY++;
 
+        // 이상감지시 데이터 업데이트
+        wheelChartInfo();
+
         emitterRepository.getAllUuid().forEach(o ->
             sseService.sendMonthly(o, defaultMonthlyStatus)
         );
@@ -215,7 +221,7 @@ public class WheelService {
     }
 
     /**
-     * chart에서 쓸 데이터
+     * chart에서 쓸 데이터 30초마다 갱신
      */
 
     // 특정 시간 내에 업데이트된 값을 저장하는 변수
@@ -228,7 +234,8 @@ public class WheelService {
     private List<Integer> yData = new ArrayList<>();
     private List<List<WheelMonthlyStatus>> toolTips = new ArrayList<>();
 
-    public WheelChartResponse wheelChartInfo() {
+    @Scheduled(cron = "0,30 * * * * *")
+    public void wheelChartInfo() {
 
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -244,17 +251,30 @@ public class WheelService {
         yData.add(tmpY);
         toolTips.add(new ArrayList<>(tmpTooltips));
 
+        // tmp값들 초기화
+        tmpY= 0;
+        tmpTooltips = new ArrayList<>();
+
+    }
+
+    // 차트 데이터 보내기
+    public WheelChartResponse sendChartInfo() {
+
+        int seconds = LocalDateTime.now().getSecond();
+
+        // 이상현황 발생시
+//        if (seconds != 0 && seconds != 30) {
+//            wheelChartInfo();
+//        }
+
         WheelChartResponse response = WheelChartResponse.builder()
                 .xData(xData)
                 .yData(yData)
                 .toolTips(toolTips)
                 .build();
 
-        // tmp값들 초기화
-        tmpY= 0;
-        tmpTooltips = new ArrayList<>();
-
         return response;
+
     }
 
 //    public void initializeWheelChartInfo() {
