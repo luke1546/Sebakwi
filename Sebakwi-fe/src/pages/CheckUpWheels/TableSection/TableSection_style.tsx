@@ -8,7 +8,7 @@ interface AttributesTitleProps {
 }
 
 interface TableTupleProps {
-  status: string;
+  $status: string;
 }
 
 export const Wrapper = styled.div`
@@ -34,7 +34,7 @@ export const AttributesRow = styled.tr`
 export const TableTuple = styled.tr<TableTupleProps>`
   border-top: 1px solid ${TableLineColor};
   border-bottom: 1px solid ${TableLineColor};
-  background-color: ${(props) => (props.status === 'NORMAL' ? "white" : PALETTE.LIGHT_RED)};
+  background-color: ${(props) => (props.$status === 'NORMAL' ? "white" : PALETTE.LIGHT_RED)};
   cursor: pointer;
   &:hover {
     text-decoration: underline;

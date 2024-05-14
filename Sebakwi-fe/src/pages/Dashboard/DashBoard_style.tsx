@@ -1,5 +1,6 @@
+import { ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
-import { PALETTE } from 'styles';
+import { Noto_Sans_KR, PALETTE } from 'styles';
 
 export const DashboardContainer = styled.div`
   /* height: calc(100vh - 74px); */
@@ -11,19 +12,6 @@ export const DashboardContainer = styled.div`
   padding: 0px 2vw;
 `;
 
-// export const DashboardContainer = styled.div`
-//   height: 90vh;
-//   display: grid;
-//   grid-template-columns: repeat(12, 1fr); /* 12열 격자 */
-//   grid-template-rows: repeat(3, 1fr); /* 3행 격자 */
-//   grid-template-areas:
-//     'cam cam cam cam ab ab ab ch ch ch '
-//     'cam cam cam cam ab ab ab oht oht oht '
-//     'chart chart chart chart chart chart chart chart chart chart chart chart';
-//   background-color: ${PALETTE.LIGHT_BLUE};
-//   padding: 0px 2vw;
-//   gap: 1rem; /* 격자 간격 */
-// `;
 
 export const CardContainer = styled.div`
   width: 100vh;
@@ -38,4 +26,27 @@ export const SideCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+`;
+
+
+export const AlarmContainer = styled(ToastContainer)`
+  .Toastify__toast {
+    font-family: ${Noto_Sans_KR.semiBold.variable};
+    font-weight: ${Noto_Sans_KR.semiBold.weight};
+    background: #e74c3c;
+  }
+  .Toastify__toast-body {
+    font-family: ${Noto_Sans_KR.medium.variable};
+    font-weight: ${Noto_Sans_KR.medium.weight};
+    color: white;
+  }
+
+  .Toastify__toast-icon {
+    margin-right: 10px;
+    color: white;
+    font-size: 30px;
+  }
+  .Toastify__close-button {
+    color: white;
+  }
 `;
