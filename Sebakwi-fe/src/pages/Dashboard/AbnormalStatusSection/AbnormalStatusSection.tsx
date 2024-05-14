@@ -28,17 +28,25 @@ function WheelTable({ data }: TableProps) {
         </Styled.TableHead>
         <Styled.TableBody>
           {data ? (
-            data.map((item, index) => (
-              <tr key={index}>
-                <Styled.TableTd>{item.wheelNumber}</Styled.TableTd>
-                <Styled.TableTd>{item.ohtNumber}</Styled.TableTd>
-                <Styled.TableTd>{item.position}</Styled.TableTd>
-                <Styled.TableTd>
-                  {item.crack ? '크랙 ' : ''} {item.peeling ? '박리 ' : ''}{' '}
-                  {item.stamp ? '찍힘' : ''}{' '}
-                </Styled.TableTd>
-              </tr>
-            ))
+            data.map((item, index) => {
+              // 상태를 배열로 관리
+              let statuses = [];
+              if (item.stamp) statuses.push('찍힘');
+              if (item.crack) statuses.push('크랙');
+              if (item.peeling) statuses.push('박리');
+
+              // 상태 배열을 문자열로 합치기
+              let statusString = statuses.join(', ');
+
+              return (
+                <tr key={index}>
+                  <Styled.TableTd>{item.wheelNumber}</Styled.TableTd>
+                  <Styled.TableTd>{item.ohtNumber}</Styled.TableTd>
+                  <Styled.TableTd>{item.position}</Styled.TableTd>
+                  <Styled.TableTd>{statusString}</Styled.TableTd>
+                </tr>
+              );
+            })
           ) : (
             <tr></tr>
           )}

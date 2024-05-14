@@ -3,18 +3,23 @@ import styled from 'styled-components';
 import { Noto_Sans_KR, PALETTE } from 'styles';
 
 export const DashboardContainer = styled.div`
-  height: calc(100vh - 74px);
+  /* height: calc(100vh - 74px); */
+  height: 90vh;
   display: flex;
   flex-direction: column;
   background-color: ${PALETTE.LIGHT_BLUE};
-  padding: 0px 30px;
+  /* padding: 0px 30px; */
+  padding: 0px 2vw;
 `;
 
+
 export const CardContainer = styled.div`
-  width: 100%;
+  width: 100vh;
   display: flex;
   /* justify-content: space-between; */
-  padding-top: 23px;
+
+  /* padding-top: 23px; */
+  padding-top: 3vh;
 `;
 
 export const SideCard = styled.div`

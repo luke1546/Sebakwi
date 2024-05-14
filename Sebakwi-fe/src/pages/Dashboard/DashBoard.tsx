@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import Card from '../../components/Card/Card';
+import React, { useCallback, useEffect, useState } from 'react';
 import CameraConnect from './CameraConnectSection/CameraConnectSection';
 import AbnormalStatus from './AbnormalStatusSection/AbnormalStatusSection';
 import ReplaceSection from './ReplaceSection/ReplaceSection';
 import MonitoringChart from './MonitoringChartSection/MonitoringChartSection';
 import OHTState from './OHTStateSection/OHTStateSection';
 import { GoAlert } from 'react-icons/go';
-import { WheelData } from 'types';
 import { toast, Slide } from 'react-toastify';
-import * as Styled from './DashBoard_style';
 import axios from 'axios';
+import * as Comp from 'components';
+import { WheelData } from 'types';
+import * as Styled from './DashBoard_style';
 
 // 토스트 알림 - 전역변수 선언
 let shownAlerts = new Set();
@@ -17,23 +17,25 @@ let shownAlerts = new Set();
 export default function DashBoradPage() {
   // sse를 통해 새로운 데이터가 왔음을 알리는 상태
   const [receiveData, setReceiveData] = useState(false);
-  
+
   // 첫 이상 데이터 받아오기.
   const [abData, setAbData] = useState<WheelData | null>(null);
 
   const baseUrl = process.env.REACT_APP_BASE_URL;
-  const fetchData = async () => {
+
+  const fetchData = useCallback(async () => {
     try {
       const response = await axios.get<WheelData>(`${baseUrl}/wheels/monthly`);
       setAbData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  };
+  }, []);
+
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData, receiveData]);
 
   useEffect(() => {
     //SSE 연결
@@ -76,35 +78,32 @@ export default function DashBoradPage() {
     };
   }, []);
 
-
-
   return (
     <Styled.DashboardContainer>
       <Styled.CardContainer>
-        <Card title="카메라 연결 현황" width="600px" height="275px">
+        <Comp.Card title="카메라 연결 현황" width="600px" height="275px">
           <CameraConnect />
-        </Card>
-        <Card title="금월 이상 현황" width="400px" height="275px">
-          <AbnormalStatus data={abData}/>
-        </Card>
+        </Comp.Card>
+        <Comp.Card title="금월 이상 현황" width="400px" height="275px">
+          <AbnormalStatus data={abData} />
+        </Comp.Card>
         <Styled.SideCard>
-          <Card title="교체 주기 도래 휠" width="310px" height="120px" padding="10px">
+          <Comp.Card title="교체 주기 도래 휠" width="310px" height="120px" padding="10px">
             <ReplaceSection />
-          </Card>
-          <Card title="OHT 현황" width="310px" height="90px" padding="10px">
+          </Comp.Card>
+          <Comp.Card title="OHT 현황" width="20rem" height="5.5rem" padding="0.7rem">
             <OHTState />
-          </Card>
+          </Comp.Card>
         </Styled.SideCard>
       </Styled.CardContainer>
       <Styled.CardContainer>
-        <Card title="모니터링 차트" width="1440px" height="160px">
+        <Comp.Card title="모니터링 차트" width="1440px" height="160px">
           <MonitoringChart shouldRefetch={receiveData} />
-        </Card>
+        </Comp.Card>
       </Styled.CardContainer>
       <Styled.AlarmContainer
         position="bottom-right"
         autoClose={4000}
-        // autoClose={false}
         hideProgressBar
         newestOnTop={false}
         closeOnClick={false}

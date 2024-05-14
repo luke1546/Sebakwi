@@ -4,4 +4,5 @@ export interface CardProps {
   width: string;
   height: string;
   padding?: string;
+  gridArea?: string;
 }

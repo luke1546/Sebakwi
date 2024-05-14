@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Noto_Sans_KR, PALETTE } from 'styles';
 
-
 export const AbContainer = styled.div`
   display: flex;
   flex-direction: column;
