@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import TableSection from './TableSection/TableSection';
 import FilterSection from './FilterSection/FilterSection';
-import * as Styled from './CheckUpWheels_style';
-import * as Comp from 'components';
-import { Filters, WheelData } from 'types';
 import { GoAlert } from 'react-icons/go';
+import { Filters, WheelData } from 'types';
 import { Slide, toast } from 'react-toastify';
+import * as Comp from 'components';
+import * as Styled from './CheckUpWheels_style';
 
 let shownAlerts = new Set();
 

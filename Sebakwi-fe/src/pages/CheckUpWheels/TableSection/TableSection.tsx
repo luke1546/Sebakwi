@@ -26,7 +26,7 @@ export default function TableSection(props: TableSectionProps) {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchData (){
       try {
         const baseUrl = process.env.REACT_APP_BASE_URL;
         const response = await axios.get(`${baseUrl}/checkup_list`, {
@@ -51,7 +51,7 @@ export default function TableSection(props: TableSectionProps) {
     };
 
     fetchData();
-  }, [Filter, currentPage]); // filter,currentPage가 변경될 때마다 요청을 다시 보냄
+  }, [Filter, currentPage]);
 
   return (
     <Styled.Wrapper>

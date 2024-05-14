@@ -53,7 +53,6 @@ export const TableHead = styled.thead`
 `;
 
 export const TableBody = styled.tbody`
-  /* display: block; */
   max-height: 140px;
   overflow-y: scroll;
 `;
@@ -77,4 +76,3 @@ export const TableTd = styled.td`
   text-align: center;
   border: 1px solid ${PALETTE.LIGHT_BLACK};
 `;
-

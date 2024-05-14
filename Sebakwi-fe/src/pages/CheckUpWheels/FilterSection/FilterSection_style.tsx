@@ -4,8 +4,7 @@ import { Noto_Sans_KR, PALETTE } from 'styles';
 
 interface DateCheckProps {
   disabled: boolean;
-} 
-
+}
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -45,7 +44,6 @@ export const SearchWrapper = styled.div`
   justify-content: space-between;
 `;
 
-// Left
 export const LeftContentWrapper = styled.div`
   display: flex;
 `;
@@ -93,7 +91,7 @@ export const RangeWrapper = styled.div<DateCheckProps>`
   > p {
     margin: 0px 15px;
     color: ${PALETTE.MAIN_BLACK};
-    opacity: ${props => props.disabled ? 0.5 : 1};
+    opacity: ${(props) => (props.disabled ? 0.5 : 1)};
     font-size: 20px;
   }
 `;
@@ -144,7 +142,6 @@ export const SearchButtonText = styled.p`
   color: white;
 `;
 
-// Right
 export const RightContentWrapper = styled.div`
   display: flex;
   align-items: center;

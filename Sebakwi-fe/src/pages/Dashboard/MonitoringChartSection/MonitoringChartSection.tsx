@@ -19,7 +19,6 @@ import axios from 'axios';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-
 export default function MonitoringChartSection({ shouldRefetch }: MonitoringChartSectionProps) {
   const [axiosData, setAxiosData] = useState<ToolTips | null>(null);
   const [times, setTimes] = useState<string[]>([]);
@@ -75,6 +74,12 @@ export default function MonitoringChartSection({ shouldRefetch }: MonitoringChar
         data: axiosData?.ydata,
         borderColor: `${PALETTE.MAIN_BLUE}`,
         backgroundColor: `${PALETTE.MAIN_BLUE}`,
+        // 포인트 컬러 (데이터가 1이상이면 빨간색으로)
+        // pointBackgroundColor: (context: any) => {
+        //   const index = context.dataIndex;
+        //   const value = context.dataset.data[index];
+        //   return value >= 1 ? 'red' : `${PALETTE.MAIN_BLUE}`;
+        // },
       },
     ],
   };

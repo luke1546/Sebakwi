@@ -8,7 +8,7 @@ interface PaginationProps {
 
 export default function Pagination(props: PaginationProps) {
   const { totalPages, onPageChange } = props;
-  const pagesPerGroup = 5; // 페이지 그룹당 페이지 수를 5로 설정
+  const pagesPerGroup = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [currentGroup, setCurrentGroup] = useState(0);
   const totalGroups = Math.ceil(totalPages / pagesPerGroup);
@@ -20,12 +20,14 @@ export default function Pagination(props: PaginationProps) {
 
   const goToFirstPage = () => {
     setCurrentPage(1);
-    setCurrentGroup(0); 
+    setCurrentGroup(0);
+    goToPage(1);
   };
 
   const goToLastPage = () => {
     setCurrentPage(totalPages);
     setCurrentGroup(totalGroups - 1); 
+    goToPage(totalPages);
   };
 
   const nextGroup = () => {
