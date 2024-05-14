@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Noto_Sans_KR, PALETTE } from 'styles';
 import { ToastContainer } from 'react-toastify';
-import { GoAlert } from 'react-icons/go';
 
 export const AbContainer = styled.div`
   display: flex;
