@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TableSection from './TableSection/TableSection';
 import FilterSection from './FilterSection/FilterSection';
 import * as Styled from './CheckUpWheels_style';
 import * as Comp from 'components';
-import { Filters } from 'types';
+import { Filters, WheelData } from 'types';
+import { GoAlert } from 'react-icons/go';
+import { Slide, toast } from 'react-toastify';
 
+let shownAlerts = new Set();
 
 export default function CheckUpWheelsPage() {
   const [filters, setFilters] = useState<Filters>({
@@ -50,6 +53,45 @@ export default function CheckUpWheelsPage() {
     desc: filters.selectedSortType === 0,
   };
 
+  useEffect(() => {
+    //SSE 연결
+    const baseUrl = process.env.REACT_APP_BASE_URL;
+    const eventSource = new EventSource(`${baseUrl}/wheels/monthly/sse`);
+
+    eventSource.addEventListener('sse', (event) => {
+      const newMessage: WheelData = JSON.parse(event.data);
+      if (typeof newMessage == 'string') console.log(newMessage);
+      else {
+        console.log('데이터 : ' + event.data);
+
+        // 토스트 알림
+        if (newMessage.wheelList.length > 0) {
+          const newWheelData = newMessage.wheelList[newMessage.wheelList.length - 1];
+          const alertKey = `${newWheelData.wheelNumber} - ${newWheelData.crack ? 'crack' : ''}${
+            newWheelData.stamp ? 'stamp' : ''
+          }${newWheelData.peeling ? 'peeling' : ''}`;
+
+          if (!shownAlerts.has(alertKey)) {
+            shownAlerts.add(alertKey);
+            if (newWheelData.crack) {
+              toast.error(`${newWheelData.wheelNumber} 휠 크랙 발생`, { icon: <GoAlert /> });
+            }
+            if (newWheelData.stamp) {
+              toast.error(`${newWheelData.wheelNumber} 휠 찍힘 발생`, { icon: <GoAlert /> });
+            }
+            if (newWheelData.peeling) {
+              toast.error(`${newWheelData.wheelNumber} 휠 박리 발생`, { icon: <GoAlert /> });
+            }
+          }
+        }
+      }
+    });
+
+    return () => {
+      eventSource.close();
+    };
+  }, []);
+
   return (
     <Styled.Wrapper>
       <Styled.FilterSectionWrapper>
@@ -64,6 +106,19 @@ export default function CheckUpWheelsPage() {
       <Comp.Card width="100%" height="90%" padding="30px">
         <TableSection Filter={transformedFilters} />
       </Comp.Card>
+      <Styled.AlarmContainer
+        position="bottom-right"
+        autoClose={4000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover
+        theme="colored"
+        transition={Slide}
+      />
     </Styled.Wrapper>
   );
 }

@@ -18,7 +18,7 @@ import axios from 'axios';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-export const options = {
+const options = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
@@ -28,20 +28,21 @@ export const options = {
   },
 };
 
+
 export default function MonitoringChartSection({ shouldRefetch }: MonitoringChartSectionProps) {
-  const [axisData, setAxisData] = useState<ToolTips | null>(null);
+  const [axiosData, setAxiosData] = useState<ToolTips | null>(null);
   const [times, setTimes] = useState<string[]>([]);
 
   // 데이터를 불러오는 함수
-  const fetchData = async () => {
+  async function fetchData () {
     try {
       const baseUrl = process.env.REACT_APP_BASE_URL;
       const response = await axios.get<ToolTips>(`${baseUrl}/wheels/chart`);
-      setAxisData(response.data);
       const timeOnly = response.data.xdata.map((dateTime) => {
         const timePart = dateTime.split(' ')[1]; // ' ' 공백을 기준으로 분할하여 시간 부분만 추출
         return timePart;
       });
+      setAxiosData(response.data);
       setTimes(timeOnly);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -57,14 +58,12 @@ export default function MonitoringChartSection({ shouldRefetch }: MonitoringChar
     }; // 컴포넌트 언마운트 시 인터벌 해제
   }, [shouldRefetch]); // shouldRefetch가 변할때마다 렌더링
 
-  const xdata = [];
-
   const data = {
     labels: times,
     datasets: [
       {
         label: '이상 휠 수',
-        data: axisData?.ydata,
+        data: axiosData?.ydata,
         borderColor: `${PALETTE.MAIN_BLUE}`,
         backgroundColor: `${PALETTE.MAIN_BLUE}`,
       },
@@ -77,3 +76,5 @@ export default function MonitoringChartSection({ shouldRefetch }: MonitoringChar
     </Styled.ChartContainer>
   );
 }
+
+
