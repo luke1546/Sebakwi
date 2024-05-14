@@ -15,13 +15,30 @@
 |신성현|Infra, Jetson Nano| 굳굳|
 |유지원|Front-End| 굳굳|
 |이진성|Back-End| 굳굳|
-|이호성|Front-End, Unity| unity 시뮬레이터 제작, front 바퀴 상세페이지, three js 적용, 데이터 라벨링, 모델학습|
+|이호성|Front-End, Unity| unity 시뮬레이터 제작, front 바퀴 상세페이지, three js, 데이터 라벨링, 모델학습|
 
 <hr>
 
 ## 주요 기능 소개
 
-- 시연 gif 같은 거나 
+1. 메인 화면
+<table width="100%" border-style="non" cellspacing="0" cellpadding="100">
+  <tr>
+    <td align="center"><img src="readme_image/main_page_1.gif" alt="main_page" width="200"></td>
+    <td align="center"><img src="readme_image/main_page_2.gif" alt="video_page" width="200"></td>
+  </tr>
+
+</table>
+
+2. Unity 시뮬레이터
+<table width="100%" border-style="non" cellspacing="0" cellpadding="100">
+  <tr>
+    <td align="center"><img src="readme_image/unity.gif" alt="result_page" width="200"></td>
+    <td align="center"><img src="readme_image/unity.gif" alt="galery_page" width="200"></td>
+  </tr>
+</table>
+
+<br/><br/>
 - 세바퀴 페이지 보여주기
 
 <hr>
