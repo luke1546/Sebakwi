@@ -9,7 +9,6 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CreateWheelRequest {
 
-    @NotEmpty
     private String ohtSerialNumber;
     @NotEmpty
     private String wheelSerialNumber;

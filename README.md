@@ -2,32 +2,33 @@
 
 ## 세바퀴 서비스 개요
 
-- 배경 정리해서 쓰기 
+- 배경 정리해서 쓰기
 
 ### 프로젝트 기간
+
 - 2024.04.08 - 2023.05.20
 
 ### 팀원 소개
-|이름|역할|담당업무|
-|:---:|:---:|:---|
-|오지훈|팀장, Front-End| UI/UX 디자인/ front 기초 세팅 및 폴더 구조 생성, 공용 컴포넌트 제작, MainHeader, 검진 목록 페이지 - PageNation, filter 검색, AI 데이터 라벨링 |
-|전재우|AI| 굳굳|
-|신성현|Infra, Jetson Nano| 굳굳|
-|유지원|Front-End| 굳굳|
-|이진성|Back-End| 굳굳|
-|이호성|Front-End, Unity| 굳굳|
+
+|  이름  |        역할        | 담당업무                                                                                                                                      |
+| :----: | :----------------: | :-------------------------------------------------------------------------------------------------------------------------------------------- |
+| 오지훈 |  팀장, Front-End   | UI/UX 디자인/ front 기초 세팅 및 폴더 구조 생성, 공용 컴포넌트 제작, MainHeader, 검진 목록 페이지 - PageNation, filter 검색, AI 데이터 라벨링 |
+| 전재우 |         AI         | 굳굳                                                                                                                                          |
+| 신성현 | Infra, Jetson Nano | 굳굳                                                                                                                                          |
+| 유지원 |     Front-End      | 굳굳                                                                                                                                          |
+| 이진성 |      Back-End      | 굳굳                                                                                                                                          |
+| 이호성 |  Front-End, Unity  | unity 시뮬레이터 제작, front 바퀴 상세페이지, three js 적용, 데이터 라벨링, 모델학습                                                          |
 
 <hr>
 
 ## 주요 기능 소개
 
-- 시연 gif 같은 거나 
+- 시연 gif 같은 거나
 - 세바퀴 페이지 보여주기
 
 <hr>
 
 ## 시스템 아키텍처
-
 
 <hr>
 
@@ -37,11 +38,11 @@
 
 # 🛠 주요 기술
 
-
 **Backend**
 <br>
 
 <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/junit5-25A162?style=for-the-badge&logo=junit5&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/fastapi-009688?style=for-the-badge&logo=fastapi&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+
 - Java : Oracle OpenJDK 11.0.17
 - SpringBoot 2.7.9
 - Spring Security 5.7.7
@@ -73,14 +74,13 @@
 
 <img src="https://img.shields.io/badge/aws ec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/openssl-721412?style=for-the-badge&logo=openssl&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/sonarqube-4E9BCD?style=for-the-badge&logo=sonarqube&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white">&nbsp;
 
-
 - AWS EC2
 - Ubuntu 20.04 LTS
 - Jenkins 2.387.1
 - Docker Engine 23.0.1
 - Nginx 1.23.4
 - SSL
-- SonarQube 
+- SonarQube
 - Grafana latest
 - Prometheus 2.44.0
 - Ngrinder-controller 3.5.8
@@ -92,10 +92,10 @@
 <br>
 
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/jira-0052CC?style=for-the-badge&logo=jirasoftware&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/mattermost-0058CC?style=for-the-badge&logo=mattermost&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/figma-EA4335?style=for-the-badge&logo=figma&logoColor=white">&nbsp;
+
 - 형상 관리 : Git
 - 이슈 관리 : Jira
 - 커뮤니케이션 : Mattermost, Webex, Notion
 - 디자인 : Figma
-
 
 <br>
