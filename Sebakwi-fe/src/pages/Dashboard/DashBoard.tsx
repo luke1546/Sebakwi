@@ -16,25 +16,77 @@ export default function DashBoradPage() {
   }
 
   return (
+    // <styled.DashboardContainer>
+    //   <styled.CardContainer>
+    //     <Card title="카메라 연결 현황" width="600px" height="275px">
+    //       <CameraConnect />
+    //     </Card>
+    //     <Card title="금월 이상 현황" width="400px" height="275px">
+    //       <AbnormalStatus onRefetch={handleReceiveData} />
+    //     </Card>
+    //     <styled.SideCard>
+    //       <Card title="교체 주기 도래 휠" width="310px" height="120px" padding="10px">
+    //         <ReplaceSection></ReplaceSection>
+    //       </Card>
+    //       <Card title="OHT 현황" width="310px" height="90px" padding="10px">
+    //         <OHTState />
+    //       </Card>
+    //     </styled.SideCard>
+    //   </styled.CardContainer>
+    //   <styled.CardContainer>
+    //     <Card title="모니터링 차트" width="1440px" height="160px">
+    //       <MonitoringChart shouldRefetch={receiveData} />
+    //     </Card>
+    //   </styled.CardContainer>
+    // </styled.DashboardContainer>
+    // <styled.DashboardContainer>
+    //   <styled.CardContainer>
+    //     <Card title="카메라 연결 현황" width="35rem" height="17.5rem">
+    //       <CameraConnect />
+    //     </Card>
+    //     <Card title="금월 이상 현황" width="28rem" height="17.5rem">
+    //       <AbnormalStatus onRefetch={handleReceiveData} />
+    //     </Card>
+    //     <styled.SideCard>
+    //       <Card title="교체 주기 도래 휠" width="20rem" height="8rem" padding="0.7rem">
+    //         <ReplaceSection></ReplaceSection>
+    //       </Card>
+    //       <Card title="OHT 현황" width="20rem" height="5.5rem" padding="0.7rem">
+    //         <OHTState />
+    //       </Card>
+    //     </styled.SideCard>
+    //   </styled.CardContainer>
+    //   <styled.CardContainer>
+    //     <Card title="모니터링 차트" width="90rem" height="160px">
+    //       <MonitoringChart shouldRefetch={receiveData} />
+    //     </Card>
+    //   </styled.CardContainer>
+    // </styled.DashboardContainer>
     <styled.DashboardContainer>
       <styled.CardContainer>
-        <Card title="카메라 연결 현황" width="600px" height="275px">
+        <Card title="카메라 연결 현황" width="35rem" height="17.5rem">
           <CameraConnect />
         </Card>
-        <Card title="금월 이상 현황" width="400px" height="275px">
+        <Card title="금월 이상 현황" width="28rem" height="17.5rem">
           <AbnormalStatus onRefetch={handleReceiveData} />
         </Card>
         <styled.SideCard>
-          <Card title="교체 주기 도래 휠" width="310px" height="120px" padding="10px">
+          <Card
+            title="교체 주기 도래 휠"
+            width="20rem"
+            height="8rem"
+            padding="0.7rem"
+            gridArea="ch"
+          >
             <ReplaceSection></ReplaceSection>
           </Card>
-          <Card title="OHT 현황" width="310px" height="90px" padding="10px">
+          <Card title="OHT 현황" width="20rem" height="5.5rem" padding="0.7rem">
             <OHTState />
           </Card>
         </styled.SideCard>
       </styled.CardContainer>
       <styled.CardContainer>
-        <Card title="모니터링 차트" width="1440px" height="160px">
+        <Card title="모니터링 차트" width="90rem" height="160px">
           <MonitoringChart shouldRefetch={receiveData} />
         </Card>
       </styled.CardContainer>
