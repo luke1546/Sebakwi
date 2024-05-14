@@ -113,7 +113,7 @@ public class WheelService {
                         if (Objects.equals(o.getWheelNumber(), checkupListDto.getWheel().getSerialNumber())) {
 
                             if (Objects.equals(o.isCrack(), checkupListDto.isCrack()) && Objects.equals(o.isStamp(), checkupListDto.isStamp() && Objects.equals(o.isPeeling(), checkupListDto.isPeeling()))) {
-                                throw new DuplicateDataException("This Wheel is already checked");
+                                throw new DuplicateDataException("This Wheel has no change");
                             }
 
                             // 기존에 있던거 카운트 뺌
