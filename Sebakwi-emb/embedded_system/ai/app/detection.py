@@ -1,120 +1,113 @@
-# ai/app/detection.py
-
-from ultralytics import YOLO
-from ultralytics import settings as ultralytics_settings
+import imageio
+import numpy as np
 import cv2
-import time
+from elements.yolo import OBJ_DETECTION
+from util.create_gif import create_gif
 from embedded_system.ai.config import *
-from embedded_system.utils.log_config import custom_log_info
+from embedded_system.util.log_config import custom_log_info
 
-def extract()-> bool:
-    # Model 로드..
-    model = YOLO(TEST_fhd_MODEL)
-    custom_log_info("Model 로드 완료")
+Object_classes = [
+    'frame',
+    'wheel'
+]
 
-    # 저장될 파일등 설정
-    # ultralytics_settings.update({'runs_dir': './result'})
-    # ultralytics_settings.update({'wandb': False})
-        
-    try:
-        ## source 파일 설정
-        # cap = cv2.VideoCapture(0)
-        cap = cv2.VideoCapture(TEST_720p_VIDEO)
-        cv2.VideoCapture().set(cv2.CAP_PROP_BUFFERSIZE, 1)
-        # cap = cv2.VideoCapture(
-        #     gstreamer_pipeline(framerate=10, flip_method=0),
-        #     cv2.CAP_GSTREAMER
-        # )
-        while True:
-            # setting Buffer Size
-            # cap.set(cv2.CAP_PROP_BUFFERSIZE, 0)
-
-            # 화면 읽어 오기
-            ret, frame = cap.read()
-
-    
-            if not ret:
-                custom_log_info("화면이 없습니다...")
-                continue
-    
-            # 읽어 드린 화면 리사이징
-            # frame = cv2.resize(frame, (800, 600))
-            # custom_log_info("읽어온 프레임을 resize합니다.. ")
-            
-            # 예측에 사용돌 옵션 설정
-            results = model.predict(
-                source=frame,
-                stream=True,
-                show=True,
-                # max_det=2,
-                conf=0.70
-            )
-            custom_log_info("frame을 예측합니다")
-    
-            # 휠 탐지결과
-            is_detected = detect_wheel(results)
-            is_detected = True
-            if is_detected == True:
-                cap.release()
-                cv2.destroyAllWindows()
-                custom_log_info("휠이 감지되어 윈도우창이 종료됩니다..")
-    
-                return True
-
-    finally:
-        cap.release()
-        cv2.destroyAllWindows()
-        custom_log_info("종료됩니다")
+Object_colors = list(np.random.rand(80, 3) * 255)
 
 
-def detect_wheel(results) -> bool:
-    for result in results:
-        boxes = result.boxes
+def extract() -> bool:
+    options = {
+        "weights": DETECT_MODEL
+    }
 
-        for box in boxes:
-            cls = int(box.cls[0])
-            cls_name = result.names[cls]  # 클래스 이름 가져오기
-            custom_log_info(f"Class name --> {cls_name}")
+    results = wheel_detecion(**options)
 
-            '''
-            # bounding box 정보 가져오기
-            x1, y1, x2, y2 = map(int, box.xyxy[0])  # 좌표 변환
-            # bounding box 그리기
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            # 클래스 이름 그리기
-            cv2.putText(frame, cls_name, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-            '''
+    for i in results:
+        print(i)
 
-            # wheel 이 감지되었다면 종료
-            # if cls_name == 'wheel':
-            if cls_name == 'wheel':
-                return True
+    return True
 
 
+def wheel_detecion(weights):
+    Object_detector = OBJ_DETECTION(weights, Object_classes)
+    # cap = cv2.VideoCapture(
+    #     gstreamer_pipeline(
+    #         capture_width=1920,
+    #         capture_height=1080,
+    #         framerate=1,
+    #         flip_method=0
+    #     ),
+    #     cv2.CAP_GSTREAMER
+    # )
+    cap = cv2.VideoCapture(TEST_720p_VIDEO)
+    # cv2.VideoCapture().set(cv2.CAP_PROP_BUFFERSIZE, 1)
+
+    frames = []
+    detect_obj = set()
+    hit_count = 0
+    while cap.isOpened():
+        ret, frame = cap.read()
+
+        # detection process
+        if not ret:
+            custom_log_info("화면이 없습니다...")
+            break
+
+        objs = Object_detector.detect(frame)
+
+        # plotting
+        for obj in objs:
+            # print(obj)
+            label = obj['label']
+            score = obj['score']
+            [(xmin, ymin), (xmax, ymax)] = obj['bbox']
+            color = Object_colors[Object_classes.index(label)]
+            frame = cv2.rectangle(frame, (xmin, ymin), (xmax, ymax), color, 2)
+            frame = cv2.putText(frame, f'{label} ({str(score)})', (xmin, ymin), cv2.FONT_HERSHEY_SIMPLEX, 0.75,
+                                color, 1, cv2.LINE_AA)
+
+            detect_obj.add(obj['label'])
+            if obj['label'] == 'wheel' and float(score) > 0.8:
+                hit_count = hit_count + 1
+                frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+
+        if hit_count >= 5:
+            break
+
+        # display the frame
+        cv2.imshow("CSI Camera", frame)
+        if cv2.waitKey(25) & 0xFF == ord('q'):
+            break
+
+    # create gif
+    # create_gif(frames)
+
+    cap.release()
+    cv2.destroyAllWindows()
+    return detect_obj
 
 
-# def gstreamer_pipeline(
-#     capture_width=1280,
-#     capture_height=720,
-#     display_width=1280,
-#     display_height=720,
-#     framerate=60,
-#     flip_method=0,
-# ):
-#     return (
-#         "nvarguscamerasrc ! "
-#         "video/x-raw(memory:NVMM), "
-#         "width=(int){}, height=(int){}, "
-#         "format=(string)NV12, framerate=(fraction){}/1 ! "
-#         "nvvidconv flip-method={} ! "
-#         "video/x-raw, width=(int){}, height=(int){}, format=(string)BGRx ! "
-#         "videoconvert ! "
-#         "video/x-raw, format=(string)BGR ! appsink".format(
-#             capture_width,
-#             capture_height,
-#             framerate,
-#             flip_method,
-#             display_width,
-#             display_height,
-#         )
-#     )
+def gstreamer_pipeline(
+    capture_width=1280,
+    capture_height=720,
+    display_width=1280,
+    display_height=720,
+    framerate=60,
+    flip_method=0,
+):
+    return (
+        "nvarguscamerasrc ! "
+        "video/x-raw(memory:NVMM), "
+        "width=(int){}, height=(int){}, "
+        "format=(string)NV12, framerate=(fraction){}/1 ! "
+        "nvvidconv flip-method={} ! "
+        "video/x-raw, width=(int){}, height=(int){}, format=(string)BGRx ! "
+        "videoconvert ! "
+        "video/x-raw, format=(string)BGR ! appsink".format(
+            capture_width,
+            capture_height,
+            framerate,
+            flip_method,
+            display_width,
+            display_height,
+        )
+    )

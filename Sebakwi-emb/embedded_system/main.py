@@ -3,7 +3,7 @@
 import mqtt as MQTT
 from embedded_system.ai.app import *
 from embedded_system.mqtt import MQTT_Topics
-from embedded_system.utils.log_config import setup_logging, custom_log_info
+from embedded_system.util.log_config import setup_logging, custom_log_info
 
 
 def main():
@@ -25,7 +25,6 @@ def main():
                 continue
             # 휠 결함 찾기
             json_data = defection.extract()
-
 
             # MQTT.publish_message(client, MQTT_Topics.FOUPSTOCKER , json_data)
             MQTT.publish_message(client, MQTT_Topics.random_topic(), json_data)

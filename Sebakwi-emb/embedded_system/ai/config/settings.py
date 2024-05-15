@@ -4,7 +4,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 감지에 사용될 모델
-DETECT_MODEL = os.path.join(BASE_DIR, "model", "wheel_det.pt")
+DETECT_MODEL = os.path.join(BASE_DIR, "model", "best.pt")
 
 # 결함 감지에 사용될 모델
 DEFECT_MODEL = os.path.join(BASE_DIR, "model", "...")
