@@ -61,6 +61,7 @@ public class CheckupListController {
 
     @PostMapping("/data")
     public CreateWheelResponse saveWheel(@RequestBody @Valid CreateWheelRequest request) {
+        log.info("request={}", request);
         return checkupListService.getCreateWheelResponse(request);
     }
 
