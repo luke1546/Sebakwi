@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.List;
+
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
@@ -16,4 +18,5 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowCredentials(true) // 쿠키를 포함한 요청 허용
                 .maxAge(3600); // 3600초 동안 pre-flight 결과 캐시
     }
+
 }

@@ -1,6 +1,13 @@
 package com.ssafy.sebakwi.util;
 
-import com.ssafy.sebakwi.product.domain.*;
+import com.ssafy.sebakwi.checkupList.controller.CheckupListController;
+import com.ssafy.sebakwi.checkupList.service.CheckupListService;
+import com.ssafy.sebakwi.oht.domain.Oht;
+import com.ssafy.sebakwi.oht.domain.OhtRepository;
+import com.ssafy.sebakwi.wheel.controller.WheelController;
+import com.ssafy.sebakwi.wheel.dto.CreateWheelRequest;
+import com.ssafy.sebakwi.wheel.domain.Wheel;
+import com.ssafy.sebakwi.wheel.domain.WheelRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +38,9 @@ public class InitDB {
 
     private final OhtRepository ohtRepository;
     private final WheelRepository wheelRepository;
+
+    private final CheckupListController checkupListController;
+
     public void dbInit() {
         Optional<Oht> oo = ohtRepository.findById(1L);
         if (oo.isPresent()) {
@@ -56,6 +65,37 @@ public class InitDB {
 
             }
         }
+
+        /**
+         * checkupList 더미데이터 만들기
+         */
+
+        List<String> ohtNumber = Arrays.asList("VM0006","VM0006","VM0006","VM0006","VM0007","VM0007","VM0007","VM0007", "VM0008");
+        List<String> wheelNumber = Arrays.asList("SM00021","SM00022","SM00023","SM00024","SM00025","SM00026","SM00027","SM00028", "SM00029");
+        List<Integer> position = Arrays.asList(1, 2, 3, 4, 1, 2, 3, 4, 1);
+        List<String> wheelImage = Arrays.asList("","","","","","","","", "");
+        List<Float> diameter = Arrays.asList(0.7f,0.7f,0.7f,0.7f,0.7f,0.7f,0.7f,0.7f, 0.7f);
+        List<Boolean> crack = Arrays.asList(false,false,true,false,true,false,false,false, false);
+        List<Boolean> stamp = Arrays.asList(false,false,true,false,false,false,true,false, false);
+        List<Boolean>  peeling = Arrays.asList(true,false,false,false,false,true,false,false, false);
+
+        for (int i = 0; i < 9; i++) {
+            CreateWheelRequest request = CreateWheelRequest.builder()
+                    .ohtSerialNumber(ohtNumber.get(i))
+                    .wheelSerialNumber(wheelNumber.get(i))
+                    .position(position.get(i))
+                    .wheelImage(wheelImage.get(i))
+                    .diameter(diameter.get(i))
+                    .crack(crack.get(i))
+                    .stamp(stamp.get(i))
+                    .peeling(peeling.get(i))
+                    .build();
+
+            checkupListController.saveWheel(request);
+        }
+
+
+
     }
     int num = 1;
     private Oht createOht() {

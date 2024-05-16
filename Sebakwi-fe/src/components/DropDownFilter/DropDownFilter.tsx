@@ -1,11 +1,6 @@
 import React from 'react';
+import { DropDownFilterProps } from 'types';
 import * as Styled from './DropDownFilter_style';
-
-interface DropDownFilterProps {
-  options: { label: string; value: number }[];
-  value: number;
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void; 
-}
 
 export default function DropDownFilter(props: DropDownFilterProps) {
   const { options, value, onChange } = props;

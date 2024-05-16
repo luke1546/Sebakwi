@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import * as Styled from './FilterSection_style';
-import * as Comp from 'components';
 import { Filters, FilterSectionProps } from 'types';
+import { dateTypes, sortTypes, wheelPositions } from 'constant';
+import * as Comp from 'components';
+import * as Styled from './FilterSection_style';
 
 export default function FilterSection(props: FilterSectionProps) {
   const { filter, onSubmitFilters, onResetFilters } = props;
@@ -128,21 +129,3 @@ export default function FilterSection(props: FilterSectionProps) {
     </Styled.Wrapper>
   );
 }
-
-const dateTypes = [
-  { label: '검진 날짜', value: 0 },
-  { label: '교체 날짜', value: 1 },
-];
-
-const wheelPositions = [
-  { label: '전체', value: 0 },
-  { label: 'FL', value: 1 },
-  { label: 'FR', value: 2 },
-  { label: 'RL', value: 3 },
-  { label: 'RR', value: 4 },
-];
-
-const sortTypes = [
-  { label: '최신 순', value: 0 },
-  { label: '오래된 순', value: 1 },
-];

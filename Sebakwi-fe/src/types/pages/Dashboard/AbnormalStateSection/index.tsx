@@ -32,5 +32,5 @@ export interface WheelData {
 
 // 그래프에 다시 데이터를 요청 props
 export interface AbnormalStatusSectionProps {
-  onRefetch: () => void;
+  data : WheelData | null;
 }
