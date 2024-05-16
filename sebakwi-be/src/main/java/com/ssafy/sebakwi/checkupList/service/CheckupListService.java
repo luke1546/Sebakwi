@@ -101,16 +101,12 @@ public class CheckupListService {
                     additionalMessages.append("박리 발생! ");
                 }
             }
+
             additionalMessages.append("\n");
-            additionalMessages.append(request.getWheelImage());
+            additionalMessages.append("# [검사 이미지 바로가기]");
+            additionalMessages.append("(" + request.getWheelImage() + ")");
 
             message += additionalMessages.toString().trim();
-
-
-            System.out.println("--------------------");
-            System.out.println(request.getWheelImage());
-            System.out.println(message);
-            System.out.println("--------------------");
 
             simpleRestClient.notifyWebhook(message);
         }
