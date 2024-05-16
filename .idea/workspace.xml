@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa856409-c3e4-4d32-a87a-7919313fe447" name="Changes" comment="" />
+    <list default="true" id="aa856409-c3e4-4d32-a87a-7919313fe447" name="Changes" comment="[merge] 24.05.16 'develop-be'" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,14 +40,16 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.sebakwi-be [:SebakwiApplication.main()].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="SebakwiApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.ssafy.sebakwi.SebakwiApplication" />
@@ -78,12 +80,25 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="af279207-d23d-4bc9-b880-a3089f927fa2" name="Changes" comment="" />
+      <changelist id="aa856409-c3e4-4d32-a87a-7919313fe447" name="Changes" comment="" />
       <created>1715243683673</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1715243683673</updated>
     </task>
+    <task id="LOCAL-00001" summary="[merge] 24.05.16 'develop-be'">
+      <option name="closed" value="true" />
+      <created>1715854983083</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1715854983083</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="[merge] 24.05.16 'develop-be'" />
+    <option name="LAST_COMMIT_MESSAGE" value="[merge] 24.05.16 'develop-be'" />
   </component>
 </project>
