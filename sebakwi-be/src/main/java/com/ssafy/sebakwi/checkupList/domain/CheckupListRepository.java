@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
 
-public interface CheckupListRepository extends JpaRepository<CheckupList, Integer> {
+public interface CheckupListRepository extends JpaRepository<CheckupList, Long> {
 
     // 검진일시
     @Query("SELECT c FROM CheckupList c WHERE c.status = :status AND " +

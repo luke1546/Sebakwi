@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CheckupListDto {
 
-    private int id;
+    private Long id;
     private WheelDto wheel;
     private LocalDateTime checkedDate;
     private String wheelImage;
