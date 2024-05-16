@@ -66,34 +66,6 @@ public class InitDB {
             }
         }
 
-        /**
-         * checkupList 더미데이터 만들기
-         */
-
-        List<String> ohtNumber = Arrays.asList("VM0006","VM0006","VM0006","VM0006","VM0007","VM0007","VM0007","VM0007", "VM0008");
-        List<String> wheelNumber = Arrays.asList("SM00021","SM00022","SM00023","SM00024","SM00025","SM00026","SM00027","SM00028", "SM00029");
-        List<Integer> position = Arrays.asList(1, 2, 3, 4, 1, 2, 3, 4, 1);
-        List<String> wheelImage = Arrays.asList("","","","","","","","", "");
-        List<Double> diameter = Arrays.asList(0.7d,0.7d,0.7d,0.7d,0.7d,0.7d,0.7d,0.7d, 0.7d);
-        List<Boolean> crack = Arrays.asList(false,false,true,false,true,false,false,false, false);
-        List<Boolean> stamp = Arrays.asList(false,false,true,false,false,false,true,false, false);
-
-        for (int i = 0; i < 9; i++) {
-            CreateWheelRequest request = CreateWheelRequest.builder()
-                    .ohtSerialNumber(ohtNumber.get(i))
-                    .wheelSerialNumber(wheelNumber.get(i))
-                    .position(position.get(i))
-                    .wheelImage(wheelImage.get(i))
-                    .diameter(diameter.get(i))
-                    .crack(crack.get(i))
-                    .stamp(stamp.get(i))
-                    .build();
-
-            checkupListController.saveWheel(request);
-        }
-
-
-
     }
     int num = 1;
     private Oht createOht() {
