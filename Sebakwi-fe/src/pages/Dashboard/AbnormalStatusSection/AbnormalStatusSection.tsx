@@ -33,7 +33,7 @@ function WheelTable({ data }: TableProps) {
               let statuses = [];
               if (item.stamp) statuses.push('찍힘');
               if (item.crack) statuses.push('크랙');
-              if (item.peeling) statuses.push('박리');
+              if (item.abrasion) statuses.push('마모');
 
               // 상태 배열을 문자열로 합치기
               let statusString = statuses.join(', ');
@@ -65,7 +65,7 @@ export default function AbnormalStatusSection(props : AbnormalStatusSectionProps
       <Styled.AbTop>
         <AbnormalDetail title="찍힘" count={data ? data.count.stamp : 0}></AbnormalDetail>
         <AbnormalDetail title="크랙" count={data ? data.count.crack : 0}></AbnormalDetail>
-        <AbnormalDetail title="박리" count={data ? data.count.peeling : 0}></AbnormalDetail>
+        <AbnormalDetail title="마모" count={data ? data.count.abrasion : 0}></AbnormalDetail>
         <AbnormalDetail title="합계" count={data ? data.count.total : 0}></AbnormalDetail>
       </Styled.AbTop>
       <WheelTable data={data?.wheelList} />

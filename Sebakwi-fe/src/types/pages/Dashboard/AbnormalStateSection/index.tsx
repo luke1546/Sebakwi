@@ -13,14 +13,14 @@ export interface Wheel {
   position: number;
   crack: boolean;
   stamp: boolean;
-  peeling: boolean;
+  abrasion: boolean;
 }
 
 // Count 데이터 타입 정의
 export interface Count {
   crack: number;
   stamp: number;
-  peeling: number;
+  abrasion: number;
   total: number;
 }
 
