@@ -16,7 +16,6 @@ public class WheelDto {
 //    private int id;
     private OhtDTO oht;
     private String serialNumber;
-//    private WheelStatus currentStatus;
     private LocalDate createdDate;
     private int position;
 
@@ -28,7 +27,6 @@ public class WheelDto {
         return Wheel.builder()
                 .oht(ohtEntity)
                 .serialNumber(serialNumber)
-//                .currentStatus(currentStatus)
                 .createdDate(createdDate)
                 .position(position)
                 .build();
@@ -44,7 +42,6 @@ public class WheelDto {
         return WheelDto.builder()
                 .oht(ohtDTO)
                 .serialNumber(wheel.getSerialNumber())
-//                .currentStatus(wheel.getCurrentStatus())
                 .createdDate(wheel.getCreatedDate())
                 .position(wheel.getPosition())
                 .build();

@@ -23,13 +23,4 @@ public class Oht {
 
     private boolean maintenance;
 
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "oht", cascade = CascadeType.ALL)
-//    private List<Wheel> wheels = new ArrayList<>();
-
-//    @Builder
-//    public Oht(String serialNumber, boolean repair) {
-//        this.serialNumber = serialNumber;
-//        this.repair = repair;
-//    }
 }

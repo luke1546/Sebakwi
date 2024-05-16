@@ -10,8 +10,9 @@ public class WheelMonthlyStatusCount {
 
     private int crack;
     private int stamp;
-    private int peeling;
+    private int abrasion;
     private int total;
+
 
     public void updateCrack(int num) {
         this.crack += num;
@@ -23,8 +24,8 @@ public class WheelMonthlyStatusCount {
         this.total += num;
     }
 
-    public void updatePeeling(int num) {
-        this.peeling += num;
+    public void updateAbrasion(int num) {
+        this.abrasion += num;
         this.total += num;
     }
 

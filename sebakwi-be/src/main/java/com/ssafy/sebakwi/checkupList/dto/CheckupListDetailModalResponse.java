@@ -9,5 +9,4 @@ import lombok.*;
 public class CheckupListDetailModalResponse {
 
     private CheckupListDetailModalWheel checkupListDetailModalWheel;
-//    private CheckupListDetailModalWheelNumberList checkupListDetailModalWheelNumberList;
 }

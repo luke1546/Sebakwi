@@ -24,9 +24,9 @@ public class CheckupListDto {
     @Enumerated(EnumType.STRING)
     private WheelStatus status;
 
-    private float diameter;
+    private double diameter;
     private boolean crack;
     private boolean stamp;
-    private boolean peeling;
+    private boolean abrasion;
 
 }
