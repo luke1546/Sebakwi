@@ -23,14 +23,13 @@ public class CheckupListModalDto {
     @Enumerated(EnumType.STRING)
     private WheelStatus status;
 
-    private float diameter;
+    private double diameter;
     private boolean crack;
     private boolean stamp;
-    private boolean peeling;
+    private boolean abrasion;
 
     public CheckupList toEntity() {
         return CheckupList.builder()
-//                .id(checkupListId)
                 .wheel(wheel.toEntity())
                 .checkedDate(checkedDate)
                 .wheelImage(wheelImage)
@@ -38,7 +37,7 @@ public class CheckupListModalDto {
                 .diameter(diameter)
                 .crack(crack)
                 .stamp(stamp)
-                .peeling(peeling)
+                .abrasion(abrasion)
                 .build();
     }
 }

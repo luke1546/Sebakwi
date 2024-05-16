@@ -46,10 +46,4 @@ public class WheelController {
         return wheelService.sendChartInfo();
     }
 
-//    @GetMapping("/wheels/chart/initialize")
-//    public String initializeWheelChart() {
-//        wheelService.initializeWheelChartInfo();
-//        return "initialize the chart";
-//    }
-
 }

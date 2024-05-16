@@ -33,7 +33,6 @@ public class CheckupListArrayResponse {
         this.ohtNumber = ohtNumber;
         this.checkedDate = formatCheckedDate(checkedDate);
         this.status = status;
-//        this.createdDate = formatCreatedDate(createdDate);
         this.createdDate = createdDate;
         this.checkupListId = checkupListId;
     }
@@ -42,8 +41,4 @@ public class CheckupListArrayResponse {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return dateTime.format(formatter);
     }
-//    private String formatCreatedDate(LocalDateTime dateTime) {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//        return dateTime.format(formatter);
-//    }
 }

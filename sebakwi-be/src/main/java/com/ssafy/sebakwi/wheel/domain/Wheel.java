@@ -27,9 +27,6 @@ public class Wheel {
     @Column(length = 20, name = "serial_number")
     private String serialNumber;
 
-//    @Enumerated(EnumType.STRING)
-//    private WheelStatus currentStatus;
-
     @Column(name = "created_date")
     private LocalDate createdDate;
 
@@ -39,10 +36,6 @@ public class Wheel {
     @OneToMany(mappedBy = "wheel", cascade = CascadeType.ALL)
     @Builder.Default // 혹시 안되면 지움
     private List<CheckupList> checkupLists = new ArrayList<>();
-
-//    public void updateCurrentStatus(WheelStatus currentStatus) {
-//        this.currentStatus = currentStatus;
-//    }
 
     public void changeCreatedDate(LocalDate createdDate) {
         this.createdDate = createdDate;

@@ -20,10 +20,10 @@ public class CheckupListDetailModalWheel {
     private String checkedDate;
 
     private String wheelImage;
-    private float diameter;
+    private double diameter;
     private boolean crack;
     private boolean stamp;
-    private boolean peeling;
+    private boolean abrasion;
 
     @Enumerated(EnumType.STRING)
     private WheelStatus status;
@@ -32,8 +32,8 @@ public class CheckupListDetailModalWheel {
 
     @Builder
     public CheckupListDetailModalWheel(Long checkupListId, String wheelNumber, int position, String ohtNumber,
-                                          LocalDateTime checkedDate, String wheelImage, float diameter,
-                                          boolean crack, boolean stamp, boolean peeling,
+                                          LocalDateTime checkedDate, String wheelImage, double diameter,
+                                          boolean crack, boolean stamp, boolean abrasion,
                                           WheelStatus status, LocalDate createdDate) {
         this.checkupListId = checkupListId;
         this.wheelNumber = wheelNumber;
@@ -44,9 +44,8 @@ public class CheckupListDetailModalWheel {
         this.diameter = diameter;
         this.crack = crack;
         this.stamp = stamp;
-        this.peeling = peeling;
+        this.abrasion = abrasion;
         this.status = status;
-//        this.createdDate = formatCreatedDate(createdDate);
         this.createdDate = createdDate;
     }
 

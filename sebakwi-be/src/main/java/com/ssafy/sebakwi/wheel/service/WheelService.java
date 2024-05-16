@@ -38,11 +38,6 @@ public class WheelService {
      * 메인페이지 관련
      */
 
-//    public void updateWheelCurrentStatus(String wheelSerialNumber, WheelStatus status) {
-//        Wheel wheel = wheelRepository.findByWheelSerialNumber(wheelSerialNumber);
-//        wheel.updateCurrentStatus(status);
-//    }
-
     WheelMonthlyStatusResponse<WheelMonthlyStatus> defaultMonthlyStatus;
 
     public WheelMonthlyStatusResponse<WheelMonthlyStatus> monthlyWheelStatusInfo() {
@@ -58,33 +53,35 @@ public class WheelService {
                                 .wheelNumber((String) arr[1])
                                 .ohtNumber((String) arr[2])
                                 .position((int) arr[3])
-                                .crack((boolean) arr[4])
-                                .stamp((boolean) arr[5])
-                                .peeling((boolean) arr[6])
+                                .diameter((double) arr[4])
+                                .crack((boolean) arr[5])
+                                .stamp((boolean) arr[6])
+                                .abrasion((boolean) arr[7])
                                 .build())
                 .collect(Collectors.toList());
 
         int crack = 0;
         int stamp = 0;
-        int peeling = 0;
+        int abrasion = 0;
 
         for (WheelMonthlyStatus collect : collects) {
+
             if (collect.isCrack()) {
                 crack++;
             }
             if (collect.isStamp()) {
                 stamp++;
             }
-            if (collect.isPeeling()) {
-                peeling++;
+            if (collect.isAbrasion()) {
+                abrasion++;
             }
         }
-        int total = crack + stamp + peeling;
+        int total = crack + stamp + abrasion;
 
         WheelMonthlyStatusCount cnt = WheelMonthlyStatusCount.builder()
                 .crack(crack)
                 .stamp(stamp)
-                .peeling(peeling)
+                .abrasion(abrasion)
                 .total(total)
                 .build();
 
@@ -115,7 +112,7 @@ public class WheelService {
             defaultMonthlyStatus.updateWheelList(defaultMonthlyStatus.getWheelList().stream().filter(o -> {
                         if (Objects.equals(o.getWheelNumber(), checkupListDto.getWheel().getSerialNumber())) {
 
-                            if (Objects.equals(o.isCrack(), checkupListDto.isCrack()) && Objects.equals(o.isStamp(), checkupListDto.isStamp() && Objects.equals(o.isPeeling(), checkupListDto.isPeeling()))) {
+                            if (Objects.equals(o.getDiameter() >= 1, checkupListDto.getDiameter() >= 1) && Objects.equals(o.isCrack(), checkupListDto.isCrack()) && Objects.equals(o.isStamp(), checkupListDto.isStamp() && Objects.equals(o.isAbrasion(), checkupListDto.isAbrasion()))) {
                                 throw new DuplicateDataException("This Wheel has no change");
                             }
 
@@ -126,8 +123,8 @@ public class WheelService {
                             if (o.isStamp()) {
                                 defaultMonthlyStatus.getCount().updateStamp(-1);
                             }
-                            if (o.isPeeling()) {
-                                defaultMonthlyStatus.getCount().updatePeeling(-1);
+                            if (o.isAbrasion()) {
+                                defaultMonthlyStatus.getCount().updateAbrasion(-1);
                             }
 
                             // 새로 바뀐거 적용
@@ -189,8 +186,8 @@ public class WheelService {
         if (checkupListDto.isStamp()) {
             defaultMonthlyStatus.getCount().updateStamp(1);
         }
-        if (checkupListDto.isPeeling()) {
-            defaultMonthlyStatus.getCount().updatePeeling(1);
+        if (checkupListDto.isAbrasion()) {
+            defaultMonthlyStatus.getCount().updateAbrasion(1);
         }
 
         WheelMonthlyStatus newMonthlyStatus = WheelMonthlyStatus.builder()
@@ -199,7 +196,7 @@ public class WheelService {
                 .position(checkupListDto.getWheel().getPosition())
                 .crack(checkupListDto.isCrack())
                 .stamp(checkupListDto.isStamp())
-                .peeling(checkupListDto.isPeeling())
+                .abrasion(checkupListDto.isAbrasion())
                 .build();
         return newMonthlyStatus;
     }
@@ -262,11 +259,6 @@ public class WheelService {
 
         int seconds = LocalDateTime.now().getSecond();
 
-        // 이상현황 발생시
-//        if (seconds != 0 && seconds != 30) {
-//            wheelChartInfo();
-//        }
-
         WheelChartResponse response = WheelChartResponse.builder()
                 .xData(xData)
                 .yData(yData)
@@ -277,9 +269,4 @@ public class WheelService {
 
     }
 
-//    public void initializeWheelChartInfo() {
-//        List<String> xData = new ArrayList<>();
-//        List<Integer> yData = new ArrayList<>();;
-//        List<List<WheelMonthlyStatus>> toolTips = new ArrayList<>();;
-//    }
 }
