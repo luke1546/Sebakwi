@@ -62,8 +62,6 @@ export default function CheckUpWheelsPage() {
       const newMessage: WheelData = JSON.parse(event.data);
       if (typeof newMessage == 'string') {}
       else {
-        console.log('데이터 : ' + event.data);
-
         // 토스트 알림
         if (newMessage.wheelList.length > 0) {
           const newWheelData = newMessage.wheelList[newMessage.wheelList.length - 1];

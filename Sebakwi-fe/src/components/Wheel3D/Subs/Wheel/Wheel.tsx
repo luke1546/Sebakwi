@@ -31,13 +31,11 @@ export default function Wheel(props: WheelProps) {
   // 클릭 이벤트 핸들러
   const handleWheelClick = (event: ThreeEvent<MouseEvent>) => {
     event.stopPropagation();
-    // console.log(`Wheel ${no} clicked!`);
     sendDataToParent(no - 1);
   };
 
   const handlePointerOver = () => {
     document.body.style.cursor = 'pointer';
-    // console.log(selected);
   };
 
   const handlePointerOut = () => {

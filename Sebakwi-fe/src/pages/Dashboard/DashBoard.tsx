@@ -46,7 +46,6 @@ export default function DashBoradPage() {
       const newMessage: WheelData = JSON.parse(event.data);
       if (typeof newMessage == 'string') {}
       else {
-        console.log('데이터 : ' + event.data);
         // 새로운 데이터 도착을 알리기
         setReceiveData((prevState) => !prevState);
 

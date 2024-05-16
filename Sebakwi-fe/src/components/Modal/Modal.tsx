@@ -102,7 +102,6 @@ export default function Modal(props: ModalProps) {
 
   // 콜백 함수: 자식 컴포넌트에서 데이터를 받음
   const handleDataFromChild = (prop: number) => {
-    // console.log('Received data from child:', data);
     if (data[prop].position === 0) alert("데이터가 없습니다.");
     else setSelected(prop);
   };
@@ -112,7 +111,6 @@ export default function Modal(props: ModalProps) {
       try {
         const baseUrl = process.env.REACT_APP_BASE_URL;
         const response = await axios.get<CheckupDataProps[]>(`${baseUrl}/checkup_list/${id}`);
-        // console.log(response.data);
         let updatedData = initialData;
         response.data.forEach((e, index) => {
           if (data === null) return; // 데이터가 null이면 아무 작업도 수행하지 않음
@@ -121,7 +119,6 @@ export default function Modal(props: ModalProps) {
             setSelected(e.position - 1);
           }
         })
-        console.log(updatedData);
         setData(updatedData);
       } catch (error) {
         console.error('Error fetching data: ', error);
