@@ -11,6 +11,7 @@ export default function TableSection(props: TableSectionProps) {
   const [data, setData] = useState<CheckupListItem[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalData, setTotalData] = useState<number>(0);
   const [totalPages, setTotalPages] = useState(0);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,9 +25,9 @@ export default function TableSection(props: TableSectionProps) {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
+  
   useEffect(() => {
-    async function fetchData (){
+    async function fetchData() {
       try {
         const baseUrl = process.env.REACT_APP_BASE_URL;
         const response = await axios.get(`${baseUrl}/checkup_list`, {
@@ -45,16 +46,19 @@ export default function TableSection(props: TableSectionProps) {
         });
         setData(response.data.checkupListArray);
         setTotalPages(response.data.totalPages);
+        setTotalData(response.data.totalCount);
       } catch (error) {
         setData([]);
       }
-    };
+    }
 
     fetchData();
   }, [Filter, currentPage]);
-
+  
   return (
     <Styled.Wrapper>
+      <Styled.TotalcountWrapper>{totalData} 건</Styled.TotalcountWrapper>
+
       <Styled.Table>
         <thead>
           <Styled.AttributesRow>
@@ -72,9 +76,9 @@ export default function TableSection(props: TableSectionProps) {
           {data.length > 0 ? (
             data.map((item, index) => (
               <Styled.TableTuple
-                key={index}
-                onClick={() => openModal(item.checkupListId)}
-                $status={item.status}
+              key={index}
+              onClick={() => openModal(item.checkupListId)}
+              $status={item.status}
               >
                 <Styled.AttributesValue>{item.checkupListId}</Styled.AttributesValue>
                 <Styled.AttributesValue>{item.wheelNumber}</Styled.AttributesValue>
@@ -87,8 +91,8 @@ export default function TableSection(props: TableSectionProps) {
                 <Styled.AttributesValue>{item.createdDate}</Styled.AttributesValue>
               </Styled.TableTuple>
             ))
-          ) : (
-            <tr>
+            ) : (
+              <tr>
               <Styled.NoDataTd colSpan={7}>데이터가 없습니다.</Styled.NoDataTd>
             </tr>
           )}
