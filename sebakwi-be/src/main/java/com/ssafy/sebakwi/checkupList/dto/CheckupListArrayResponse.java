@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 @Data
 public class CheckupListArrayResponse {
 
-    private int checkupListId;
+    private Long checkupListId;
     private String wheelNumber;
     private int position;
     private String ohtNumber;
@@ -25,7 +25,7 @@ public class CheckupListArrayResponse {
     private LocalDate createdDate;
 
     @Builder
-    public CheckupListArrayResponse(int checkupListId, String wheelNumber, int position,
+    public CheckupListArrayResponse(Long checkupListId, String wheelNumber, int position,
                                     String ohtNumber, LocalDateTime checkedDate, WheelStatus status,
                                     LocalDate createdDate) {
         this.wheelNumber = wheelNumber;

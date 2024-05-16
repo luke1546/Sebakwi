@@ -49,7 +49,7 @@ public class CheckupListController {
 
 
     @GetMapping("/{checkupListId}")
-    public List<CheckupListDetailModalWheel> checkupListDetailModal(@PathVariable("checkupListId") int checkupListId) {
+    public List<CheckupListDetailModalWheel> checkupListDetailModal(@PathVariable("checkupListId") Long checkupListId) {
 
         return checkupListService.getCheckupListDetailModalWheels(checkupListId);
     }
@@ -61,6 +61,7 @@ public class CheckupListController {
 
     @PostMapping("/data")
     public CreateWheelResponse saveWheel(@RequestBody @Valid CreateWheelRequest request) {
+        log.info("request={}", request);
         return checkupListService.getCreateWheelResponse(request);
     }
 

@@ -8,15 +8,23 @@ interface AttributesTitleProps {
 }
 
 interface TableTupleProps {
-  status: string;
+  $status: string;
 }
 
 export const Wrapper = styled.div`
   display: flex;
   min-height: 50vh;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 30px;
+  justify-content: start;
+  gap: 20px;
+`;
+
+export const TotalcountWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  font-size: 16px;
+  font-weight: ${Noto_Sans_KR.medium.weight};
 `;
 
 export const Table = styled.table`
@@ -34,7 +42,7 @@ export const AttributesRow = styled.tr`
 export const TableTuple = styled.tr<TableTupleProps>`
   border-top: 1px solid ${TableLineColor};
   border-bottom: 1px solid ${TableLineColor};
-  background-color: ${(props) => (props.status === 'NORMAL' ? "white" : PALETTE.LIGHT_RED)};
+  background-color: ${(props) => (props.$status === 'NORMAL' ? 'white' : PALETTE.LIGHT_RED)};
   cursor: pointer;
   &:hover {
     text-decoration: underline;

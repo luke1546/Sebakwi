@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 @Data
 public class CheckupListDetailModalWheel {
 
-    private int checkupListId;
+    private Long checkupListId;
     private String wheelNumber;
     private int position;
     private String ohtNumber;
@@ -31,7 +31,7 @@ public class CheckupListDetailModalWheel {
     private LocalDate createdDate;
 
     @Builder
-    public CheckupListDetailModalWheel(int checkupListId, String wheelNumber, int position, String ohtNumber,
+    public CheckupListDetailModalWheel(Long checkupListId, String wheelNumber, int position, String ohtNumber,
                                           LocalDateTime checkedDate, String wheelImage, float diameter,
                                           boolean crack, boolean stamp, boolean peeling,
                                           WheelStatus status, LocalDate createdDate) {

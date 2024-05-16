@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Noto_Sans_KR, PALETTE } from 'styles';
 
 export const PagenationWrapper = styled.div`
+  margin-top: 20px;
   width: 100%;
   display: flex;
   justify-content: center;

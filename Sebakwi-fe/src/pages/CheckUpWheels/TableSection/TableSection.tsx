@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import * as Styled from './TableSection_style';
-import * as Comp from 'components';
 import axios from 'axios';
 import { TableSectionProps, CheckupListItem } from 'types';
+import { positionLabels } from 'constant';
+import * as Comp from 'components';
+import * as Styled from './TableSection_style';
 
 export default function TableSection(props: TableSectionProps) {
   const { Filter } = props;
@@ -10,6 +11,7 @@ export default function TableSection(props: TableSectionProps) {
   const [data, setData] = useState<CheckupListItem[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalData, setTotalData] = useState<number>(0);
   const [totalPages, setTotalPages] = useState(0);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,7 +27,7 @@ export default function TableSection(props: TableSectionProps) {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchData() {
       try {
         const baseUrl = process.env.REACT_APP_BASE_URL;
         const response = await axios.get(`${baseUrl}/checkup_list`, {
@@ -42,18 +44,22 @@ export default function TableSection(props: TableSectionProps) {
             desc: Filter.desc,
           },
         });
+        console.log(response.data);
         setData(response.data.checkupListArray);
         setTotalPages(response.data.totalPages);
+        setTotalData(response.data.totalCount);
       } catch (error) {
         setData([]);
       }
-    };
+    }
 
     fetchData();
-  }, [Filter, currentPage]); // filter,currentPage가 변경될 때마다 요청을 다시 보냄
+  }, [Filter, currentPage]);
 
   return (
     <Styled.Wrapper>
+      {totalData > 0 && <Styled.TotalcountWrapper>총 {totalData} 건</Styled.TotalcountWrapper>}
+
       <Styled.Table>
         <thead>
           <Styled.AttributesRow>
@@ -70,7 +76,11 @@ export default function TableSection(props: TableSectionProps) {
         <tbody>
           {data.length > 0 ? (
             data.map((item, index) => (
-              <Styled.TableTuple key={index} onClick={() => openModal(item.checkupListId)} status={item.status}>
+              <Styled.TableTuple
+                key={index}
+                onClick={() => openModal(item.checkupListId)}
+                $status={item.status}
+              >
                 <Styled.AttributesValue>{item.checkupListId}</Styled.AttributesValue>
                 <Styled.AttributesValue>{item.wheelNumber}</Styled.AttributesValue>
                 <Styled.AttributesValue>{positionLabels[item.position]}</Styled.AttributesValue>
@@ -94,10 +104,3 @@ export default function TableSection(props: TableSectionProps) {
     </Styled.Wrapper>
   );
 }
-
-const positionLabels: { [key: number]: string } = {
-  1: 'FL', // Front Left
-  2: 'FR', // Front Right 
-  3: 'RL', // Rear Left 
-  4: 'RR', // Rear Right 
-};

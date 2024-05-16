@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
+import { PaginationProps } from 'types'
 import * as Styled from './Pagenation_style';
 
-interface PaginationProps {
-  totalPages: number;
-  onPageChange: (page: number) => void;
-}
 
 export default function Pagination(props: PaginationProps) {
   const { totalPages, onPageChange } = props;
-  const pagesPerGroup = 5; // 페이지 그룹당 페이지 수를 5로 설정
+  const pagesPerGroup = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [currentGroup, setCurrentGroup] = useState(0);
   const totalGroups = Math.ceil(totalPages / pagesPerGroup);
@@ -20,17 +17,20 @@ export default function Pagination(props: PaginationProps) {
 
   const goToFirstPage = () => {
     setCurrentPage(1);
-    setCurrentGroup(0); 
+    setCurrentGroup(0);
+    goToPage(1);
   };
 
   const goToLastPage = () => {
     setCurrentPage(totalPages);
     setCurrentGroup(totalGroups - 1); 
+    goToPage(totalPages);
   };
 
   const nextGroup = () => {
     if (currentGroup < totalGroups - 1) { 
       const nextGroupFirstPage = (currentGroup + 1) * pagesPerGroup + 1;
+      goToPage(nextGroupFirstPage); 
       setCurrentGroup(currentGroup + 1);
       setCurrentPage(nextGroupFirstPage);
     }
@@ -39,6 +39,7 @@ export default function Pagination(props: PaginationProps) {
   const previousGroup = () => {
     if (currentGroup > 0) {
       const previousGroupFirstPage = (currentGroup - 1) * pagesPerGroup + 1;
+      goToPage(previousGroupFirstPage);
       setCurrentGroup(currentGroup - 1);
       setCurrentPage(previousGroupFirstPage);
     }
@@ -46,10 +47,15 @@ export default function Pagination(props: PaginationProps) {
 
   const startPage = currentGroup * pagesPerGroup + 1;
   const endPage = Math.min(startPage + pagesPerGroup - 1, totalPages);
+
   return (
     <Styled.PagenationWrapper>
-      <Styled.Button onClick={goToFirstPage}>{'<<'}</Styled.Button>
-      <Styled.Button onClick={previousGroup}>{'<'}</Styled.Button>
+    {totalPages > 5 && (
+        <>
+          <Styled.Button onClick={goToFirstPage}>{'<<'}</Styled.Button>
+          <Styled.Button onClick={previousGroup}>{'<'}</Styled.Button>
+        </>
+      )}
       {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
         <Styled.Button
           key={startPage + i}
@@ -59,8 +65,12 @@ export default function Pagination(props: PaginationProps) {
           {startPage + i}
         </Styled.Button>
       ))}
-      <Styled.Button onClick={nextGroup}>{'>'}</Styled.Button>
-      <Styled.Button onClick={goToLastPage}>{'>>'}</Styled.Button>
+      {totalPages > 5 && (
+        <>
+          <Styled.Button onClick={nextGroup}>{'>'}</Styled.Button>
+          <Styled.Button onClick={goToLastPage}>{'>>'}</Styled.Button>
+        </>
+      )}
     </Styled.PagenationWrapper>
   );
 }

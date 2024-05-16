@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Noto_Sans_KR, PALETTE } from 'styles';
-import { ToastContainer } from 'react-toastify';
 
 export const AbContainer = styled.div`
   display: flex;
@@ -54,7 +53,6 @@ export const TableHead = styled.thead`
 `;
 
 export const TableBody = styled.tbody`
-  /* display: block; */
   max-height: 140px;
   overflow-y: scroll;
 `;
@@ -77,29 +75,4 @@ export const TableTd = styled.td`
   font-size: 0.85rem;
   text-align: center;
   border: 1px solid ${PALETTE.LIGHT_BLACK};
-`;
-
-// 토스트알림
-export const AlarmContainer = styled(ToastContainer)`
-  .Toastify__toast {
-    font-family: ${Noto_Sans_KR.semiBold.variable};
-    font-weight: ${Noto_Sans_KR.semiBold.weight};
-    background: #e74c3c;
-  }
-  .Toastify__toast-body {
-    /* font-family: ${Noto_Sans_KR.semiBold.variable};
-    font-weight: ${Noto_Sans_KR.semiBold.weight}; */
-    font-family: ${Noto_Sans_KR.medium.variable};
-    font-weight: ${Noto_Sans_KR.medium.weight};
-    color: white;
-  }
-
-  .Toastify__toast-icon {
-    margin-right: 10px;
-    color: white;
-    font-size: 30px;
-  }
-  .Toastify__close-button {
-    color: white;
-  }
 `;

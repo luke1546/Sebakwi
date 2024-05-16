@@ -132,7 +132,7 @@ public class CheckupListService {
      * checkupListDetail 모달
      */
 
-    public List<CheckupListDetailModalWheel> getCheckupListDetailModalWheels(int checkupListId) {
+    public List<CheckupListDetailModalWheel> getCheckupListDetailModalWheels(Long checkupListId) {
 
         CheckupList findCheckupList = checkupListRepository.findById(checkupListId)
                 .orElseThrow(RuntimeException::new);
@@ -203,7 +203,9 @@ public class CheckupListService {
     }
 
 
-
+    /**
+     * checkupList 목록 찾기
+     */
 
     public CheckupListPageResponse<CheckupListArrayResponse> getCheckupListArray(CheckupListArrayRequest request) {
 
@@ -233,10 +235,11 @@ public class CheckupListService {
                     if (page.isEmpty()) {
                         throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
                     }
+                    Long totalCount = page.getTotalElements();
                     int totalPages = page.getTotalPages();
                     List<CheckupList> checkupLists = page.getContent();
                     List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
-                    return new CheckupListPageResponse<>(totalPages, responseList);
+                    return new CheckupListPageResponse<>(totalCount, totalPages, responseList);
 
                 } else {
 
@@ -248,10 +251,11 @@ public class CheckupListService {
                     if (page.isEmpty()) {
                         throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
                     }
+                    Long totalCount = page.getTotalElements();
                     int totalPages = page.getTotalPages();
                     List<CheckupList> checkupLists = page.getContent();
                     List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
-                    return new CheckupListPageResponse<>(totalPages, responseList);
+                    return new CheckupListPageResponse<>(totalCount, totalPages, responseList);
 
                 }
             } else {
@@ -264,10 +268,11 @@ public class CheckupListService {
                     if (page.isEmpty()) {
                         throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
                     }
+                    Long totalCount = page.getTotalElements();
                     int totalPages = page.getTotalPages();
                     List<CheckupList> checkupLists = page.getContent();
                     List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
-                    return new CheckupListPageResponse<>(totalPages, responseList);
+                    return new CheckupListPageResponse<>(totalCount, totalPages, responseList);
 
                 } else {
 
@@ -278,10 +283,11 @@ public class CheckupListService {
                     if (page.isEmpty()) {
                         throw new CustomException(CustomExceptionStatus.CHECKUPLIST_NOT_FOUND);
                     }
+                    Long totalCount = page.getTotalElements();
                     int totalPages = page.getTotalPages();
                     List<CheckupList> checkupLists = page.getContent();
                     List<CheckupListArrayResponse> responseList = CheckupListMapper.toDtoList(checkupLists);
-                    return new CheckupListPageResponse<>(totalPages, responseList);
+                    return new CheckupListPageResponse<>(totalCount, totalPages, responseList);
                 }
             }
     }

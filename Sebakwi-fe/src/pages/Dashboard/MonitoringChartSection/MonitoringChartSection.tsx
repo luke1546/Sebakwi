@@ -20,20 +20,19 @@ import axios from 'axios';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export default function MonitoringChartSection({ shouldRefetch }: MonitoringChartSectionProps) {
-  const [axisData, setAxisData] = useState<ToolTips | null>(null);
+  const [axiosData, setAxiosData] = useState<ToolTips | null>(null);
   const [times, setTimes] = useState<string[]>([]);
 
   // 데이터를 불러오는 함수
-  const fetchData = async () => {
+  async function fetchData () {
     try {
       const baseUrl = process.env.REACT_APP_BASE_URL;
       const response = await axios.get<ToolTips>(`${baseUrl}/wheels/chart`);
-      setAxisData(response.data);
-      // x축 데이터 setting
       const timeOnly = response.data.xdata.map((dateTime) => {
         const timePart = dateTime.split(' ')[1]; // ' ' 공백을 기준으로 분할하여 시간 부분만 추출
         return timePart;
       });
+      setAxiosData(response.data);
       setTimes(timeOnly);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -72,7 +71,7 @@ export default function MonitoringChartSection({ shouldRefetch }: MonitoringChar
     datasets: [
       {
         label: '이상 휠 수', // y축
-        data: axisData?.ydata,
+        data: axiosData?.ydata,
         borderColor: `${PALETTE.MAIN_BLUE}`,
         backgroundColor: `${PALETTE.MAIN_BLUE}`,
         // 포인트 컬러 (데이터가 1이상이면 빨간색으로)
@@ -96,7 +95,7 @@ export default function MonitoringChartSection({ shouldRefetch }: MonitoringChar
         callbacks: {
           label: (context: TooltipItem<'line'>) => {
             const dataIndex = context.dataIndex;
-            const toolTips = axisData?.toolTips[dataIndex];
+            const toolTips = axiosData?.toolTips[dataIndex];
 
             if (toolTips && toolTips.length > 0) {
               const toolTipsLabels = toolTips.map((toolTip) => {
@@ -137,3 +136,5 @@ export default function MonitoringChartSection({ shouldRefetch }: MonitoringChar
     </Styled.ChartContainer>
   );
 }
+
+
