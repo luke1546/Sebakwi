@@ -44,7 +44,6 @@ export default function TableSection(props: TableSectionProps) {
             desc: Filter.desc,
           },
         });
-        console.log(response.data);
         setData(response.data.checkupListArray);
         setTotalPages(response.data.totalPages);
         setTotalData(response.data.totalCount);

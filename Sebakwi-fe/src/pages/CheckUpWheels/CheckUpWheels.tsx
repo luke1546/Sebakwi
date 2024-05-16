@@ -60,7 +60,7 @@ export default function CheckUpWheelsPage() {
 
     eventSource.addEventListener('sse', (event) => {
       const newMessage: WheelData = JSON.parse(event.data);
-      if (typeof newMessage == 'string') console.log(newMessage);
+      if (typeof newMessage == 'string') {}
       else {
         console.log('데이터 : ' + event.data);
 
