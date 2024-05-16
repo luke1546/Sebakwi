@@ -17,7 +17,7 @@ public class CheckupList {
 
     @Id @GeneratedValue
     @Column(name = "checkup_list_id")
-    private int id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "wheel_id")
