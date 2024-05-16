@@ -49,7 +49,7 @@ public class CheckupListController {
 
 
     @GetMapping("/{checkupListId}")
-    public List<CheckupListDetailModalWheel> checkupListDetailModal(@PathVariable("checkupListId") int checkupListId) {
+    public List<CheckupListDetailModalWheel> checkupListDetailModal(@PathVariable("checkupListId") Long checkupListId) {
 
         return checkupListService.getCheckupListDetailModalWheels(checkupListId);
     }
