@@ -2,6 +2,10 @@ import { BaseButtonProps } from 'types/components/BaseButton';
 import { CheckBoxProps } from 'types/components/CheckBox';
 import { CardProps } from 'types/components/Card';
 import { ModalProps, CheckupDataProps, TableData } from 'types/components/Modal';
+import { PaginationProps } from 'types/components/Pagenation';
+import { DropDownFilterProps } from 'types/components/DropDownFilter';
+import { DatePickerProps, DateInputProps } from 'types/components/DatePicker';
+import { FilterInputProps } from 'types/components/FilterInput';
 import { Filters } from 'types/pages/CheckUpWheels';
 import { FilterSectionProps } from 'types/pages/CheckUpWheels/FilterSection';
 import { TableSectionProps, CheckupListItem } from './pages/CheckUpWheels/TableSection';
@@ -48,4 +52,9 @@ export type {
   ReplaceWheel,
   AbnormalStatusSectionProps,
   MonitoringChartSectionProps,
+  PaginationProps,
+  DropDownFilterProps,
+  DatePickerProps,
+  DateInputProps,
+  FilterInputProps,
 };

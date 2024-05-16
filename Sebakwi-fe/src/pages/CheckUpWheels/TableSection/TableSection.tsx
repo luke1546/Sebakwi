@@ -11,6 +11,7 @@ export default function TableSection(props: TableSectionProps) {
   const [data, setData] = useState<CheckupListItem[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalData, setTotalData] = useState<number>(0);
   const [totalPages, setTotalPages] = useState(0);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,7 +27,7 @@ export default function TableSection(props: TableSectionProps) {
   };
 
   useEffect(() => {
-    async function fetchData (){
+    async function fetchData() {
       try {
         const baseUrl = process.env.REACT_APP_BASE_URL;
         const response = await axios.get(`${baseUrl}/checkup_list`, {
@@ -43,18 +44,22 @@ export default function TableSection(props: TableSectionProps) {
             desc: Filter.desc,
           },
         });
+        console.log(response.data);
         setData(response.data.checkupListArray);
         setTotalPages(response.data.totalPages);
+        setTotalData(response.data.totalCount);
       } catch (error) {
         setData([]);
       }
-    };
+    }
 
     fetchData();
   }, [Filter, currentPage]);
 
   return (
     <Styled.Wrapper>
+      {totalData > 0 && <Styled.TotalcountWrapper>총 {totalData} 건</Styled.TotalcountWrapper>}
+
       <Styled.Table>
         <thead>
           <Styled.AttributesRow>
