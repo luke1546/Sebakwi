@@ -14,7 +14,6 @@ export const MainheaderContainer = styled.header`
   justify-content: start;
   border-bottom: 2px solid ${PALETTE.MAIN_BLUE};
   position: relative;
-  z-index: 99;
 `;
 
 export const LogoWrapper = styled.div`

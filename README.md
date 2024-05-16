@@ -26,17 +26,33 @@
 1. 메인 화면
 <table width="100%" border-style="non" cellspacing="0" cellpadding="100">
   <tr>
-    <td align="center"><img src="readme_image/main_page_1.gif" alt="main_page" width="200"></td>
-    <td align="center"><img src="readme_image/main_page_2.gif" alt="video_page" width="200"></td>
+    <td align="center"><img src="readme_image/main_page_1.gif" alt="main_page" width="400"></td>
+    <td align="center"><img src="readme_image/main_page_2.gif" alt="video_page" width="400"></td>
   </tr>
 
 </table>
 
-2. Unity 시뮬레이터
+2. 검진 목록
 <table width="100%" border-style="non" cellspacing="0" cellpadding="100">
   <tr>
-    <td align="center"><img src="readme_image/unity.gif" alt="result_page" width="200"></td>
-    <td align="center"><img src="readme_image/unity.gif" alt="galery_page" width="200"></td>
+    <td align="center"><img src="readme_image/checkup_list_1.gif" alt="result_page" width="400"></td>
+    <td align="center"><img src="readme_image/checkup_list_2.gif" alt="galery_page" width="400"></td>
+  </tr>
+</table>
+
+3. 뭘써야함?
+<table width="100%" border-style="non" cellspacing="0" cellpadding="100">
+  <tr>
+    <td align="center"><img src="readme_image/unity.gif" alt="result_page" width="400"></td>
+    <td align="center"><img src="readme_image/unity.gif" alt="galery_page" width="400"></td>
+  </tr>
+</table>
+
+4. Unity 시뮬레이터
+<table width="100%" border-style="non" cellspacing="0" cellpadding="100">
+  <tr>
+    <td align="center"><img src="readme_image/unity.gif" alt="result_page" width="400"></td>
+    <td align="center"><img src="readme_image/unity.gif" alt="galery_page" width="400"></td>
   </tr>
 </table>
 

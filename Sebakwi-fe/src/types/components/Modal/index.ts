@@ -3,6 +3,10 @@ export interface ModalProps {
   onClose: () => void;
 }
 
+export interface imageModalProps {
+  show: boolean;
+}
+
 export interface CheckupDataProps {
   checkupListId: number;
   wheelNumber: string;
