@@ -1,7 +1,7 @@
 import { BaseButtonProps } from 'types/components/BaseButton';
 import { CheckBoxProps } from 'types/components/CheckBox';
 import { CardProps } from 'types/components/Card';
-import { ModalProps, CheckupDataProps, TableData } from 'types/components/Modal';
+import { ModalProps, CheckupDataProps, TableData, imageModalProps } from 'types/components/Modal';
 import { PaginationProps } from 'types/components/Pagenation';
 import { DropDownFilterProps } from 'types/components/DropDownFilter';
 import { DatePickerProps, DateInputProps } from 'types/components/DatePicker';
@@ -57,4 +57,5 @@ export type {
   DatePickerProps,
   DateInputProps,
   FilterInputProps,
+  imageModalProps,
 };

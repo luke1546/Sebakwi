@@ -6,89 +6,32 @@ import * as Styled from './Modal_style';
 import Wheel3D from 'components/Wheel3D/Wheel3D';
 
 export default function Modal(props: ModalProps) {
-  const initialData = [
-    {
-      checkupListId: 0,
-      wheelNumber: "",
-      position: 0,
-      ohtNumber: "",
-      checkedDate: "",
-      wheelImage: "",
-      diameter: 0,
-      crack: false,
-      stamp: false,
-      peeling: false,
-      status: "",
-      createdDate: "",
-    },
-    {
-      checkupListId: 0,
-      wheelNumber: "",
-      position: 0,
-      ohtNumber: "",
-      checkedDate: "",
-      wheelImage: "",
-      diameter: 0,
-      crack: false,
-      stamp: false,
-      peeling: false,
-      status: "",
-      createdDate: "",
-    },
-    {
-      checkupListId: 0,
-      wheelNumber: "",
-      position: 0,
-      ohtNumber: "",
-      checkedDate: "",
-      wheelImage: "",
-      diameter: 0,
-      crack: false,
-      stamp: false,
-      peeling: false,
-      status: "",
-      createdDate: "",
-    },
-    {
-      checkupListId: 0,
-      wheelNumber: "",
-      position: 0,
-      ohtNumber: "",
-      checkedDate: "",
-      wheelImage: "",
-      diameter: 0,
-      crack: false,
-      stamp: false,
-      peeling: false,
-      status: "",
-      createdDate: "",
-    },
-    {
-      checkupListId: 0,
-      wheelNumber: "",
-      position: 0,
-      ohtNumber: "",
-      checkedDate: "",
-      wheelImage: "",
-      diameter: 0,
-      crack: false,
-      stamp: false,
-      peeling: false,
-      status: "",
-      createdDate: "",
-    },
-  ]
+  const initialData = Array.from({ length: 5 }, () => ({
+    checkupListId: 0,
+    wheelNumber: "",
+    position: 0,
+    ohtNumber: "",
+    checkedDate: "",
+    wheelImage: "",
+    diameter: 0,
+    crack: false,
+    stamp: false,
+    peeling: false,
+    status: "",
+    createdDate: "",
+  }));
+
   const { id, onClose } = props;
   const [data, setData] = useState<CheckupDataProps[]>(initialData);
   const [selected, setSelected] = useState<number>(4);
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     // 키보드 입력 이벤트를 감지하는 함수입니다.
     const handleKeyDown = (event: KeyboardEvent) => {
       // ESC 키가 눌렸는지 확인합니다.
       if (event.key === 'Escape' || event.keyCode === 27) {
-        onClose();
-        // 원하는 동작을 여기서 실행할 수 있습니다.
+        isModalOpen ? handleClose() : onClose();
       }
     };
     // `window` 객체에 이벤트 리스너를 추가합니다.
@@ -98,7 +41,7 @@ export default function Modal(props: ModalProps) {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onClose]);
+  }, [onClose, isModalOpen]);
 
   // 콜백 함수: 자식 컴포넌트에서 데이터를 받음
   const handleDataFromChild = (prop: number) => {
@@ -112,7 +55,7 @@ export default function Modal(props: ModalProps) {
       try {
         const baseUrl = process.env.REACT_APP_BASE_URL;
         const response = await axios.get<CheckupDataProps[]>(`${baseUrl}/checkup_list/${id}`);
-        // console.log(response.data);
+        console.log("get 응답 : ", response.data);
         let updatedData = initialData;
         response.data.forEach((e, index) => {
           if (data === null) return; // 데이터가 null이면 아무 작업도 수행하지 않음
@@ -129,7 +72,7 @@ export default function Modal(props: ModalProps) {
     };
 
     fetchData();
-  }, [id]);
+  }, [id, data, initialData]);
 
   const tableData: TableData[] = data
     ?
@@ -140,6 +83,17 @@ export default function Modal(props: ModalProps) {
       { item: '박리', value: data[selected].peeling },
     ]
     : [];
+
+
+
+  const handleImgClick = () => {
+    setModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setModalOpen(false);
+  };
+
 
   return (
     <Styled.ModalWrapper onClick={onClose}>
@@ -191,7 +145,16 @@ export default function Modal(props: ModalProps) {
             <Styled.SubTitle>
               <div>휠 상세 이미지</div>
               <div>
-                <Styled.DetailImg src={data ? data[selected].wheelImage : ''} />
+                <Styled.Img
+                  src={data ? data[selected].wheelImage : ''}
+                  onClick={handleImgClick}
+                />
+                <Styled.ImageModal show={isModalOpen} onClick={handleClose}>
+                  <Styled.ModalContent onClick={(event) => event.stopPropagation()}>
+                    <Styled.CloseButton onClick={handleClose}>&times;</Styled.CloseButton>
+                    <Styled.DetailImg src={data ? data[selected].wheelImage : ''} alt="Enlarged view" />
+                  </Styled.ModalContent>
+                </Styled.ImageModal>
               </div>
             </Styled.SubTitle>
           </Styled.SubContent>

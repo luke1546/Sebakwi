@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { PALETTE } from 'styles';
+import { imageModalProps } from 'types';
 
 export const Modal = styled.div`
   background-color: white;
@@ -42,7 +43,7 @@ export const Result = styled.span<{ status?: string }>`
 color: ${({ status }) => {
     switch (status) {
       case 'ABNORMAL':
-        return 'red';
+        return `#ff5050`;
       case 'NORMAL':
         return `white`;
       default:
@@ -149,8 +150,48 @@ export const ESCButton = styled.button`
     }
 `
 
-export const DetailImg = styled.img`
+export const Img = styled.img`
+  width: 100%;
+  height: 33vh;
+  margin-top: 20px;
+`
+
+export const ImageModal = styled.div<imageModalProps>`
+  display: ${({ show }) => (show ? 'block' : 'none')};
+  position: fixed;
+  left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
-  margin-top: 20px;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.9);
+`;
+
+export const ModalContent = styled.div`
+  margin: auto;
+  display: block;
+  width: 100%;
+  max-width: 75vw;
+`;
+
+export const CloseButton = styled.span`
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+
+  &:hover,
+  &:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+  }
+`;
+
+export const DetailImg = styled.img`
+  width: 100%;
+  margin-top: 2%;
 `
