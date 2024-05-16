@@ -25,7 +25,7 @@ export default function TableSection(props: TableSectionProps) {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -44,6 +44,7 @@ export default function TableSection(props: TableSectionProps) {
             desc: Filter.desc,
           },
         });
+        console.log(response.data);
         setData(response.data.checkupListArray);
         setTotalPages(response.data.totalPages);
         setTotalData(response.data.totalCount);
@@ -54,10 +55,10 @@ export default function TableSection(props: TableSectionProps) {
 
     fetchData();
   }, [Filter, currentPage]);
-  
+
   return (
     <Styled.Wrapper>
-      <Styled.TotalcountWrapper>{totalData} 건</Styled.TotalcountWrapper>
+      {totalData > 0 && <Styled.TotalcountWrapper>총 {totalData} 건</Styled.TotalcountWrapper>}
 
       <Styled.Table>
         <thead>
@@ -76,9 +77,9 @@ export default function TableSection(props: TableSectionProps) {
           {data.length > 0 ? (
             data.map((item, index) => (
               <Styled.TableTuple
-              key={index}
-              onClick={() => openModal(item.checkupListId)}
-              $status={item.status}
+                key={index}
+                onClick={() => openModal(item.checkupListId)}
+                $status={item.status}
               >
                 <Styled.AttributesValue>{item.checkupListId}</Styled.AttributesValue>
                 <Styled.AttributesValue>{item.wheelNumber}</Styled.AttributesValue>
@@ -91,8 +92,8 @@ export default function TableSection(props: TableSectionProps) {
                 <Styled.AttributesValue>{item.createdDate}</Styled.AttributesValue>
               </Styled.TableTuple>
             ))
-            ) : (
-              <tr>
+          ) : (
+            <tr>
               <Styled.NoDataTd colSpan={7}>데이터가 없습니다.</Styled.NoDataTd>
             </tr>
           )}
