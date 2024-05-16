@@ -6,6 +6,7 @@ import com.ssafy.sebakwi.checkupList.dto.*;
 import com.ssafy.sebakwi.oht.domain.Oht;
 import com.ssafy.sebakwi.oht.domain.OhtRepository;
 import com.ssafy.sebakwi.oht.dto.OhtDTO;
+import com.ssafy.sebakwi.util.SimpleRestClient;
 import com.ssafy.sebakwi.util.exception.CustomException;
 import com.ssafy.sebakwi.util.exception.CustomExceptionStatus;
 import com.ssafy.sebakwi.wheel.domain.Wheel;
@@ -44,6 +45,7 @@ public class CheckupListService {
     private final WheelRepository wheelRepository;
 
     private final WheelService wheelService;
+    private final SimpleRestClient simpleRestClient;
 
     /**
      * 젯슨나노로부터 바퀴 검사데이터 받기
@@ -79,6 +81,38 @@ public class CheckupListService {
         if (wheelStatus == WheelStatus.ABNORMAL) {
 
             wheelService.updateMonthlyStatus(convertToCheckupListDto(checkupList));
+            String message = String.format(
+                    "# :rotating_light: %s 휠 (%s) 크랙 확인  \\n",
+                    checkupList.getWheel().getSerialNumber(),
+                    checkupList.getWheel().getOht().getSerialNumber()
+            );
+
+            StringBuilder additionalMessages = new StringBuilder();
+            if (checkupList.isCrack() || checkupList.isStamp() || checkupList.isPeeling()) {
+                additionalMessages.append("\n# ");
+
+                if (checkupList.isCrack()) {
+                    additionalMessages.append("크랙 발생! ");
+                }
+                if (checkupList.isStamp()) {
+                    additionalMessages.append("스탬프 발생! ");
+                }
+                if (checkupList.isPeeling()) {
+                    additionalMessages.append("박리 발생! ");
+                }
+            }
+            additionalMessages.append("\n");
+            additionalMessages.append(request.getWheelImage());
+
+            message += additionalMessages.toString().trim();
+
+
+            System.out.println("--------------------");
+            System.out.println(request.getWheelImage());
+            System.out.println(message);
+            System.out.println("--------------------");
+
+            simpleRestClient.notifyWebhook(message);
         }
 
         return new CreateWheelResponse(request.getWheelSerialNumber());
