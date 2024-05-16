@@ -13,8 +13,9 @@ public class WheelMonthlyStatus {
     private String wheelNumber;
     private String ohtNumber;
     private int position;
+    private double diameter;
     private boolean crack;
     private boolean stamp;
-    private boolean peeling;
+    private boolean abrasion;
 
 }
