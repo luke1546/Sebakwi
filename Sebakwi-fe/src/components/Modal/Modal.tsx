@@ -17,7 +17,7 @@ export default function Modal(props: ModalProps) {
       diameter: 0,
       crack: false,
       stamp: false,
-      peeling: false,
+      abrasion: false,
       status: "",
       createdDate: "",
     },
@@ -31,7 +31,7 @@ export default function Modal(props: ModalProps) {
       diameter: 0,
       crack: false,
       stamp: false,
-      peeling: false,
+      abrasion: false,
       status: "",
       createdDate: "",
     },
@@ -45,7 +45,7 @@ export default function Modal(props: ModalProps) {
       diameter: 0,
       crack: false,
       stamp: false,
-      peeling: false,
+      abrasion: false,
       status: "",
       createdDate: "",
     },
@@ -59,7 +59,7 @@ export default function Modal(props: ModalProps) {
       diameter: 0,
       crack: false,
       stamp: false,
-      peeling: false,
+      abrasion: false,
       status: "",
       createdDate: "",
     },
@@ -73,7 +73,7 @@ export default function Modal(props: ModalProps) {
       diameter: 0,
       crack: false,
       stamp: false,
-      peeling: false,
+      abrasion: false,
       status: "",
       createdDate: "",
     },
@@ -135,9 +135,9 @@ export default function Modal(props: ModalProps) {
     ?
     [
       { item: '마모도', value: data[selected].diameter },
+      { item: '마모', value: data[selected].abrasion },
       { item: '찍힘', value: data[selected].stamp },
       { item: '크랙', value: data[selected].crack },
-      { item: '박리', value: data[selected].peeling },
     ]
     : [];
 

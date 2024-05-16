@@ -99,12 +99,12 @@ export default function MonitoringChartSection({ shouldRefetch }: MonitoringChar
 
             if (toolTips && toolTips.length > 0) {
               const toolTipsLabels = toolTips.map((toolTip) => {
-                const { wheelNumber, crack, stamp, peeling } = toolTip;
+                const { wheelNumber, crack, stamp, abrasion } = toolTip;
 
                 let status = [];
                 if (stamp) status.push('찍힘');
                 if (crack) status.push('크랙');
-                if (peeling) status.push('박리');
+                if (abrasion) status.push('마모');
 
                 let statusText = status.join(', ');
 

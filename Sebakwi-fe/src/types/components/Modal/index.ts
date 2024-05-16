@@ -13,7 +13,7 @@ export interface CheckupDataProps {
   diameter: number;
   crack: boolean;
   stamp: boolean;
-  peeling: boolean;
+  abrasion: boolean;
   status: string;
   createdDate: string;
 }
