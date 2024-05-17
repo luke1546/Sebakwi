@@ -6,21 +6,78 @@ import * as Styled from './Modal_style';
 import Wheel3D from 'components/Wheel3D/Wheel3D';
 
 export default function Modal(props: ModalProps) {
-  const initialData = Array.from({ length: 5 }, () => ({
-    checkupListId: 0,
-    wheelNumber: "",
-    position: 0,
-    ohtNumber: "",
-    checkedDate: "",
-    wheelImage: "",
-    diameter: 0,
-    crack: false,
-    stamp: false,
-    peeling: false,
-    status: "",
-    createdDate: "",
-  }));
-
+  const initialData = [
+    {
+      checkupListId: 0,
+      wheelNumber: "",
+      position: 0,
+      ohtNumber: "",
+      checkedDate: "",
+      wheelImage: "",
+      diameter: 0,
+      crack: false,
+      stamp: false,
+      abrasion: false,
+      status: "",
+      createdDate: "",
+    },
+    {
+      checkupListId: 0,
+      wheelNumber: "",
+      position: 0,
+      ohtNumber: "",
+      checkedDate: "",
+      wheelImage: "",
+      diameter: 0,
+      crack: false,
+      stamp: false,
+      abrasion: false,
+      status: "",
+      createdDate: "",
+    },
+    {
+      checkupListId: 0,
+      wheelNumber: "",
+      position: 0,
+      ohtNumber: "",
+      checkedDate: "",
+      wheelImage: "",
+      diameter: 0,
+      crack: false,
+      stamp: false,
+      abrasion: false,
+      status: "",
+      createdDate: "",
+    },
+    {
+      checkupListId: 0,
+      wheelNumber: "",
+      position: 0,
+      ohtNumber: "",
+      checkedDate: "",
+      wheelImage: "",
+      diameter: 0,
+      crack: false,
+      stamp: false,
+      abrasion: false,
+      status: "",
+      createdDate: "",
+    },
+    {
+      checkupListId: 0,
+      wheelNumber: "",
+      position: 0,
+      ohtNumber: "",
+      checkedDate: "",
+      wheelImage: "",
+      diameter: 0,
+      crack: false,
+      stamp: false,
+      abrasion: false,
+      status: "",
+      createdDate: "",
+    },
+  ]
   const { id, onClose } = props;
   const [data, setData] = useState<CheckupDataProps[]>(initialData);
   const [selected, setSelected] = useState<number>(4);
@@ -78,9 +135,9 @@ export default function Modal(props: ModalProps) {
     ?
     [
       { item: '마모도', value: data[selected].diameter },
+      { item: '마모', value: data[selected].abrasion },
       { item: '찍힘', value: data[selected].stamp },
       { item: '크랙', value: data[selected].crack },
-      { item: '박리', value: data[selected].peeling },
     ]
     : [];
 

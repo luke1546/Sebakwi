@@ -69,7 +69,7 @@ export default function CheckUpWheelsPage() {
           const newWheelData = newMessage.wheelList[newMessage.wheelList.length - 1];
           const alertKey = `${newWheelData.wheelNumber} - ${newWheelData.crack ? 'crack' : ''}${
             newWheelData.stamp ? 'stamp' : ''
-          }${newWheelData.peeling ? 'peeling' : ''}`;
+          }${newWheelData.abrasion ? 'abrasion' : ''}`;
 
           if (!shownAlerts.has(alertKey)) {
             shownAlerts.add(alertKey);
@@ -79,8 +79,8 @@ export default function CheckUpWheelsPage() {
             if (newWheelData.stamp) {
               toast.error(`${newWheelData.wheelNumber} 휠 찍힘 발생`, { icon: <GoAlert /> });
             }
-            if (newWheelData.peeling) {
-              toast.error(`${newWheelData.wheelNumber} 휠 박리 발생`, { icon: <GoAlert /> });
+            if (newWheelData.abrasion) {
+              toast.error(`${newWheelData.wheelNumber} 휠 마모 발생`, { icon: <GoAlert /> });
             }
           }
         }
