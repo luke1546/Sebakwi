@@ -9,7 +9,10 @@ import com.ssafy.sebakwi.wheel.dto.CreateWheelRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.integration.annotation.ServiceActivator;
+import org.springframework.integration.mqtt.support.MqttHeaders;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 
@@ -43,4 +46,8 @@ public class MqttMessageHandler {
         }
 
     }
+
+
+
+
 }
