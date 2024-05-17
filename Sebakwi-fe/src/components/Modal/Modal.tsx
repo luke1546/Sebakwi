@@ -6,78 +6,21 @@ import * as Styled from './Modal_style';
 import Wheel3D from 'components/Wheel3D/Wheel3D';
 
 export default function Modal(props: ModalProps) {
-  const initialData = [
-    {
-      checkupListId: 0,
-      wheelNumber: "",
-      position: 0,
-      ohtNumber: "",
-      checkedDate: "",
-      wheelImage: "",
-      diameter: 0,
-      crack: false,
-      stamp: false,
-      abrasion: false,
-      status: "",
-      createdDate: "",
-    },
-    {
-      checkupListId: 0,
-      wheelNumber: "",
-      position: 0,
-      ohtNumber: "",
-      checkedDate: "",
-      wheelImage: "",
-      diameter: 0,
-      crack: false,
-      stamp: false,
-      abrasion: false,
-      status: "",
-      createdDate: "",
-    },
-    {
-      checkupListId: 0,
-      wheelNumber: "",
-      position: 0,
-      ohtNumber: "",
-      checkedDate: "",
-      wheelImage: "",
-      diameter: 0,
-      crack: false,
-      stamp: false,
-      abrasion: false,
-      status: "",
-      createdDate: "",
-    },
-    {
-      checkupListId: 0,
-      wheelNumber: "",
-      position: 0,
-      ohtNumber: "",
-      checkedDate: "",
-      wheelImage: "",
-      diameter: 0,
-      crack: false,
-      stamp: false,
-      abrasion: false,
-      status: "",
-      createdDate: "",
-    },
-    {
-      checkupListId: 0,
-      wheelNumber: "",
-      position: 0,
-      ohtNumber: "",
-      checkedDate: "",
-      wheelImage: "",
-      diameter: 0,
-      crack: false,
-      stamp: false,
-      abrasion: false,
-      status: "",
-      createdDate: "",
-    },
-  ]
+  const initialData = Array.from({ length: 5 }, () => ({
+    checkupListId: 0,
+    wheelNumber: "",
+    position: 0,
+    ohtNumber: "",
+    checkedDate: "",
+    wheelImage: "",
+    diameter: 0,
+    crack: false,
+    stamp: false,
+    abrasion: false,
+    status: "",
+    createdDate: "",
+  }));
+
   const { id, onClose } = props;
   const [data, setData] = useState<CheckupDataProps[]>(initialData);
   const [selected, setSelected] = useState<number>(4);
@@ -112,7 +55,6 @@ export default function Modal(props: ModalProps) {
       try {
         const baseUrl = process.env.REACT_APP_BASE_URL;
         const response = await axios.get<CheckupDataProps[]>(`${baseUrl}/checkup_list/${id}`);
-        console.log("get 응답 : ", response.data);
         let updatedData = initialData;
         response.data.forEach((e, index) => {
           if (data === null) return; // 데이터가 null이면 아무 작업도 수행하지 않음
@@ -129,7 +71,7 @@ export default function Modal(props: ModalProps) {
     };
 
     fetchData();
-  }, [id, data, initialData]);
+  }, [id]);
 
   const tableData: TableData[] = data
     ?
