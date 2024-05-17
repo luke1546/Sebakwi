@@ -4,18 +4,44 @@ using UnityEngine;
 
 public class MoveCamera : MonoBehaviour
 {
-    private Vector3 destination;
-    private float time = 0;
+    public float moveSpeed = 10f;
+    public float lookSpeed = 2f;
+
+    private float yaw = 209f;
+    private float pitch = 0f;
     // Start is called before the first frame update
     void Start()
     {
-        destination = new Vector3(transform.position[0], transform.position[1], transform.position[2] - 13f);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (time < 6) time += Time.deltaTime;
-        else transform.position = Vector3.MoveTowards(transform.position, destination, 4 * Time.deltaTime);
+        // Movement
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        float upDown = 0f;
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            upDown = -1f;
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            upDown = 1f;
+        }
+
+        Vector3 direction = new Vector3(horizontal, upDown, vertical);
+        transform.Translate(direction * moveSpeed * Time.deltaTime);
+
+        // Mouse look
+        if (Input.GetMouseButton(1))
+        {
+            yaw += lookSpeed * Input.GetAxis("Mouse X");
+            pitch -= lookSpeed * Input.GetAxis("Mouse Y");
+
+            transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+        }
     }
 }
