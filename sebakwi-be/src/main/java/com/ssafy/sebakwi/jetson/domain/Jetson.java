@@ -20,11 +20,6 @@ public class Jetson {
     private boolean cleaning;
     private boolean photo;
 
-//    private static final Jetson INSTANCE = new Jetson();
-//    public static Jetson getInstance() {
-//        return INSTANCE;
-//    }
-
     public void updateFoupstocker(boolean foupstocker) {
         this.foupstocker = foupstocker;
     }

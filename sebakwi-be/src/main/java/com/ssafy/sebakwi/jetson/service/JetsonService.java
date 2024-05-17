@@ -36,6 +36,7 @@ public class JetsonService {
             jetson.updateFoupstocker(newFoupstocker);
             jetsonRepository.save(jetson);
             mqttMessageGateway.sendToMqtt(Boolean.toString(newFoupstocker), "foupstocker-switch-topic");
+            log.info("newFoupstocker={}", newFoupstocker);
             return JetsonButtonResponse.builder()
                     .camera(0)
                     .power(newFoupstocker)
@@ -47,6 +48,7 @@ public class JetsonService {
             jetson.updateEtching(newEtching);
             jetsonRepository.save(jetson);
             mqttMessageGateway.sendToMqtt(Boolean.toString(newEtching), "etching-switch-topic");
+            log.info("newEtching={}", newEtching);
             return JetsonButtonResponse.builder()
                     .camera(1)
                     .power(newEtching)
@@ -58,6 +60,7 @@ public class JetsonService {
             jetson.updateCleaning(newCleaning);
             jetsonRepository.save(jetson);
             mqttMessageGateway.sendToMqtt(Boolean.toString(newCleaning), "cleaning-switch-topic");
+            log.info("newCleaning={}", newCleaning);
             return JetsonButtonResponse.builder()
                     .camera(2)
                     .power(newCleaning)
@@ -69,6 +72,7 @@ public class JetsonService {
             jetson.updatePhoto(newPhoto);
             jetsonRepository.save(jetson);
             mqttMessageGateway.sendToMqtt(Boolean.toString(newPhoto), "photo-switch-topic");
+            log.info("newPhoto={}", newPhoto);
             return JetsonButtonResponse.builder()
                     .camera(3)
                     .power(newPhoto)
