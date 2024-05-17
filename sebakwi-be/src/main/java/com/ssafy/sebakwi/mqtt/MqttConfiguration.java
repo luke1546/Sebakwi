@@ -82,6 +82,8 @@ public class MqttConfiguration {
         MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler(clientId, mqttClientFactory());
         messageHandler.setAsync(true);
         messageHandler.setDefaultTopic(foupstockerSwitchTopic);
+        messageHandler.setDefaultQos(1);
+
         return messageHandler;
     }
 }

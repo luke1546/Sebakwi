@@ -48,7 +48,4 @@ public class SimpleRestClient {
         log.info("Response from Mattermost: {}", response);
     }
 
-//    public void sendMessageToMqtt(String payload, String topic) {
-//        mqttMessageGateway.sendToMqtt(payload, topic);
-//    }
 }
