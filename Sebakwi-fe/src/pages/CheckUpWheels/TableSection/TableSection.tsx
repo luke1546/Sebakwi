@@ -26,6 +26,7 @@ export default function TableSection(props: TableSectionProps) {
     setIsModalOpen(false);
   };
 
+  
   useEffect(() => {
     async function fetchData() {
       try {
