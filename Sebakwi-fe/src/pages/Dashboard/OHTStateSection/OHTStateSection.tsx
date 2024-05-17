@@ -20,7 +20,7 @@ export default function OHTStateSection() {
       const response = await axios.get<OHTCount>(`${baseUrl}/oht/replacement`);
       setOHTData(response.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      // console.error('Error fetching data:', error);
     }
   };
 

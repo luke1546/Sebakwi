@@ -20,7 +20,7 @@ export default function ReplaceSection() {
       const response = await axios.get<ReplaceWheel[]>(`${baseUrl}/wheels/replacement`);
       setReplaceData(response.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      // console.error('Error fetching data:', error);
     }
   };
 

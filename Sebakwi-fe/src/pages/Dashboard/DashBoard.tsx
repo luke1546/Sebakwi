@@ -28,7 +28,7 @@ export default function DashBoradPage() {
       const response = await axios.get<WheelData>(`${baseUrl}/wheels/monthly`);
       setAbData(response.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      // console.error('Error fetching data:', error);
     }
   }, [baseUrl]);
 

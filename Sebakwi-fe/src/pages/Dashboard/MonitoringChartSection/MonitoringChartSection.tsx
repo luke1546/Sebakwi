@@ -35,7 +35,7 @@ export default function MonitoringChartSection({ shouldRefetch }: MonitoringChar
       setAxiosData(response.data);
       setTimes(timeOnly);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      // console.error('Error fetching data:', error);
     }
   };
 
