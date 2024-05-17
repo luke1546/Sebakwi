@@ -4,12 +4,15 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.core.MessageProducer;
 import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory;
 import org.springframework.integration.mqtt.core.MqttPahoClientFactory;
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
+import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessageHandler;
 
 @Configuration
 public class MqttConfiguration {
@@ -19,6 +22,16 @@ public class MqttConfiguration {
 
     @Value("${spring.mqtt.topic}")
     private String topic;
+
+    // swtich-topic
+    @Value("${spring.mqtt.foupstocker-switch-topic}")
+    private String foupstockerSwitchTopic;
+    @Value("${spring.mqtt.etching-switch-topic}")
+    private String etchingSwitchTopic;
+    @Value("${spring.mqtt.cleaning-switch-topic}")
+    private String cleaningSwitchTopic;
+    @Value("${spring.mqtt.photo-switch-topic}")
+    private String photoSwitchTopic;
 
     @Value("${spring.mqtt.username}")
     private String username;
@@ -55,5 +68,20 @@ public class MqttConfiguration {
         adapter.setQos(1);
         adapter.setOutputChannel(mqttInputChannel());
         return adapter;
+    }
+
+    // 카메라 키는 요청 전달
+    @Bean
+    public MessageChannel mqttOutboundChannel() {
+        return new DirectChannel();
+    }
+
+    @Bean
+    @ServiceActivator(inputChannel = "mqttOutboundChannel")
+    public MessageHandler mqttOutbound() {
+        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler(clientId, mqttClientFactory());
+        messageHandler.setAsync(true);
+        messageHandler.setDefaultTopic(foupstockerSwitchTopic);
+        return messageHandler;
     }
 }
