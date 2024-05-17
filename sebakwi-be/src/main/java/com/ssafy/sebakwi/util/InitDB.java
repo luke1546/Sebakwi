@@ -2,6 +2,8 @@ package com.ssafy.sebakwi.util;
 
 import com.ssafy.sebakwi.checkupList.controller.CheckupListController;
 import com.ssafy.sebakwi.checkupList.service.CheckupListService;
+import com.ssafy.sebakwi.jetson.domain.Jetson;
+import com.ssafy.sebakwi.jetson.domain.JetsonRepository;
 import com.ssafy.sebakwi.oht.domain.Oht;
 import com.ssafy.sebakwi.oht.domain.OhtRepository;
 import com.ssafy.sebakwi.wheel.controller.WheelController;
@@ -38,8 +40,7 @@ public class InitDB {
 
     private final OhtRepository ohtRepository;
     private final WheelRepository wheelRepository;
-
-    private final CheckupListController checkupListController;
+    private final JetsonRepository jetsonRepository;
 
     public void dbInit() {
         Optional<Oht> oo = ohtRepository.findById(1L);
@@ -64,6 +65,17 @@ public class InitDB {
             wheelRepository.save(wheel);
 
             }
+        }
+
+        // jetson 생성
+        if (jetsonRepository.count() == 0) {
+            Jetson jetson = Jetson.builder()
+                    .foupstocker(true)
+                    .etching(true)
+                    .cleaning(true)
+                    .photo(true)
+                    .build();
+            jetsonRepository.save(jetson);
         }
 
     }
