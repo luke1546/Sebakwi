@@ -68,7 +68,7 @@ export default function Modal(props: ModalProps) {
     };
 
     fetchData();
-  }, [id, data, initialData]);
+  }, [id]);
 
   const tableData: TableData[] = data
     ?
