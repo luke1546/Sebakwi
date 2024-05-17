@@ -16,8 +16,7 @@ public class CreateWheelRequest {
     private int position;
 
     private String wheelImage;
-    private float diameter;
+    private double diameter;
     private boolean crack;
     private boolean stamp;
-    private boolean peeling;
 }

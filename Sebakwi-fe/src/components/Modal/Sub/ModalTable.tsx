@@ -21,7 +21,7 @@ export default function ModalTable(props : ModalTableProps) {
                   type="checkbox"
                   checked={row.value}
                   readOnly
-                ></Styled.CheckBoxInput>
+                />
               ) : (
                 row.value
               )}

@@ -6,6 +6,7 @@ import com.ssafy.sebakwi.checkupList.dto.*;
 import com.ssafy.sebakwi.oht.domain.Oht;
 import com.ssafy.sebakwi.oht.domain.OhtRepository;
 import com.ssafy.sebakwi.oht.dto.OhtDTO;
+import com.ssafy.sebakwi.util.SimpleRestClient;
 import com.ssafy.sebakwi.util.exception.CustomException;
 import com.ssafy.sebakwi.util.exception.CustomExceptionStatus;
 import com.ssafy.sebakwi.wheel.domain.Wheel;
@@ -44,6 +45,7 @@ public class CheckupListService {
     private final WheelRepository wheelRepository;
 
     private final WheelService wheelService;
+    private final SimpleRestClient simpleRestClient;
 
     /**
      * 젯슨나노로부터 바퀴 검사데이터 받기
@@ -52,7 +54,7 @@ public class CheckupListService {
     public CreateWheelResponse getCreateWheelResponse(CreateWheelRequest request) {
 
         WheelStatus wheelStatus = WheelStatus.NORMAL;
-        if (request.isCrack() || request.isStamp() || request.isPeeling()) {
+        if ( request.isCrack() || request.isStamp() || request.getDiameter() >= 1) {
             wheelStatus = WheelStatus.ABNORMAL;
         }
 
@@ -66,19 +68,42 @@ public class CheckupListService {
                 .diameter(request.getDiameter())
                 .crack(request.isCrack())
                 .stamp(request.isStamp())
-                .peeling(request.isPeeling())
+                .abrasion(request.getDiameter() >= 1)
                 .build();
 
         checkupListRepository.save(checkupList);
 
-        // 바퀴의 현재상태 업데이트
-//        if (checkedWheel.getCurrentStatus() != wheelStatus) {
-//            wheelService.updateWheelCurrentStatus(checkedWheel.getSerialNumber(), wheelStatus);
-//        }
-
         if (wheelStatus == WheelStatus.ABNORMAL) {
 
             wheelService.updateMonthlyStatus(convertToCheckupListDto(checkupList));
+            String message = String.format(
+                    "# :rotating_light: %s 휠 (%s) 크랙 확인  \\n",
+                    checkupList.getWheel().getSerialNumber(),
+                    checkupList.getWheel().getOht().getSerialNumber()
+            );
+
+            StringBuilder additionalMessages = new StringBuilder();
+            if (checkupList.getDiameter() >= 1 || checkupList.isCrack() || checkupList.isStamp() || checkupList.isAbrasion()) {
+                additionalMessages.append("\n# ");
+
+                if (checkupList.isCrack()) {
+                    additionalMessages.append("크랙 발생! ");
+                }
+                if (checkupList.isStamp()) {
+                    additionalMessages.append("스탬프 발생! ");
+                }
+                if (checkupList.isAbrasion()) {
+                    additionalMessages.append("초과 마모 발생! ");
+                }
+            }
+
+            additionalMessages.append("\n");
+            additionalMessages.append("# [검사 이미지 바로가기]");
+            additionalMessages.append("(" + request.getWheelImage() + ")");
+
+            message += additionalMessages.toString().trim();
+
+            simpleRestClient.notifyWebhook(message);
         }
 
         return new CreateWheelResponse(request.getWheelSerialNumber());
@@ -97,7 +122,7 @@ public class CheckupListService {
                 .diameter(checkupList.getDiameter())
                 .crack(checkupList.isCrack())
                 .stamp(checkupList.isStamp())
-                .peeling(checkupList.isPeeling())
+                .abrasion(checkupList.isAbrasion())
                 .build();
     }
 
@@ -144,33 +169,6 @@ public class CheckupListService {
 
     public List<CheckupListDetailModalWheel> getCheckupListDetailModalResponse(CheckupList findCheckupList) {
 
-        //찾는 바퀴
-
-//        OhtDTO ohtDTO = OhtDTO.builder()
-//                .id(findCheckupList.getWheel().getOht().getId())
-//                .serialNumber(findCheckupList.getWheel().getOht().getSerialNumber())
-//                .maintenance(findCheckupList.getWheel().getOht().isMaintenance())
-//                .build();
-//
-//        WheelDto wheelDto = WheelDto.builder()
-//                .oht(ohtDTO)
-//                .serialNumber(findCheckupList.getWheel().getSerialNumber())
-////                .currentStatus(findCheckupList.getWheel().getCurrentStatus())
-//                .createdDate(findCheckupList.getWheel().getCreatedDate())
-//                .position(findCheckupList.getWheel().getPosition())
-//                .build();
-//
-//        CheckupListModalDto checkupListDTO = CheckupListModalDto.builder()
-//                .checkupListId(findCheckupList.getId())
-//                .wheel(wheelDTO)
-//                .checkedDate(findCheckupList.getCheckedDate())
-//                .wheelImage(findCheckupList.getWheelImage())
-//                .status(findCheckupList.getStatus())
-//                .diameter(findCheckupList.getDiameter())
-//                .crack(findCheckupList.isCrack())
-//                .stamp(findCheckupList.isStamp())
-//                .peeling(findCheckupList.isPeeling())
-//                .build();
 
         // oht와 찾는 시간대
         String ohtNumber = findCheckupList.getWheel().getOht().getSerialNumber();
@@ -179,27 +177,6 @@ public class CheckupListService {
         List<CheckupListDetailModalWheel> response = checkupListDetailWheelInfo(ohtNumber, findDateTime);
         return response;
 
-
-//        CheckupListDetailModalWheel modalResponse = CheckupListDetailModalWheel.builder()
-//                .checkupListId(checkupListDTO.getCheckupListId())
-//                .wheelNumber(checkupListDTO.getWheel().getSerialNumber())
-//                .position(checkupListDTO.getWheel().getPosition())
-//                .ohtNumber(checkupListDTO.getWheel().getOht().getSerialNumber())
-//                .checkedDate(checkupListDTO.getCheckedDate())
-//                .wheelImage(checkupListDTO.getWheelImage())
-//                .diameter(checkupListDTO.getDiameter())
-//                .crack(checkupListDTO.isCrack())
-//                .stamp(checkupListDTO.isStamp())
-//                .peeling(checkupListDTO.isPeeling())
-//                .status(checkupListDTO.getStatus())
-//                .createdDate(checkupListDTO.getWheel().getCreatedDate())
-//                .build();
-//
-////        CheckupListDetailModalWheelNumberList wheelNumberList = constructWheelNumberList(checkupListDTO.getWheel().getOht().getSerialNumber(), checkupListDTO.getCheckedDate());
-//
-//        return CheckupListDetailModalResponse.builder()
-//                .checkupListDetailModalWheel(modalResponse)
-//                .build();
     }
 
 
@@ -315,21 +292,6 @@ public class CheckupListService {
     }
 
     /**
-     * CheckupListDetailModalWheelNumberList 만들기
-     */
-
-//    public CheckupListDetailModalWheelNumberList constructWheelNumberList(String ohtNumber, LocalDateTime checkedDateTime) {
-//        List<Wheel> wheelNumberList = wheelRepository.findWheelByOhtNumber(ohtNumber);
-//        return builder()
-//                .FL(new WheelNumberStatus(wheelNumberList.get(0).getSerialNumber(), wheelNumberList.get(0).getCurrentStatus()))
-//                .FR(new WheelNumberStatus(wheelNumberList.get(1).getSerialNumber(), wheelNumberList.get(1).getCurrentStatus()))
-//                .RL(new WheelNumberStatus(wheelNumberList.get(2).getSerialNumber(), wheelNumberList.get(2).getCurrentStatus()))
-//                .RR(new WheelNumberStatus(wheelNumberList.get(3).getSerialNumber(), wheelNumberList.get(3).getCurrentStatus()))
-//                .build();
-//    }
-
-
-    /**
      * CheckupListDetailModalWheel 만들기
      */
 
@@ -351,7 +313,7 @@ public class CheckupListService {
                         .diameter(o.getCheckupList().getDiameter())
                         .crack(o.getCheckupList().isCrack())
                         .stamp(o.getCheckupList().isStamp())
-                        .peeling(o.getCheckupList().isPeeling())
+                        .abrasion(o.getCheckupList().isAbrasion())
                         .status(o.getCheckupList().getStatus())
                         .createdDate(o.getWheel().getCreatedDate())
                         .build())

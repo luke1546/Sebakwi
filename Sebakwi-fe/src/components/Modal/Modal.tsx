@@ -16,7 +16,7 @@ export default function Modal(props: ModalProps) {
     diameter: 0,
     crack: false,
     stamp: false,
-    peeling: false,
+    abrasion: false,
     status: "",
     createdDate: "",
   }));
@@ -54,7 +54,6 @@ export default function Modal(props: ModalProps) {
       try {
         const baseUrl = process.env.REACT_APP_BASE_URL;
         const response = await axios.get<CheckupDataProps[]>(`${baseUrl}/checkup_list/${id}`);
-        console.log("get 응답 : ", response.data);
         let updatedData = initialData;
         response.data.forEach((e, index) => {
           if (data === null) return; // 데이터가 null이면 아무 작업도 수행하지 않음
@@ -70,15 +69,15 @@ export default function Modal(props: ModalProps) {
     };
 
     fetchData();
-  }, [id, data, initialData]);
+  }, [id]);
 
   const tableData: TableData[] = data
     ?
     [
-      { item: '마모도', value: data[selected].diameter },
+      { item: '마모도', value: data[selected].diameter + "mm" },
+      { item: '마모', value: data[selected].abrasion },
       { item: '찍힘', value: data[selected].stamp },
       { item: '크랙', value: data[selected].crack },
-      { item: '박리', value: data[selected].peeling },
     ]
     : [];
 

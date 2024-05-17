@@ -5,7 +5,7 @@ export interface WheelTypeData {
   position: number;
   crack: boolean;
   stamp: boolean;
-  peeling: boolean;
+  abrasion: boolean;
 }
 
 export interface ToolTips {
