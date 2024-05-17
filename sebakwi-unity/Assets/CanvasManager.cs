@@ -17,7 +17,6 @@ public class CanvasManager : MonoBehaviour
     public TMP_Text detect2;
     public TMP_Text detect3;
     public TMP_Text detect4;
-    float time = -1.8f;
     void Start()
     {
         Hide();
@@ -25,19 +24,19 @@ public class CanvasManager : MonoBehaviour
 
     void Update()
     {
-        time += Time.deltaTime;
-        if (time >= 4)
-        {
-            time = 0;
-            Show();
-        }
-        if (time > 2)
-        {
-            Hide();
-        }
+        // time += Time.deltaTime;
+        // if (time >= 4)
+        // {
+        //     time = 0;
+        //     Show();
+        // }
+        // if (time > 2)
+        // {
+        //     Hide();
+        // }
     }
 
-    private void Show()
+    public void Show()
     {
         string msg1;
         string msg2;
@@ -113,7 +112,7 @@ public class CanvasManager : MonoBehaviour
     }
 
     // 대화 상자 숨기기
-    private void Hide()
+    public void Hide()
     {
         greenBox1.gameObject.SetActive(false); // 대화 상자 비활성화
         redBox1.gameObject.SetActive(false); // 대화 상자 비활성화
