@@ -34,7 +34,7 @@ export default function CameraConnectSection() {
         prevPowerData.map((power, i) => (i === index ? !power : power))
       );
     } catch (error) {
-      console.error('Failed to toggle power', error);
+      // console.error('Failed to toggle power', error);
     }
   };
 

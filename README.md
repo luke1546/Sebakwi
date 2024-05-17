@@ -43,7 +43,7 @@
   </tr>
 </table>
 
-3. 뭘써야함?
+3. Unity 시뮬레이터
 <table width="100%" border-style="non" cellspacing="0" cellpadding="100">
   <tr>
     <td align="center"><img src="docs/unity.gif" alt="result_page" width="400"></td>
@@ -51,7 +51,6 @@
   </tr>
 </table>
 
-4. Unity 시뮬레이터
 <table width="100%" border-style="non" cellspacing="0" cellpadding="100">
   <tr>
     <td align="center"><img src="docs/unity.gif" alt="result_page" width="400"></td>
