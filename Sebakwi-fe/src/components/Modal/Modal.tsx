@@ -55,7 +55,6 @@ export default function Modal(props: ModalProps) {
       try {
         const baseUrl = process.env.REACT_APP_BASE_URL;
         const response = await axios.get<CheckupDataProps[]>(`${baseUrl}/checkup_list/${id}`);
-        console.log("get 응답 : ", response.data);
         let updatedData = initialData;
         response.data.forEach((e, index) => {
           if (data === null) return; // 데이터가 null이면 아무 작업도 수행하지 않음
@@ -72,7 +71,7 @@ export default function Modal(props: ModalProps) {
     };
 
     fetchData();
-  }, [id, data, initialData]);
+  }, [id]);
 
   const tableData: TableData[] = data
     ?
