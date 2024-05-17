@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Noto_Sans_KR, PALETTE } from 'styles';
 
 export const Container = styled.div`
@@ -16,61 +16,38 @@ export const CameraComponent = styled.div`
   border-radius: 50%; // 원형
 `;
 
-export const FoupStocker = styled(CameraComponent)`
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
-  margin-bottom: 10px;
-`;
-
-export const Etching = styled(CameraComponent)`
-  grid-column: 7 / 8;
-  grid-row: 1 / 2;
-  margin-bottom: 10px;
-`;
-
-export const Cleaning = styled(CameraComponent)`
-  grid-column: 1 / 2;
-  grid-row: 2 / 3;
-  margin-top: 100px;
-`;
-
-export const Photo = styled(CameraComponent)`
-  grid-column: 7 / 8;
-  grid-row: 2 / 3;
-  margin-top: 100px;
-`;
 
 // api 연결 후 styled-component 조건부 스타일링
-// export const CameraWraaper = styled(CameraComponent)`
-//   ${(props) =>
-//     props.id === 'FoupStocker' &&
-//     css`
-//       grid-column: 1 / 2;
-//       grid-row: 1 / 2;
-//       margin-bottom: 10px;
-//     `}
-//   ${(props) =>
-//     props.id === 'Etching' &&
-//     css`
-//       grid-column: 7 / 8;
-//       grid-row: 1 / 2;
-//       margin-bottom: 10px;
-//     `}
-//     ${(props) =>
-//     props.id === 'Cleaning' &&
-//     css`
-//       grid-column: 1 / 2;
-//       grid-row: 2 / 3;
-//       margin-top: 100px;
-//     `}
-//     ${(props) =>
-//     props.id === 'Photo' &&
-//     css`
-//       grid-column: 7 / 8;
-//       grid-row: 2 / 3;
-//       margin-top: 100px;
-//     `}
-// `;
+export const CameraWraper = styled(CameraComponent)`
+  ${(props) =>
+    props.id === 'FoupStocker' &&
+    css`
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      margin-bottom: 10px;
+    `}
+  ${(props) =>
+    props.id === 'Etching' &&
+    css`
+      grid-column: 7 / 8;
+      grid-row: 1 / 2;
+      margin-bottom: 10px;
+    `}
+    ${(props) =>
+    props.id === 'Cleaning' &&
+    css`
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      margin-top: 100px;
+    `}
+    ${(props) =>
+    props.id === 'Photo' &&
+    css`
+      grid-column: 7 / 8;
+      grid-row: 2 / 3;
+      margin-top: 100px;
+    `}
+`;
 
 export const ConnectLine = styled.div`
   grid-column: 3 / 7;

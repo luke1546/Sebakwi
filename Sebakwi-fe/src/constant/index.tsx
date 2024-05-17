@@ -23,4 +23,6 @@ const sortTypes = [
   { label: '오래된 순', value: 1 },
 ];
 
-export { positionLabels, dateTypes, wheelPositions, sortTypes };
+const cameras = ['FoupStocker', 'Cleaning', 'Etching', 'Photo']; 
+
+export { positionLabels, dateTypes, wheelPositions, sortTypes, cameras };
