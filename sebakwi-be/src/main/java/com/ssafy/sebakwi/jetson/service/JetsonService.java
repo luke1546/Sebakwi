@@ -35,7 +35,7 @@ public class JetsonService {
             boolean newFoupstocker = !jetson.isFoupstocker();
             jetson.updateFoupstocker(newFoupstocker);
             jetsonRepository.save(jetson);
-            mqttMessageGateway.sendToMqtt(Boolean.toString(newFoupstocker), "foupstocker-switch-topic");
+            mqttMessageGateway.sendToMqtt(Boolean.toString(newFoupstocker), "foupstocker/switch");
             log.info("newFoupstocker={}", newFoupstocker);
             return JetsonButtonResponse.builder()
                     .camera(0)
@@ -47,7 +47,7 @@ public class JetsonService {
             boolean newEtching = !jetson.isEtching();
             jetson.updateEtching(newEtching);
             jetsonRepository.save(jetson);
-            mqttMessageGateway.sendToMqtt(Boolean.toString(newEtching), "etching-switch-topic");
+            mqttMessageGateway.sendToMqtt(Boolean.toString(newEtching), "etching/switch");
             log.info("newEtching={}", newEtching);
             return JetsonButtonResponse.builder()
                     .camera(1)
@@ -59,7 +59,7 @@ public class JetsonService {
             boolean newCleaning = !jetson.isCleaning();
             jetson.updateCleaning(newCleaning);
             jetsonRepository.save(jetson);
-            mqttMessageGateway.sendToMqtt(Boolean.toString(newCleaning), "cleaning-switch-topic");
+            mqttMessageGateway.sendToMqtt(Boolean.toString(newCleaning), "cleaning/switch");
             log.info("newCleaning={}", newCleaning);
             return JetsonButtonResponse.builder()
                     .camera(2)
@@ -71,7 +71,7 @@ public class JetsonService {
             boolean newPhoto = !jetson.isPhoto();
             jetson.updatePhoto(newPhoto);
             jetsonRepository.save(jetson);
-            mqttMessageGateway.sendToMqtt(Boolean.toString(newPhoto), "photo-switch-topic");
+            mqttMessageGateway.sendToMqtt(Boolean.toString(newPhoto), "photo/switch");
             log.info("newPhoto={}", newPhoto);
             return JetsonButtonResponse.builder()
                     .camera(3)
