@@ -104,8 +104,13 @@ git clone https://lab.ssafy.com/s08-final/S08P31A301.git
     ```
     # PostgreSQL 설치후 
     # 데이터베이스 생성
+    # PORT 5432
     CREATE DATABASE sebakwi;
 
+3. Mosquitto
+    ```
+    Port 1883
+    ```
 ## Jetson Nano
 
     ```
