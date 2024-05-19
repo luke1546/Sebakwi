@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 2
+names: ['frame', 'wheel']
+
+roboflow:
+  workspace: beans-01hes
+  project: wheel_seg-vgt7z
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/beans-01hes/wheel_seg-vgt7z/dataset/1
