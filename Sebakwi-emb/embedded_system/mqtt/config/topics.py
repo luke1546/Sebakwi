@@ -7,6 +7,8 @@ class MQTT_Topics:
     ETCHING = f"{BASE_TOPIC}/etching"
     CLEANING = f"{BASE_TOPIC}/cleaning"
     PHOTOS = f"{BASE_TOPIC}/photos"
+    
+    SWITCH = "foupstocker/switch"
 
     @classmethod
     def list_topic(cls):

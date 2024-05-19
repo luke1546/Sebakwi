@@ -8,7 +8,7 @@ class Wheel:
         self.ohtSerialNumber = ohtSerialNumber
         self.wheelSerialNumber =  wheelSerialNumber
         self.position = position
-        self.wheelImage = wheelImage
+        self.wheelImage = "http://k10s108.p.ssafy.io:3333/files/" + wheelImage
         self.crack = crack
         self.stamp = stamp
         self.peeling = peeling
