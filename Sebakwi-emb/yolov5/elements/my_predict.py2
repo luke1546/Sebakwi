@@ -1,0 +1,88 @@
+import cv2
+import torch
+import numpy as np
+from models.common import DetectMultiBackend
+from utils.general import check_img_size, non_max_suppression, scale_boxes
+from utils.torch_utils import select_device
+from utils.plots import Annotator, colors
+from utils.segment.general import process_mask
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+class OBJ_SEGMENTATION():
+    def __init__(self, model_path, data):
+        self.yolo_model = DetectMultiBackend(model_path, device=device, dnn=False, data=data)
+        self.input_width = 640
+
+    def run(self, frame):
+        stride, names, pt = self.yolo_model.stride, self.yolo_model.names, self.yolo_model.pt
+        imgsz = check_img_size((640, 640), s=stride)  # 이미지 크기 확인
+
+        # 프레임 전처리
+        im0 = cv2.resize(frame, (640, 640))  # YOLOv5 모델에 맞는 크기로 리사이즈
+        im = im0[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to (3, 640, 640)
+        im = np.ascontiguousarray(im)  # 성능 최적화를 위한 메모리 연속 배열
+        im = torch.from_numpy(im).to(device)
+        im = im.half() if self.yolo_model.fp16 else im.float()  # uint8 to fp16/32
+        im /= 255  # 0 - 255 to 0.0 - 1.0
+        im = im.unsqueeze(0)  # (3, 640, 640) to (1, 3, 640, 640)
+
+        # 추론 수행
+        pred, proto = self.yolo_model(im, augment=False, visualize=False)[:2]
+
+        # NMS (비최대 억제) 적용
+        pred = non_max_suppression(pred, 0.25, 0.45, None, False, max_det=1000, nm=32)
+
+        objs = set()
+        masks = None
+        annotator = Annotator(im0, line_width=3, example=str(names))
+
+        # 결과 처리 및 마스킹
+        for i, det in enumerate(pred):  # per image
+            if len(det):
+                det[:, :4] = scale_boxes(im.shape[2:], det[:, :4], im0.shape).round()  # rescale boxes to im0 size
+
+                # 마스크를 640x640 크기로 그대로 유지
+                masks = process_mask(proto[i], det[:, 6:], det[:, :4], im.shape[2:], upsample=True)  # HWC
+                masks = masks.permute(1, 2, 0).cpu().numpy().astype(np.uint8)  # (H, W, C)로 변환하고 NumPy 배열로 변환
+
+                for c in det[:, 5].unique():
+                    n = (det[:, 5] == c).sum()  # detections per class
+                    objs.add(names[int(c)])
+
+                # Mask plotting
+                annotator.masks(
+                    masks,
+                    colors=[colors(x, True) for x in det[:, 5]],
+                    im_gpu=None,  # Use None to directly draw on CPU numpy array
+                )
+                '''
+                # Bounding box 및 레이블 그리기
+                for j, (*xyxy, conf, cls) in enumerate(reversed(det[:, :6])):
+                    label = f"{names[int(cls)]} {conf:.2f}"
+                    print(f"Class: {names[int(cls)]}, Confidence: {conf:.2f}")  # 신뢰도 값을 출력
+                    annotator.box_label(xyxy, label, color=colors(int(cls), True))
+                '''
+
+        # 결과 프레임을 1280x720 크기로 리사이즈
+        im0_resized = cv2.resize(im0, (1280, 720))
+
+        if masks is not None:
+            # 마스크를 1280x720 크기로 다시 리사이즈
+            resized_masks = cv2.resize(masks, (1280, 720), interpolation=cv2.INTER_NEAREST)
+
+            # 마스크와 바운딩 박스를 1280x720 크기로 다시 그리기
+            annotator_resized = Annotator(im0_resized, line_width=2, example=str(names))
+            annotator_resized.masks(resized_masks, colors=[colors(x, True) for x in det[:, 5]], im_gpu=None)
+
+            for j, (*xyxy, conf, cls) in enumerate(reversed(det[:, :6])):
+                # 바운딩 박스를 1280x720 크기로 조정
+                xyxy_resized = [
+                    int(x * 1280 / 640) if i % 2 == 0 else int(x * 720 / 640) for i, x in enumerate(xyxy)
+                ]
+                label = f"{names[int(cls)]} {conf:.2f}"
+                # label = f"{names[int(cls)]}"
+                annotator_resized.box_label(xyxy_resized, label, color=colors(int(cls), True))
+
+        return im0_resized, objs
+
