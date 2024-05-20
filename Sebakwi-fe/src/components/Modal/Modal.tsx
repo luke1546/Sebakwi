@@ -76,7 +76,7 @@ export default function Modal(props: ModalProps) {
   const tableData: TableData[] = data
     ?
     [
-      { item: '마모도', value: data[selected].diameter + "mm" },
+      { item: '마모도', value: data[selected].diameter.toFixed(2) + "mm" },
       { item: '마모', value: data[selected].abrasion },
       { item: '찍힘', value: data[selected].stamp },
       { item: '크랙', value: data[selected].crack },
@@ -145,13 +145,13 @@ export default function Modal(props: ModalProps) {
               <div>휠 상세 이미지</div>
               <div>
                 <Styled.Img
-                  src={data ? data[selected].wheelImage : ''}
+                  src={data ? (data[selected].status === 'ABNORMAL' && data[selected].wheelImage === "" ? 'http://k10s108.p.ssafy.io:3333/files/de183c40-9d20-45f6-be3b-ec76fd43f4e2.gif' : data[selected].wheelImage) : ''}
                   onClick={handleImgClick}
                 />
                 <Styled.ImageModal show={isModalOpen} onClick={handleClose}>
                   <Styled.ModalContent onClick={(event) => event.stopPropagation()}>
                     <Styled.CloseButton onClick={handleClose}>&times;</Styled.CloseButton>
-                    <Styled.DetailImg src={data ? data[selected].wheelImage : ''} alt="Enlarged view" />
+                    <Styled.DetailImg src={data ? (data[selected].status === 'ABNORMAL' && data[selected].wheelImage === "" ? 'http://k10s108.p.ssafy.io:3333/files/de183c40-9d20-45f6-be3b-ec76fd43f4e2.gif' : data[selected].wheelImage) : ''} alt="Enlarged view" />
                   </Styled.ModalContent>
                 </Styled.ImageModal>
               </div>
