@@ -192,6 +192,6 @@ export const CloseButton = styled.span`
 `;
 
 export const DetailImg = styled.img`
-  width: 100%;
-  margin-top: 2%;
+  height: 55%;
+  margin-top: 1%;
 `
