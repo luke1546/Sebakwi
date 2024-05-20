@@ -14,7 +14,6 @@ export default function CameraConnectSection() {
       try {
         const baseUrl = process.env.REACT_APP_BASE_URL;
         const response = await axios.get(`${baseUrl}/jetson/status`);
-        console.log(response.data);
         setPowerData(response.data);
       } catch (error) {
         // console.error('Error : ', error);
