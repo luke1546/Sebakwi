@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { PaginationProps } from 'types'
+import React, { useEffect, useState } from 'react';
+import { PaginationProps } from 'types';
 import * as Styled from './Pagenation_style';
 
-
 export default function Pagination(props: PaginationProps) {
-  const { totalPages, onPageChange } = props;
+  const { totalPages, currentPageprop, onPageChange } = props;
   const pagesPerGroup = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [currentGroup, setCurrentGroup] = useState(0);
   const totalGroups = Math.ceil(totalPages / pagesPerGroup);
+
+  const startPage = currentGroup * pagesPerGroup + 1;
+  const endPage = Math.min(startPage + pagesPerGroup - 1, totalPages);
 
   const goToPage = (page: number) => {
     setCurrentPage(page);
@@ -23,14 +25,14 @@ export default function Pagination(props: PaginationProps) {
 
   const goToLastPage = () => {
     setCurrentPage(totalPages);
-    setCurrentGroup(totalGroups - 1); 
+    setCurrentGroup(totalGroups - 1);
     goToPage(totalPages);
   };
 
   const nextGroup = () => {
-    if (currentGroup < totalGroups - 1) { 
+    if (currentGroup < totalGroups - 1) {
       const nextGroupFirstPage = (currentGroup + 1) * pagesPerGroup + 1;
-      goToPage(nextGroupFirstPage); 
+      goToPage(nextGroupFirstPage);
       setCurrentGroup(currentGroup + 1);
       setCurrentPage(nextGroupFirstPage);
     }
@@ -45,12 +47,19 @@ export default function Pagination(props: PaginationProps) {
     }
   };
 
-  const startPage = currentGroup * pagesPerGroup + 1;
-  const endPage = Math.min(startPage + pagesPerGroup - 1, totalPages);
+  useEffect(() => {
+    setCurrentPage(currentPageprop);
+    setCurrentGroup(Math.floor((currentPageprop - 1) / pagesPerGroup) || 0);
+  }, [currentPageprop]);
+
+  useEffect(() => {
+    console.log('currentPage:', currentPage);
+    console.log('currentGroup:', currentGroup);
+  })
 
   return (
     <Styled.PagenationWrapper>
-    {totalPages > 5 && (
+      {totalPages > 5 && (
         <>
           <Styled.Button onClick={goToFirstPage}>{'<<'}</Styled.Button>
           <Styled.Button onClick={previousGroup}>{'<'}</Styled.Button>

@@ -26,35 +26,39 @@ export default function TableSection(props: TableSectionProps) {
     setIsModalOpen(false);
   };
 
-  
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const baseUrl = process.env.REACT_APP_BASE_URL;
-        const response = await axios.get(`${baseUrl}/checkup_list`, {
-          params: {
-            isCheckedDate: Filter.isCheckedDate,
-            startDateTime: Filter.startDateTime,
-            endDateTime: Filter.endDateTime,
-            onlyAbnormal: Filter.onlyAbnormal,
-            position: Filter.position,
-            page: currentPage - 1,
-            sortByCheck: true,
-            ohtSerialNumber: Filter.ohtSerialNumber,
-            wheelSerialNumber: Filter.WheelSerialNumber,
-            desc: Filter.desc,
-          },
-        });
-        setData(response.data.checkupListArray);
-        setTotalPages(response.data.totalPages);
-        setTotalData(response.data.totalCount);
-      } catch (error) {
-        setData([]);
-      }
+  async function fetchData() {
+    try {
+      const baseUrl = process.env.REACT_APP_BASE_URL;
+      const response = await axios.get(`${baseUrl}/checkup_list`, {
+        params: {
+          isCheckedDate: Filter.isCheckedDate,
+          startDateTime: Filter.startDateTime,
+          endDateTime: Filter.endDateTime,
+          onlyAbnormal: Filter.onlyAbnormal,
+          position: Filter.position,
+          page: currentPage - 1,
+          sortByCheck: true,
+          ohtSerialNumber: Filter.ohtSerialNumber,
+          wheelSerialNumber: Filter.WheelSerialNumber,
+          desc: Filter.desc,
+        },
+      });
+      setData(response.data.checkupListArray);
+      setTotalPages(response.data.totalPages);
+      setTotalData(response.data.totalCount);
+    } catch (error) {
+      setData([]);
     }
+  }
 
+  useEffect(() => {
     fetchData();
-  }, [Filter, currentPage]);
+    setCurrentPage(1);
+  }, [Filter]);
+
+  useEffect(() => {
+    fetchData();
+  }, [currentPage]);
 
   return (
     <Styled.Wrapper>
@@ -99,7 +103,11 @@ export default function TableSection(props: TableSectionProps) {
           )}
         </tbody>
       </Styled.Table>
-      <Comp.Pagination totalPages={totalPages} onPageChange={setCurrentPage} />
+      <Comp.Pagination
+        totalPages={totalPages}
+        currentPageprop={currentPage}
+        onPageChange={setCurrentPage}
+      />
       {isModalOpen && <Comp.Modal onClose={closeModal} id={selectedItemId} />}
     </Styled.Wrapper>
   );
