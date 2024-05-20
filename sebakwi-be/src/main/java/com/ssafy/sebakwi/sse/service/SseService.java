@@ -22,7 +22,7 @@ import java.util.UUID;
 @ToString
 public class SseService {
 
-    private static final Long DEFAULT_TIMEOUT = 60L * 1000 * 60;
+    private static final Long DEFAULT_TIMEOUT = 60L * 1000 * 5;
 
     private final EmitterRepository emitterRepository;
 
