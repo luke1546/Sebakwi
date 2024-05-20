@@ -6,10 +6,11 @@ import { PaginationProps } from 'types/components/Pagenation';
 import { DropDownFilterProps } from 'types/components/DropDownFilter';
 import { DatePickerProps, DateInputProps } from 'types/components/DatePicker';
 import { FilterInputProps } from 'types/components/FilterInput';
+import { CameraProps } from 'types/components/Camera';
 import { Filters } from 'types/pages/CheckUpWheels';
 import { FilterSectionProps } from 'types/pages/CheckUpWheels/FilterSection';
 import { TableSectionProps, CheckupListItem } from './pages/CheckUpWheels/TableSection';
-import { OHTWheelProps, WheelProps } from 'types/components/3DWheel';
+import { OHTWheelProps, WheelProps } from 'types/components/Wheel3D';
 import {
   WheelTypeData,
   ToolTips,
@@ -37,6 +38,7 @@ export type {
   FilterSectionProps,
   TableSectionProps,
   CheckupListItem,
+  CameraProps,
   OHTWheelProps,
   WheelProps,
   Abnormal,
