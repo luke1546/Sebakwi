@@ -52,11 +52,6 @@ export default function Pagination(props: PaginationProps) {
     setCurrentGroup(Math.floor((currentPageprop - 1) / pagesPerGroup) || 0);
   }, [currentPageprop]);
 
-  useEffect(() => {
-    console.log('currentPage:', currentPage);
-    console.log('currentGroup:', currentGroup);
-  })
-
   return (
     <Styled.PagenationWrapper>
       {totalPages > 5 && (
