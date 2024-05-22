@@ -48,12 +48,12 @@ public class InitDB {
             return;
         }
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 30; i++) {
             Oht oht = createOht();
             ohtRepository.save(oht);
         }
 
-        for (int i = 0; i < 4000; i++) {
+        for (int i = 0; i < 120; i++) {
             Wheel wheel = createWheel();
 
             if (wheel != null) {

@@ -23,7 +23,10 @@ public enum CustomExceptionStatus {
     SERVER_ERROR(9000, "서버오류 관리자에게 문의하세요"),
     
     // @Validated -> MethodArgumentNotValidException 예외 일괄 처리
-    VALIDATE_INVALID(9001, "요청한값이 올바르지않습니다.");
+    VALIDATE_INVALID(9001, "요청한값이 올바르지않습니다."),
+
+    // sse연결 timeout
+    SSE_CONNECTION_TIMEOUT(9002, "5분 무응답으로 sse연결을 종료합니다.");
 
     private final Integer errorCode;
     private final String message;
