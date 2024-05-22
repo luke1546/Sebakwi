@@ -57,8 +57,8 @@ public class SseService {
                 emitter.send(SseEmitter.event().id(String.valueOf(uuid)).name("sse").data(jsonData));
             } catch (IOException e) {
                 emitterRepository.deleteById(uuid);
-//                emitter.completeWithError(e);
                 emitter.complete();
+                log.info("cannot send sse-message");
 
                 //ErrorResponse 전송을 ExecutorService 에서 처리
                 taskExecutor.execute(() -> {
@@ -84,7 +84,10 @@ public class SseService {
         emitterRepository.save(uuid, emitter);
 
         emitter.onCompletion(() -> emitterRepository.deleteById(uuid));
-        emitter.onTimeout(() -> emitterRepository.deleteById(uuid));
+        emitter.onTimeout(() -> {
+                    emitterRepository.deleteById(uuid);
+                    emitter.complete();
+                });
         emitter.onError((ex) -> {
             emitterRepository.deleteById(uuid);
             log.error("SSE error={}", ex.getMessage());

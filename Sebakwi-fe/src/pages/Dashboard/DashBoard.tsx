@@ -32,7 +32,6 @@ export default function DashBoradPage() {
     }
   }, [baseUrl]);
 
-
   useEffect(() => {
     fetchData();
   }, [fetchData, receiveData]);
@@ -40,40 +39,55 @@ export default function DashBoradPage() {
   useEffect(() => {
     //SSE 연결
     const baseUrl = process.env.REACT_APP_BASE_URL;
-    const eventSource = new EventSource(`${baseUrl}/wheels/monthly/sse`);
 
-    eventSource.addEventListener('sse', (event) => {
-      const newMessage: WheelData = JSON.parse(event.data);
-      if (typeof newMessage == 'string') {}
-      else {
-        // 새로운 데이터 도착을 알리기
-        setReceiveData((prevState) => !prevState);
+    const connectEventSource = () => {
+      const eventSource = new EventSource(`${baseUrl}/wheels/monthly/sse`);
+      eventSource.addEventListener('sse', (event) => {
+        const newMessage: WheelData = JSON.parse(event.data);
+        if (typeof newMessage == 'string') {
+        } else {
+          // 새로운 데이터 도착을 알리기
+          setReceiveData((prevState) => !prevState);
 
-        // 토스트 알림
-        if (newMessage.wheelList.length > 0) {
-          const newWheelData = newMessage.wheelList[newMessage.wheelList.length - 1];
-          const alertKey = `${newWheelData.wheelNumber} - ${newWheelData.crack ? 'crack' : ''}${
-            newWheelData.stamp ? 'stamp' : ''
-          }${newWheelData.abrasion ? 'abrasion' : ''}`;
+          // 토스트 알림
+          if (newMessage.wheelList.length > 0) {
+            const newWheelData = newMessage.wheelList[newMessage.wheelList.length - 1];
+            const alertKey = `${newWheelData.wheelNumber} - ${newWheelData.crack ? 'crack' : ''}${
+              newWheelData.stamp ? 'stamp' : ''
+            }${newWheelData.abrasion ? 'abrasion' : ''}`;
 
-          if (!shownAlerts.has(alertKey)) {
-            shownAlerts.add(alertKey);
-            if (newWheelData.crack) {
-              toast.error(`${newWheelData.wheelNumber} 휠 크랙 발생`, { icon: <GoAlert /> });
-            }
-            if (newWheelData.stamp) {
-              toast.error(`${newWheelData.wheelNumber} 휠 찍힘 발생`, { icon: <GoAlert /> });
-            }
-            if (newWheelData.abrasion) {
-              toast.error(`${newWheelData.wheelNumber} 휠 마모 발생`, { icon: <GoAlert /> });
+            if (!shownAlerts.has(alertKey)) {
+              shownAlerts.add(alertKey);
+              if (newWheelData.crack) {
+                toast.error(`${newWheelData.wheelNumber} 휠 크랙 발생`, { icon: <GoAlert /> });
+              }
+              if (newWheelData.stamp) {
+                toast.error(`${newWheelData.wheelNumber} 휠 찍힘 발생`, { icon: <GoAlert /> });
+              }
+              if (newWheelData.abrasion) {
+                toast.error(`${newWheelData.wheelNumber} 휠 마모 발생`, { icon: <GoAlert /> });
+              }
             }
           }
         }
-      }
-    });
+      });
+
+      eventSource.addEventListener('error', () => {
+        if (eventSource) {
+          eventSource.close();
+        }
+        connectEventSource();
+      });
+
+      return eventSource;
+    };
+
+    let eventSource = connectEventSource();
 
     return () => {
-      eventSource.close();
+      if (eventSource) {
+        eventSource.close();
+      }
     };
   }, []);
 
